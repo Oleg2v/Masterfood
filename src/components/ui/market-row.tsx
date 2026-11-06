@@ -55,20 +55,18 @@ export function MarketRow({ line, state = "default" }: { line: MarketLine; state
           </span>
         ) : null}
       </td>
-      <td className={`px-3 py-4 text-start ${soldOut ? "text-frost-3" : "text-frost"}`}>
+      <td className={`whitespace-nowrap px-3 py-4 text-start ${soldOut ? "text-frost-3" : "text-frost"}`}>
         <Num className="text-body">{soldOut ? "0" : formatKg(line.availableKg)}</Num>
         <span className="text-caption text-frost-2"> {KG}</span>
       </td>
       <td className="px-3 py-4 text-start">
+        {/* sold out keeps its price, in Frost-3: a strike-through would read as a markdown */}
         <span className="relative inline-block">
-          <Money
-            value={line.pricePerKg}
-            className={`text-data font-medium ${soldOut ? "text-frost-3 line-through decoration-1" : "text-frost"}`}
-          />
+          <Money value={line.pricePerKg} className={`text-data font-medium ${soldOut ? "text-frost-3" : "text-frost"}`} />
           {state === "updated" ? <span aria-hidden="true" className="absolute inset-x-0 -bottom-1.5 h-0.5 bg-frost" /> : null}
         </span>
         {state === "updated" ? (
-          <span className="mt-2 block text-micro text-frost-2">
+          <span className="mt-2 block text-caption text-frost-2">
             עודכן <Num>06:15</Num>
           </span>
         ) : null}
@@ -102,7 +100,8 @@ export function MarketRow({ line, state = "default" }: { line: MarketLine; state
 }
 
 export function MarketTableHead() {
-  const th = "px-3 pb-3 text-start text-micro font-medium text-frost-3";
+  // Hebrew never drops below the caption step (14px): micro is for Latin labels only.
+  const th = "px-3 pb-3 text-start text-caption font-medium text-frost-3";
   return (
     <thead>
       <tr className="border-b border-edge">

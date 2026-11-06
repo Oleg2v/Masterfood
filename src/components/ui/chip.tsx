@@ -6,7 +6,8 @@ import { Icon } from "./icon";
  * inset ring (its own shadow layer, so it never fights elevation).
  *  - StatusChip: a shipment's state. The lamp's FILL carries it (ring · half · ¾ · solid).
  *  - Tag: category, kashrut, temperature. A small rectangle, never a pill.
- *  - FilterChip: a pill toggle with aria-pressed and a 44px hit area.
+ *  - FilterChip: a toggle with aria-pressed and a 44px hit area. With no results it is
+ *    aria-disabled, never natively disabled: it stays focusable and its reason is read.
  */
 const chipBase = "inline-flex h-7 items-center gap-2 px-3 text-caption font-medium leading-none";
 
@@ -71,27 +72,41 @@ export function Tag({ tone, children, className = "" }: { tone: TagTone; childre
 
 /* ── Filter chips: toggles with aria-pressed ──────────────────────────────── */
 
+/**
+ * `disabled` (no results) is said with aria-disabled and a dashed Edge outline: the chip
+ * stays in the tab order and does nothing when pressed. Wire its reason, as visible
+ * text, with aria-describedby.
+ */
 export function FilterChip({
   pressed = false,
   count,
   children,
   force,
+  disabled = false,
+  onClick,
   className = "",
   ...rest
 }: { pressed?: boolean; count?: number; force?: string } & ButtonHTMLAttributes<HTMLButtonElement>) {
+  const state = disabled
+    ? "cursor-not-allowed text-frost-3 outline-1 outline-dashed outline-edge -outline-offset-1 " +
+      "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-frost focus-visible:outline-offset-2 "
+    : (pressed
+        ? "bg-frost text-deep-ice hover:bg-frost-hover "
+        : "text-frost inset-ring inset-ring-edge hover:bg-steel hover:inset-ring-frost-2 ") +
+      // the press: one pixel down into the pressed shadow, within the 80ms tap
+      "active:translate-y-px active:shadow-pressed active:duration-tap ";
   return (
     <button
       type="button"
       aria-pressed={pressed}
+      aria-disabled={disabled || undefined}
       data-force={force}
+      onClick={disabled ? (e) => e.preventDefault() : onClick}
       className={
         "relative inline-flex h-9 items-center gap-2 rounded-hair px-4 text-caption font-medium " +
-        "transition-[background-color,color,box-shadow,scale] duration-hover ease-glide active:scale-press " +
+        "transition-[background-color,color,box-shadow,translate] duration-hover ease-glide " +
         "after:absolute after:-inset-y-1 after:inset-x-0 after:content-[''] " + // 44px hit area
-        (pressed
-          ? "bg-frost text-deep-ice hover:bg-frost-hover "
-          : "text-frost inset-ring inset-ring-edge hover:bg-steel hover:inset-ring-frost-2 ") +
-        "disabled:text-frost-3 disabled:inset-ring-hairline " +
+        state +
         className
       }
       {...rest}
@@ -99,7 +114,7 @@ export function FilterChip({
       {pressed ? <Icon name="check" size={14} /> : null}
       {children}
       {typeof count === "number" ? (
-        <bdi dir="ltr" className={`num text-micro ${pressed ? "text-deep-ice/70" : "text-frost-3"}`}>
+        <bdi dir="ltr" className={`num text-micro ${pressed && !disabled ? "text-deep-ice/70" : "text-frost-3"}`}>
           {count}
         </bdi>
       ) : null}

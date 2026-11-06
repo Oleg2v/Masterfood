@@ -57,7 +57,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="he" dir="rtl" className={`${display.variable} ${ui.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
-        {/* restore "עצירת אנימציה" before first paint, so nothing moves even for a frame */}
+        {/* restore the "עצירת אנימציה" choice (off, or on over an OS reduced-motion setting) before
+            first paint, so the page never moves for a frame it should not, or freezes when asked to move */}
         <script dangerouslySetInnerHTML={{ __html: restoreMotionScript }} />
       </head>
       <body>

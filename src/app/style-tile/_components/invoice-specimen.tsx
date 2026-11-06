@@ -13,13 +13,16 @@ const cents = (n: number) => Math.round(n * 100) / 100;
 
 const ROWS = [
   { id: "picanha", name: "פיקנייה", origin: "דרום אמריקה", est: 20, actual: 19.4, price: 89 },
-  { id: "salmon", name: "סלמון נורבגי טרי", origin: "נורווגיה", est: 12, actual: 12.3, price: 62.9 },
+  { id: "salmon", name: "סלמון נורבגי טרי", origin: "נורבגיה", est: 12, actual: 12.3, price: 62.9 },
 ] as const;
 
-/** A value on the static frost tile while it is provisional; the frost thaws (600ms) when it becomes final. */
+/**
+ * A value on the static frost tile while it is provisional; the frost thaws (600ms) when it becomes final.
+ * The tile bleeds into the cell's start padding (-ms-2), so the figure keeps the column's start edge.
+ */
 function Frosted({ on, children }: { on: boolean; children: ReactNode }) {
   return (
-    <span className="relative inline-flex items-center px-2 py-1">
+    <span className="relative -ms-2 inline-flex items-center px-2 py-1">
       <span
         aria-hidden="true"
         className={`frost-band absolute inset-0 rounded-hair shadow-frost transition-opacity duration-thaw ease-thaw ${on ? "opacity-100" : "opacity-0"}`}
@@ -121,7 +124,11 @@ export function InvoiceSpecimen() {
         <p className="text-caption text-frost-2" aria-live="polite">
           {weighed.salmon ? (
             <>
-              {salmon.name}: נשקל <Num>{kg(salmon.actual)}</Num> {KG}. הכפור הפשיר, והסכום סופי.
+              {salmon.name}: נשקל{" "}
+              <span className="whitespace-nowrap">
+                <Num>{kg(salmon.actual)}</Num> {KG}
+              </span>
+              . הכפור הפשיר, והסכום סופי.
             </>
           ) : (
             "על הכפור: ערך משוער. השקילה בפועל מפשירה אותו."

@@ -1,4 +1,5 @@
-import type { ReactNode } from "react";
+import type { AnimationEvent, ReactNode } from "react";
+import { durations } from "@/design/tokens";
 import { Icon } from "./icon";
 
 export type ToastTone = "success" | "info" | "urgent" | "error";
@@ -18,13 +19,19 @@ const toneText: Record<ToastTone, string> = {
 };
 const toneGlyph = { success: "check", info: "info", urgent: "clock", error: "alert" } as const;
 
+/* How long the hairline takes to melt (the toast-timer keyframes run for --dur-toast). */
+const TOAST_MS = durations.find((d) => d.id === "toast")!.ms;
+
 /**
  * Toast. A square status mark (not an emoji, not a cartoon tick), a title, a mono
- * detail line, one action. A toast WITH an action never times out (WCAG 2.2.1):
- * the bottom hairline timer only runs on toasts without one, and it pauses on
- * hover and focus. With motion stopped the hairline stays full and still.
- * Live-region semantics belong to the toaster that hosts it (`announce` for a
- * stand-alone toast).
+ * detail line, one action. A toast WITH an action never times out (WCAG 2.2.1).
+ * One without an action melts: the bottom hairline IS its timer. It freezes under
+ * the pointer and while focus is inside, and `onTimeout` fires only once it has run
+ * its whole course, so what you see is exactly how long you have. With motion
+ * stopped there is no hairline and no timeout: the toast stays until closed.
+ * The detail line is a size container, so a caller can set its facts by the
+ * toast's real width. Live-region semantics belong to the toaster that hosts it
+ * (`announce` for a stand-alone toast).
  */
 export function Toast({
   tone = "success",
@@ -35,6 +42,7 @@ export function Toast({
   announce = false,
   className = "",
   onClose,
+  onTimeout,
 }: {
   tone?: ToastTone;
   title: ReactNode;
@@ -45,7 +53,16 @@ export function Toast({
   announce?: boolean;
   className?: string;
   onClose?: () => void;
+  /** Called when the timer hairline has fully melted. */
+  onTimeout?: () => void;
 }) {
+  // An animation cut short (collapsed to 0.01ms when motion stops) ends too: only a full run counts.
+  const melted = onTimeout
+    ? (e: AnimationEvent<HTMLSpanElement>) => {
+        if (e.animationName === "toast-timer" && e.elapsedTime * 1000 >= TOAST_MS - 50) onTimeout();
+      }
+    : undefined;
+
   return (
     <div
       role={announce ? (tone === "error" ? "alert" : "status") : undefined}
@@ -56,7 +73,7 @@ export function Toast({
       <Icon name={toneGlyph[tone]} size={20} className={`mt-0.5 ${toneText[tone]}`} />
       <div className="flex min-w-0 flex-1 flex-col gap-1">
         <p className="text-body font-medium text-frost">{title}</p>
-        {detail ? <p className="text-caption text-frost-2">{detail}</p> : null}
+        {detail ? <p className="@container text-caption text-frost-2">{detail}</p> : null}
       </div>
       {action ? <div className="shrink-0 self-center">{action}</div> : null}
       <button
@@ -68,10 +85,12 @@ export function Toast({
         <Icon name="close" size={16} />
       </button>
       {timer ? (
-        <span aria-hidden="true" className="absolute inset-x-2 bottom-0 h-px overflow-hidden bg-hairline">
-          {/* melts toward the inline end, like ice off a ledge; freezes under the pointer or focus */}
+        <span aria-hidden="true" className="absolute inset-x-2 bottom-0 h-px overflow-hidden bg-hairline motion-still:hidden">
+          {/* anchored at the inline start (right), it melts back from the inline end, like ice off a ledge.
+              The pause is !important: the animation shorthand from motion-ok would reset it to running. */}
           <span
-            className={`block h-full origin-right motion-ok:animate-toast-timer group-hover/toast:[animation-play-state:paused] group-focus-within/toast:[animation-play-state:paused] ${toneMark[tone]}`}
+            onAnimationEnd={melted}
+            className={`block h-full origin-right motion-ok:animate-toast-timer group-hover/toast:[animation-play-state:paused]! group-focus-within/toast:[animation-play-state:paused]! ${toneMark[tone]}`}
           />
         </span>
       ) : null}

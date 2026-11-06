@@ -13,6 +13,10 @@ import { KG } from "@/lib/format";
  * radio. The selected region fades in Bordeaux under a 1.5px Frost outline, and a
  * Meat-ink leader draws to its name.
  *
+ * Forced colours: the drawn ring steps aside for the native radio, and the
+ * selection's marks in the drawing (outline, anchor, leader, name) take CanvasText.
+ * SVG paint is not forced, so the Bordeaux region keeps its fill.
+ *
  * Stage 0 locks stroke weights only. The anatomy is a sketch: the full carcass is
  * traced from a public-domain chart and checked against an Israeli cut chart.
  */
@@ -75,10 +79,21 @@ const OUTLINE =
 const SHADE_BELLY = "M48 240C120 242 200 236 260 232C330 226 400 214 444 208L436 226C390 236 320 252 250 260C170 268 100 268 48 264Z";
 const SHADE_ROUND = "M592 206C588 246 576 282 562 308L558 334L546 334L550 306C564 280 576 246 580 206C582 168 576 130 566 106C580 128 594 168 592 206Z";
 
+/** "2 מוצרים" on one line: a figure never leaves its noun. */
+function ProductCount({ n }: { n: number }) {
+  return (
+    <span className="whitespace-nowrap">
+      <Num>{n}</Num> {n === 1 ? "מוצר" : "מוצרים"}
+    </span>
+  );
+}
+
 export function CutMapSpecimen() {
   const [selected, setSelected] = useState<CutId>("picanha");
-  const name = useId();
+  const id = useId(); // one prefix: the radio group's name and the leader's mask
   const cut = CUTS.find((c) => c.id === selected)!;
+  const leader = `M${cut.leader.from[0]} ${cut.leader.from[1]}L${cut.leader.to[0]} ${cut.leader.to[1]}`;
+  const leaderMask = `${id}-leader`;
 
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-6">
@@ -129,22 +144,41 @@ export function CutMapSpecimen() {
           <path d="M558 334L506 334" className="fill-none stroke-frost-3" strokeWidth="1" strokeDasharray="4 3" vectorEffect="non-scaling-stroke" />
 
           {/* the selected cut: Frost outline, Meat-ink leader, its name */}
-          <path d={cut.d} className="fill-none stroke-frost" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
-          <g key={cut.id} className="text-meat-ink">
-            <circle cx={cut.leader.from[0]} cy={cut.leader.from[1]} r="2.5" className="fill-frost" />
+          <path
+            d={cut.d}
+            className="fill-none stroke-frost forced-colors:stroke-[CanvasText]"
+            strokeWidth="1.5"
+            vectorEffect="non-scaling-stroke"
+          />
+          <g key={cut.id} className="text-meat-ink forced-colors:text-[CanvasText]">
+            {/* The leader is drawn through a mask. The visible line keeps its 1px screen-space
+                stroke (non-scaling), but a pathLength dash on such a line is measured in user
+                units, so it would stop short wherever the map scales up. The mask's wide stroke
+                scales with the drawing, so its dash always spans the whole line. */}
+            <mask id={leaderMask} maskUnits="userSpaceOnUse" x="0" y="0" width="640" height="360">
+              <path
+                d={leader}
+                pathLength={1}
+                className="motion-ok:animate-[cm-draw_var(--dur-panel)_var(--ease-move)_both]"
+                fill="none"
+                stroke="#fff"
+                strokeWidth="8"
+                strokeDasharray="1"
+              />
+            </mask>
+            <circle cx={cut.leader.from[0]} cy={cut.leader.from[1]} r="2.5" className="fill-frost forced-colors:fill-[CanvasText]" />
             <path
-              d={`M${cut.leader.from[0]} ${cut.leader.from[1]}L${cut.leader.to[0]} ${cut.leader.to[1]}`}
-              pathLength={1}
-              className="fill-none stroke-current motion-ok:animate-[cm-draw_var(--dur-panel)_var(--ease-move)_both]"
+              d={leader}
+              mask={`url(#${leaderMask})`}
+              className="fill-none stroke-current"
               strokeWidth="1"
-              strokeDasharray="1"
               vectorEffect="non-scaling-stroke"
             />
             <text
               x={cut.leader.label[0]}
               y={cut.leader.label[1]}
               textAnchor="middle"
-              className="fill-frost font-display font-medium"
+              className="fill-frost font-display font-medium forced-colors:fill-[CanvasText]"
               style={{ fontSize: 22 }}
             >
               {cut.name}
@@ -186,7 +220,14 @@ export function CutMapSpecimen() {
             </li>
             <li className="flex items-center gap-2">
               <svg width="16" height="16" aria-hidden="true" className="shrink-0">
-                <rect x="0.75" y="0.75" width="14.5" height="14.5" className="fill-bordeaux stroke-frost" strokeWidth="1.5" />
+                <rect
+                  x="0.75"
+                  y="0.75"
+                  width="14.5"
+                  height="14.5"
+                  className="fill-bordeaux stroke-frost forced-colors:stroke-[CanvasText]"
+                  strokeWidth="1.5"
+                />
               </svg>
               נבחר: בורדו וקו מתאר בהיר
             </li>
@@ -209,28 +250,30 @@ export function CutMapSpecimen() {
                 className={
                   "relative flex min-h-12 cursor-pointer items-center gap-3 rounded-edge px-3 transition-colors duration-hover ease-glide " +
                   "has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-frost " +
-                  "hover:bg-steel max-lg:inset-ring max-lg:inset-ring-edge lg:border-b lg:border-hairline lg:rounded-none " +
+                  // the chip's Edge is a real 1px border (it survives forced colours); on desktop, a row rule
+                  "hover:bg-steel max-lg:border max-lg:border-edge lg:border-b lg:border-hairline lg:rounded-none " +
                   (c.id === selected ? "bg-steel text-frost" : "text-frost-2")
                 }
               >
                 <input
                   type="radio"
-                  name={name}
+                  name={`${id}-cut`}
                   value={c.id}
                   checked={c.id === selected}
                   onChange={() => setSelected(c.id)}
-                  className="sr-only"
+                  className="sr-only forced-colors:not-sr-only"
                 />
-                {/* the checked state, drawn: a ring that fills */}
+                {/* the checked state, drawn: a ring that fills (forced colours show the native radio instead) */}
                 <span
                   aria-hidden="true"
-                  className={`grid size-4 shrink-0 place-items-center rounded-full inset-ring-[1.5px] ${c.id === selected ? "inset-ring-frost" : "inset-ring-frost-3"}`}
+                  className={`grid size-4 shrink-0 place-items-center rounded-full inset-ring-[1.5px] forced-colors:hidden ${c.id === selected ? "inset-ring-frost" : "inset-ring-frost-3"}`}
                 >
                   {c.id === selected ? <span className="size-2 rounded-full bg-frost" /> : null}
                 </span>
                 <span className="type-dish">{c.name}</span>
-                <span className="ms-auto ps-3 text-caption text-frost-3 max-lg:hidden">
-                  <Num>{c.products.length}</Num> {c.products.length === 1 ? "מוצר" : "מוצרים"}
+                {/* part of the radio's name at every width, so each arrow key announces the count once */}
+                <span className="ms-auto ps-3 text-caption text-frost-3 max-lg:sr-only">
+                  <ProductCount n={c.products.length} />
                 </span>
                 {c.id === selected ? <span aria-hidden="true" className="absolute inset-y-2 start-0 w-0.5 bg-bordeaux" /> : null}
               </label>
@@ -240,7 +283,7 @@ export function CutMapSpecimen() {
 
         <div className="flex flex-col">
           <p className="pb-2 text-caption text-frost-3">
-            {cut.name} · <Num>{cut.products.length}</Num> {cut.products.length === 1 ? "מוצר" : "מוצרים"} · ₪ ל{KG} · מחירי דמו
+            {cut.name} · <ProductCount n={cut.products.length} /> · <span className="whitespace-nowrap">₪ ל{KG}</span> · מחירי דמו
           </p>
           <ul className="flex flex-col">
             {cut.products.map((p) => (
@@ -248,7 +291,11 @@ export function CutMapSpecimen() {
                 <span className="flex flex-col">
                   <span className="text-body font-medium text-frost">{p.name}</span>
                   <span className="text-caption text-frost-2">
-                    {p.origin} · <Num>{p.kg}</Num> {KG} במלאי
+                    {p.origin} ·{" "}
+                    <span className="whitespace-nowrap">
+                      <Num>{p.kg}</Num> {KG}
+                    </span>{" "}
+                    במלאי
                   </span>
                 </span>
                 <span aria-hidden="true" className="leader mb-2 flex-1 max-[25rem]:invisible" />
@@ -256,9 +303,6 @@ export function CutMapSpecimen() {
               </li>
             ))}
           </ul>
-          <p className="sr-only" aria-live="polite">
-            {cut.name}: {cut.products.length} {cut.products.length === 1 ? "מוצר" : "מוצרים"}
-          </p>
         </div>
       </div>
     </div>

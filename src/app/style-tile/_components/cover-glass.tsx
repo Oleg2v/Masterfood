@@ -9,7 +9,9 @@ const widths = [828, 1200, 1920] as const;
 /**
  * The display-case glass on the cover: the graded salmon macro under the frost,
  * faint fog drifting along its base, and the legend that gives frost its single
- * meaning. No text sits on the glass itself.
+ * meaning. No text sits on the glass itself. The caption's first sentence follows
+ * the motion switch in CSS (this stays a server component): it asks for a wipe
+ * only while the glass can take one.
  */
 export function CoverGlass() {
   const p = photoSet.salmonFlesh;
@@ -30,12 +32,26 @@ export function CoverGlass() {
       <figcaption className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-8">
         <div className="flex flex-col gap-1.5">
           <p className="flex items-center gap-3 text-body font-medium text-frost">
-            <span aria-hidden="true" className="frost-band size-6 shrink-0 rounded-hair shadow-frost inset-ring inset-ring-hairline" />
+            {/* The in-app frost tile, on the opaque Steel it always sits on there. */}
+            <span aria-hidden="true" className="size-6 shrink-0 rounded-hair bg-steel">
+              <span className="frost-band block size-full rounded-hair shadow-frost inset-ring inset-ring-hairline" />
+            </span>
             כפור = משוער
           </p>
           <p className="max-w-[62ch] text-caption text-pretty text-frost-2">
-            נגבו את הזכוכית באצבע או בעכבר; הכפור חוזר תוך <Num>2.4</Num> שניות. בשער זו ויטרינה, ובתוך הפורטל לכפור יש
-            משמעות אחת: ערך שעדיין אינו סופי – משקל משתנה, אומדן הזמנה, עמודת משוער בחשבונית.
+            {/* The glass takes a hand only while motion is on, so only then does the caption ask for one. */}
+            <span className="hidden motion-ok:inline">
+              נגבו את הזכוכית באצבע או בעכבר; הכפור חוזר תוך{" "}
+              <span className="whitespace-nowrap">
+                <Num>2.4</Num> שניות
+              </span>
+              .
+            </span>
+            <span className="motion-ok:hidden">
+              הזכוכית קפואה כי התנועה עצורה, ומישהו כבר העביר עליה אצבע. כשהתנועה פועלת, אפשר לנגב אותה בעצמכם.
+            </span>{" "}
+            בשער זו ויטרינה, ובתוך הפורטל לכפור יש משמעות אחת: ערך שעדיין אינו סופי{"\u00a0"}– משקל משתנה, אומדן הזמנה
+            ועמודת ״משוער״ בחשבונית.
           </p>
         </div>
         <a

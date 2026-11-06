@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { GradedPhoto } from "@/components/ui/graded-photo";
+import { Num } from "@/components/ui/num";
 import { Typeset } from "@/components/ui/typeset";
 import { cliches, decisions } from "../_content";
 import { photoSet } from "../_photos";
@@ -74,7 +75,16 @@ export function ImagerySection() {
         className="mt-12"
         title="מפת נתחים בתחריט"
         en="Cut map · engraved specimen"
-        note="התוויות המסודרות הן הפקדים: כפתורי רדיו בגובה 48 פיקסל, חיצי המקלדת עוברים ביניהם, ונגיעה באזור בוחרת את אותה תווית. הבחירה צובעת בבורדו, מוסיפה קו מתאר בהיר ומותחת קו מוביל לשם."
+        note={
+          <>
+            התוויות המסודרות הן הפקדים: כפתורי רדיו בגובה{" "}
+            <span className="whitespace-nowrap">
+              <Num>48</Num> פיקסל
+            </span>
+            , חיצי המקלדת עוברים ביניהם, ונגיעה באזור בוחרת את אותה תווית. הבחירה צובעת את האזור בבורדו, מוסיפה קו מתאר
+            בהיר ומותחת קו מוביל אל שם הנתח.
+          </>
+        }
       >
         <CutMapSpecimen />
       </Plate>
@@ -115,7 +125,7 @@ export function DecisionsSection() {
                     <Typeset text={d.body} />
                   </p>
                   <p className="max-w-[62ch] border-s-2 border-edge ps-3 text-caption text-pretty text-frost">
-                    <span className="font-medium text-frost-3">על הטייל · </span>
+                    <span className="font-medium text-frost-3">בעמוד הזה · </span>
                     <Typeset text={d.tile} />
                   </p>
                 </div>

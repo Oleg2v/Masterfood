@@ -3,7 +3,11 @@ import type { SVGProps } from "react";
 /**
  * Engraving-weight line icons, drawn for this project on a 24px grid:
  * 1.5px stroke, butt caps, miter joins — the same line as the cut map.
- * Directional icons (plane, ship, truck, arrow) mirror in RTL via `rtl:-scale-x-100`.
+ * Directional icons (plane, ship, truck, arrow) mirror in RTL via `rtl:-scale-x-100`,
+ * so they face the way the sentence reads. A glyph that belongs to the map rather
+ * than to the sentence passes `mirror={false}`: a shipment's plane or ship always
+ * points east (right), the way OSL → TLV runs on any map. The plane and ship are
+ * drawn facing right, so unmirrored is east.
  */
 const paths = {
   plane: (
@@ -78,8 +82,15 @@ export function Icon({
   size = 20,
   className = "",
   title,
+  mirror = directional.has(name),
   ...rest
-}: { name: IconName; size?: number; title?: string } & Omit<SVGProps<SVGSVGElement>, "name">) {
+}: {
+  name: IconName;
+  size?: number;
+  title?: string;
+  /** Flip in RTL. On by default for the directional glyphs; routes and arrivals pass false (east, as on a map). */
+  mirror?: boolean;
+} & Omit<SVGProps<SVGSVGElement>, "name">) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -92,7 +103,7 @@ export function Icon({
       strokeLinejoin="miter"
       aria-hidden={title ? undefined : true}
       role={title ? "img" : undefined}
-      className={`shrink-0 ${directional.has(name) ? "rtl:-scale-x-100" : ""} ${className}`}
+      className={`shrink-0 ${mirror ? "rtl:-scale-x-100" : ""} ${className}`}
       {...rest}
     >
       {title ? <title>{title}</title> : null}
@@ -104,6 +115,8 @@ export function Icon({
 /**
  * Solid trend triangles as SVG (▲ ▼ are missing from all three typefaces).
  * Up and down are named for assistive tech; flat stays silent because "0.0%" says it.
+ * Always Frost-2: a price move is news, never good or bad, so it never takes a hue.
+ * Set it before the figure in a Hebrew line, so it sits at the figure's inline start (right).
  */
 export function TrendGlyph({ dir, className = "" }: { dir: "up" | "down" | "flat"; className?: string }) {
   const label = dir === "up" ? "עלייה" : dir === "down" ? "ירידה" : undefined;
@@ -115,7 +128,7 @@ export function TrendGlyph({ dir, className = "" }: { dir: "up" | "down" | "flat
       role={label ? "img" : undefined}
       aria-label={label}
       aria-hidden={label ? undefined : true}
-      className={`inline-block shrink-0 ${className}`}
+      className={`inline-block shrink-0 text-frost-2 ${className}`}
     >
       {dir === "up" ? <path d="M5 1.2 9.4 8.8H.6Z" fill="currentColor" /> : null}
       {dir === "down" ? <path d="M5 8.8.6 1.2h8.8Z" fill="currentColor" /> : null}

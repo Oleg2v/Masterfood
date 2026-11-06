@@ -4,6 +4,13 @@ import type { Photo } from "@/components/ui/graded-photo";
  * Unsplash placeholders (Unsplash License), credited next to every use.
  * Each was viewed and checked for subject and mood; the credit was matched to
  * the photo's Unsplash page. Species are honest: no ribeye labelled as picanha.
+ *
+ * Card plates are 4:3 and carry the product only, so two sources are cut on the CDN
+ * with a focal crop (each frame checked by eye at 1200×900):
+ *  - salmonSteak: only the steak face; the source's flaky salt and peppercorns fall
+ *    outside (they still show at fp-z 1.4 and 1.8 in a 4:3 frame; 2.1 is clean).
+ *  - seaBass: only the rows of sea bass; the stall's "THE ORIGINAL" sign, the red
+ *    rockfish and the spotted trout above them fall outside.
  */
 export const photoSet = {
   marbling: {
@@ -28,14 +35,14 @@ export const photoSet = {
     tone: "flesh",
   },
   salmonSteak: {
-    src: "https://images.unsplash.com/photo-1641898378373-0ef528eec4be",
-    alt: "סטייק סלמון נא על צפחה שחורה",
+    src: "https://images.unsplash.com/photo-1641898378373-0ef528eec4be?fit=crop&crop=focalpoint&fp-x=0.55&fp-y=0.47&fp-z=2.1&w=1200&h=900",
+    alt: "סטייק סלמון נא מקרוב: חתך רוחב כתום ושולי העור הכסופים",
     photographer: "Karyna Panchenko",
     page: "https://unsplash.com/photos/1OnuYCARYmc",
     tone: "flesh",
   },
   seaBass: {
-    src: "https://images.unsplash.com/photo-1789003909863-6d943b0b4341",
+    src: "https://images.unsplash.com/photo-1789003909863-6d943b0b4341?fit=crop&crop=focalpoint&fp-x=0.74&fp-y=0.78&fp-z=2.1&w=1200&h=900",
     alt: "לברקים שלמים בשורות על קרח כתוש",
     photographer: "Megan Waksmundzki",
     page: "https://unsplash.com/photos/fJVjjsPOat8",

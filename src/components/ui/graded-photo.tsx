@@ -29,6 +29,7 @@ const grade = {
  *     melt into the page instead of sitting on it;
  *  4. a radial mask dissolves the edges into Deep Ice. No grain: it muddies food.
  * `muted` is the sold-out treatment: the product is still there, but drained.
+ * In forced colours the two washes are hidden: the photo keeps only step 1.
  */
 export function GradedPhoto({
   photo,
@@ -69,11 +70,13 @@ export function GradedPhoto({
         style={{ objectPosition: position }}
         className={`object-cover ${filter} ${imgClassName}`}
       />
+      {/* Forced colours would paint these washes Canvas, and `lighten` with a white Canvas
+          blanks the photo, so they step aside and the photo shows with its filter grade alone. */}
       <span
         aria-hidden="true"
-        className={`absolute inset-0 bg-steel mix-blend-soft-light ${tone === "flesh" && !muted ? "opacity-70" : "opacity-100"}`}
+        className={`absolute inset-0 bg-steel mix-blend-soft-light forced-colors:hidden ${tone === "flesh" && !muted ? "opacity-70" : "opacity-100"}`}
       />
-      <span aria-hidden="true" className="absolute inset-0 bg-deep-ice mix-blend-lighten" />
+      <span aria-hidden="true" className="absolute inset-0 bg-deep-ice mix-blend-lighten forced-colors:hidden" />
     </div>
   );
 }

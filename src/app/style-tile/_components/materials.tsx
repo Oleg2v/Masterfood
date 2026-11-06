@@ -25,15 +25,17 @@ function Swatch({ title, en, note, children }: { title: string; en: string; note
 /**
  * The four materials of the cold room, each with one job. Steel is every
  * surface. Frost, inside the app, only ever means "estimated" (the hero glass is
- * on the cover). Fog is the display case's cold air, never a loading state.
- * Ice is the light of the photographs.
+ * on the cover). Fog is the display case's cold air, never a loading state; it
+ * drifts only on the cover, so its swatch is a still frame. Ice is the light of
+ * the photographs.
  */
 export function Materials({ icePhoto }: { icePhoto?: Photo }) {
   return (
     <div className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4 lg:gap-6">
       <Swatch title="פלדה" en="Steel · surface" note="כל משטח: לוחות, כרטיסים, שורות. אטום, עם קו אור של פיקסל בקצה העליון; העומק בא מאור, לא מצל.">
         <div className="absolute inset-0 bg-steel shadow-rim inset-ring inset-ring-hairline">
-          <div className="absolute inset-4 rounded-hair bg-[repeating-linear-gradient(90deg,rgb(232_243_247/0.018)_0_1px,transparent_1px_3px)] shadow-[inset_0_1px_0_0_rgb(232_243_247/0.08),inset_0_0_0_1px_var(--color-hairline)]" />
+          {/* brushed: a cold light falling from the top edge over a fine vertical grain */}
+          <div className="absolute inset-4 rounded-hair bg-[linear-gradient(180deg,rgb(232_243_247/0.06),transparent_45%),repeating-linear-gradient(90deg,rgb(232_243_247/0.04)_0_1px,transparent_1px_3px)] shadow-[inset_0_1px_0_0_rgb(232_243_247/0.08),inset_0_0_0_1px_var(--color-hairline)]" />
         </div>
       </Swatch>
       <Swatch title="כפור" en="Frost · estimate" note="בתוך הפורטל כפור הוא תמיד ערך משוער: אריח קריסטל סטטי על פלדה אטומה, בלי טשטוש. כשהשקילה נרשמת הוא מפשיר לערך בפועל צלול.">
@@ -44,8 +46,12 @@ export function Materials({ icePhoto }: { icePhoto?: Photo }) {
           </div>
         </div>
       </Swatch>
-      <Swatch title="ערפל" en="Fog · display case" note="האוויר הקר של הוויטרינה, נע לאט לאורך תחתית הזכוכית בשער. אף פעם לא מצב טעינה: טעינה היא קווי שיער סטטיים.">
-        <div className="fog absolute inset-0 overflow-hidden bg-[linear-gradient(to_top,var(--color-steel),var(--color-deep-ice))]" />
+      <Swatch title="ערפל" en="Fog · display case" note="האוויר הקר של הוויטרינה. בשער הוא נע לאט לאורך תחתית הזכוכית, וכאן הוא דומם. אף פעם לא מצב טעינה: טעינה היא קווי שיער סטטיים.">
+        <div className="absolute inset-0 bg-[linear-gradient(to_top,var(--color-steel),var(--color-deep-ice))]">
+          {/* a still frame of the cover's fog: two soft layers pooled in the lower 40% of the glass,
+              a little denser than the drifting ones, so that a still can carry them */}
+          <div className="absolute inset-x-0 bottom-0 h-2/5 bg-[radial-gradient(60%_55%_at_30%_70%,rgb(232_243_247/0.14),transparent_70%),radial-gradient(50%_45%_at_74%_82%,rgb(232_243_247/0.1),transparent_70%)]" />
+        </div>
       </Swatch>
       <Swatch title="קרח" en="Ice · light" note="קרח אמיתי הוא האור של הצילום – לא קישוט, ולא פתיתי שלג מצוירים.">
         {icePhoto ? (
