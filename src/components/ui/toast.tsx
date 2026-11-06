@@ -3,13 +3,20 @@ import { Icon } from "./icon";
 
 export type ToastTone = "success" | "info" | "urgent" | "error";
 
-/* Ice Blue is temperature only, so "info" is neutral Mist. */
+/* Green means stock and Ice Blue means temperature, so success is Frost and info is Frost-2. */
 const toneMark: Record<ToastTone, string> = {
-  success: "bg-fresh",
-  info: "bg-mist",
+  success: "bg-frost",
+  info: "bg-frost-2",
   urgent: "bg-salmon",
   error: "bg-thaw",
 };
+const toneText: Record<ToastTone, string> = {
+  success: "text-frost",
+  info: "text-frost-2",
+  urgent: "text-salmon",
+  error: "text-thaw",
+};
+const toneGlyph = { success: "check", info: "info", urgent: "clock", error: "alert" } as const;
 
 /**
  * Toast. A square status mark (not an emoji, not a cartoon tick), a title, a mono
@@ -42,19 +49,21 @@ export function Toast({
   return (
     <div
       role={announce ? (tone === "error" ? "alert" : "status") : undefined}
-      className={`group/toast relative flex w-full max-w-toast items-start gap-3 rounded-md bg-steel py-4 ps-4 pe-2 shadow-float inset-ring inset-ring-hairline ${className}`}
+      className={`group/toast relative flex w-full max-w-toast items-start gap-3 rounded-edge bg-steel-2 py-4 ps-5 pe-2 shadow-float inset-ring inset-ring-hairline ${className}`}
     >
-      <span aria-hidden="true" className={`mt-2 size-2 shrink-0 rounded-hair ${toneMark[tone]}`} />
+      {/* status never rests on hue: a 2px rule at the inline start plus a glyph */}
+      <span aria-hidden="true" className={`absolute inset-y-3 start-0 w-0.5 rounded-hair ${toneMark[tone]}`} />
+      <Icon name={toneGlyph[tone]} size={20} className={`mt-0.5 ${toneText[tone]}`} />
       <div className="flex min-w-0 flex-1 flex-col gap-1">
         <p className="text-body font-medium text-frost">{title}</p>
-        {detail ? <p className="text-small text-mist">{detail}</p> : null}
+        {detail ? <p className="text-caption text-frost-2">{detail}</p> : null}
       </div>
       {action ? <div className="shrink-0 self-center">{action}</div> : null}
       <button
         type="button"
         aria-label="סגירת ההודעה"
         onClick={onClose}
-        className="relative grid size-10 shrink-0 place-items-center rounded-sm text-mist transition-colors duration-fast ease-glide after:absolute after:-inset-0.5 after:content-[''] hover:bg-hairline hover:text-frost"
+        className="relative grid size-10 shrink-0 place-items-center rounded-edge text-frost-2 transition-colors duration-hover ease-glide after:absolute after:-inset-0.5 after:content-[''] hover:bg-hairline hover:text-frost"
       >
         <Icon name="close" size={16} />
       </button>

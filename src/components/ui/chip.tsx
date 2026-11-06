@@ -8,7 +8,7 @@ import { Icon } from "./icon";
  *  - Tag: category, kashrut, temperature. A small rectangle, never a pill.
  *  - FilterChip: a pill toggle with aria-pressed and a 44px hit area.
  */
-const chipBase = "inline-flex h-7 items-center gap-2 px-3 text-small font-medium leading-none";
+const chipBase = "inline-flex h-7 items-center gap-2 px-3 text-caption font-medium leading-none";
 
 /* ── Status chips: the airport-board status lamps ─────────────────────────── */
 
@@ -27,7 +27,7 @@ const statusCopy: Record<ShipmentStatus, string> = {
 };
 
 const lamp: Record<ShipmentStatus, string> = {
-  transit: "inset-ring-[1.5px] inset-ring-frost motion-ok:animate-breath",
+  transit: "inset-ring-[1.5px] inset-ring-frost",
   landed: "bg-[linear-gradient(to_left,var(--color-frost)_50%,transparent_50%)] inset-ring-[1.5px] inset-ring-frost",
   release: "bg-[conic-gradient(var(--color-frost)_0_75%,transparent_0)] inset-ring-[1.5px] inset-ring-frost",
   stock: "bg-fresh",
@@ -35,7 +35,7 @@ const lamp: Record<ShipmentStatus, string> = {
 
 export function StatusChip({ status, className = "" }: { status: ShipmentStatus; className?: string }) {
   return (
-    <span className={`${chipBase} rounded-pill bg-deep-ice/60 text-frost inset-ring inset-ring-hairline ${className}`}>
+    <span className={`${chipBase} rounded-hair bg-deep-ice/60 text-frost inset-ring inset-ring-hairline ${className}`}>
       <span aria-hidden="true" className={`size-2 rounded-full ${lamp[status]}`} />
       {statusCopy[status]}
     </span>
@@ -49,18 +49,18 @@ type TagTone = "meat" | "fish" | "rabbinate" | "mehadrin" | "chilled" | "frozen"
 const tagTones: Record<TagTone, string> = {
   meat: "bg-deep-ice/85 text-frost inset-ring inset-ring-hairline",
   fish: "bg-deep-ice/85 text-frost inset-ring inset-ring-hairline",
-  rabbinate: "text-mist inset-ring inset-ring-boundary",
+  rabbinate: "text-frost-2 inset-ring inset-ring-edge",
   // Kashrut is text, never a drawn seal (this is an unofficial demo of a real brand).
-  mehadrin: "text-frost inset-ring inset-ring-mist",
+  mehadrin: "text-frost inset-ring inset-ring-frost-2",
   chilled: "bg-deep-ice/85 text-ice inset-ring inset-ring-ice/45",
   frozen: "bg-deep-ice/85 text-ice inset-ring inset-ring-ice/45",
-  demo: "text-fog inset-ring inset-ring-hairline",
+  demo: "text-frost-3 inset-ring inset-ring-hairline",
   neutral: "bg-deep-ice/85 text-frost inset-ring inset-ring-hairline",
 };
 
 export function Tag({ tone, children, className = "" }: { tone: TagTone; children: ReactNode; className?: string }) {
   return (
-    <span className={`${chipBase} rounded-xs ${tagTones[tone]} ${className}`}>
+    <span className={`${chipBase} rounded-hair ${tagTones[tone]} ${className}`}>
       {tone === "meat" ? <span aria-hidden="true" className="size-2.5 rounded-hair bg-bordeaux inset-ring inset-ring-frost/25" /> : null}
       {tone === "fish" ? <span aria-hidden="true" className="size-2.5 rounded-hair bg-salmon" /> : null}
       {tone === "chilled" || tone === "frozen" ? <Icon name="thermometer" size={14} /> : null}
@@ -85,13 +85,13 @@ export function FilterChip({
       aria-pressed={pressed}
       data-force={force}
       className={
-        "relative inline-flex h-9 items-center gap-2 rounded-pill px-4 text-small font-medium " +
-        "transition-[background-color,color,box-shadow,scale] duration-fast ease-glide active:scale-press " +
+        "relative inline-flex h-9 items-center gap-2 rounded-hair px-4 text-caption font-medium " +
+        "transition-[background-color,color,box-shadow,scale] duration-hover ease-glide active:scale-press " +
         "after:absolute after:-inset-y-1 after:inset-x-0 after:content-[''] " + // 44px hit area
         (pressed
-          ? "bg-frost text-deep-ice hover:shadow-frost "
-          : "text-frost inset-ring inset-ring-boundary hover:bg-steel hover:inset-ring-mist ") +
-        "disabled:text-fog disabled:inset-ring-hairline " +
+          ? "bg-frost text-deep-ice hover:bg-frost-hover "
+          : "text-frost inset-ring inset-ring-edge hover:bg-steel hover:inset-ring-frost-2 ") +
+        "disabled:text-frost-3 disabled:inset-ring-hairline " +
         className
       }
       {...rest}
@@ -99,7 +99,7 @@ export function FilterChip({
       {pressed ? <Icon name="check" size={14} /> : null}
       {children}
       {typeof count === "number" ? (
-        <bdi dir="ltr" className={`num text-micro ${pressed ? "text-deep-ice/70" : "text-fog"}`}>
+        <bdi dir="ltr" className={`num text-micro ${pressed ? "text-deep-ice/70" : "text-frost-3"}`}>
           {count}
         </bdi>
       ) : null}

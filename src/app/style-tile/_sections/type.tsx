@@ -21,62 +21,62 @@ export function TypeSection() {
       lede="שלושה גופנים, שני קולות. Frank Ruhl Libre בגדלים מונומנטליים לרגש, IBM Plex Mono לכל מספר – ו־Heebo לממשק השקט שביניהם. סולם של תשעה צעדים, נוזלי בין 360 ל־1440 פיקסל."
     >
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-        <article className="flex flex-col justify-between gap-8 rounded-md bg-steel/60 p-6 shadow-rim inset-ring inset-ring-hairline sm:p-8 lg:col-span-6">
+        <article className="flex flex-col justify-between gap-8 rounded-edge bg-steel/60 p-6 shadow-rim inset-ring inset-ring-hairline sm:p-8 lg:col-span-6">
           <header className="flex items-baseline justify-between gap-4">
-            <h3 className="label-latin text-fog">
+            <h3 className="label-latin text-frost-3">
               <bdi dir="ltr" lang="en">Display · Frank Ruhl Libre · 300–900</bdi>
             </h3>
-            <span className="text-small text-mist">כותרות, שמות נתחים, השעון</span>
+            <span className="text-caption text-frost-2">כותרות, שמות נתחים, השעון</span>
           </header>
-          <p className="type-monument text-frost">פיקנייה</p>
+          <p className="type-display text-frost">פיקנייה</p>
           <div className="flex flex-col gap-2">
-            <p className="font-display text-heading font-normal text-frost [overflow-wrap:anywhere]">אבגדהוזחטיכךלמםנןסעפףצץקרשת</p>
-            <p className="font-display text-title font-medium text-mist">
+            <p className="font-display text-title font-normal text-frost [overflow-wrap:anywhere]">אבגדהוזחטיכךלמםנןסעפףצץקרשת</p>
+            <p className="font-display text-dish font-medium text-frost-2">
               אנטריקוט · סינטה · שייטל · <bdi dir="ltr">0123456789</bdi>
             </p>
           </div>
         </article>
 
         <div className="grid gap-6 lg:col-span-6">
-          <article className="flex flex-col gap-6 rounded-md bg-steel/60 p-6 shadow-rim inset-ring inset-ring-hairline sm:p-8">
+          <article className="flex flex-col gap-6 rounded-edge bg-steel/60 p-6 shadow-rim inset-ring inset-ring-hairline sm:p-8">
             <header className="flex items-baseline justify-between gap-4">
-              <h3 className="label-latin text-fog">
+              <h3 className="label-latin text-frost-3">
                 <bdi dir="ltr" lang="en">UI · Heebo · 400 / 500 / 700</bdi>
               </h3>
-              <span className="text-small text-mist">ממשק, גוף, פקדים</span>
+              <span className="text-caption text-frost-2">ממשק, גוף, פקדים</span>
             </header>
             <div className="flex flex-col gap-2">
-              <p className="text-heading font-medium text-frost">הוספה להזמנה</p>
-              <p className="text-lead text-frost">
+              <p className="text-title font-medium text-frost">הוספה להזמנה</p>
+              <p className="text-body text-frost">
                 <span className="font-normal">כמו ביום חמישי שעבר</span> ·{" "}
                 <span className="font-medium">חלון אספקה למחר</span> · <span className="font-bold">שליחה</span>
               </p>
-              <p className="max-w-[60ch] text-body text-mist">
+              <p className="max-w-[60ch] text-body text-frost-2">
                 מוצרים במשקל משתנה יחויבו לפי שקילה בפועל. החשבונית מציגה שתי עמודות: משוער ובפועל.
               </p>
             </div>
           </article>
 
-          <article className="flex flex-col gap-6 rounded-md bg-steel/60 p-6 shadow-rim inset-ring inset-ring-hairline sm:p-8">
+          <article className="flex flex-col gap-6 rounded-edge bg-steel/60 p-6 shadow-rim inset-ring inset-ring-hairline sm:p-8">
             <header className="flex items-baseline justify-between gap-4">
-              <h3 className="label-latin text-fog">
+              <h3 className="label-latin text-frost-3">
                 <bdi dir="ltr" lang="en">Data · IBM Plex Mono · 400 / 500 / 600</bdi>
               </h3>
-              <span className="text-small text-mist">מחיר, משקל, שעה, טמפרטורה</span>
+              <span className="text-caption text-frost-2">מחיר, משקל, שעה, טמפרטורה</span>
             </header>
             <div className="flex flex-wrap items-baseline gap-x-8 gap-y-3 text-frost">
-              <Money value={62.9} className="text-headline font-medium" />
-              <span className="text-lead">
-                <bdi dir="ltr" className="num">312</bdi> <span className="text-mist">ק״ג</span>
+              <Money value={62.9} className="text-section font-medium" />
+              <span className="text-body">
+                <bdi dir="ltr" className="num">312</bdi> <span className="text-frost-2">ק״ג</span>
               </span>
-              <bdi dir="ltr" className="num text-lead text-ice">
+              <bdi dir="ltr" className="num text-data text-ice">
                 1.8°
               </bdi>
-              <bdi dir="ltr" className="num text-lead">
+              <bdi dir="ltr" className="num text-data">
                 05:40
               </bdi>
             </div>
-            <p className="label-latin text-mist">
+            <p className="label-latin text-frost-2">
               <bdi dir="ltr" lang="en">OSL–TLV · RTM–ASH · HACCP · ISO 9001 · 0123456789</bdi>
             </p>
           </article>
@@ -91,7 +91,7 @@ export function TypeSection() {
           {rules.map(([title, body]) => (
             <li key={title} className="flex flex-col gap-1 border-t border-hairline py-4">
               <p className="text-body font-medium text-frost">{title}</p>
-              <p className="text-small text-mist">{body}</p>
+              <p className="text-caption text-frost-2">{body}</p>
             </li>
           ))}
         </ul>

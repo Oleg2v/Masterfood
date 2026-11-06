@@ -12,6 +12,7 @@ import { WeightField } from "@/components/ui/weight-field";
 import { KG } from "@/lib/format";
 import { cards, lines } from "../_content";
 import { Plate, Section, StateLabel } from "../_components/frame";
+import { InvoiceSpecimen } from "../_components/invoice-specimen";
 import { ScrollRegion } from "../_components/scroll-region";
 import { ToastDemo } from "../_components/toast-demo";
 
@@ -34,7 +35,7 @@ function ButtonPlate() {
     <Plate
       id="plate-button"
       title="כפתור"
-      en="Button · 48px · rounded-sm"
+      en="Button · 48px · rounded-edge"
       note="הפעולה הראשית לבנה כמו קרח – הצבעים שמורים למשמעות. הנתון שהכפתור מתחייב אליו (סכום, משקל) יושב אחרי קו שיער, במונו."
     >
       <div className="flex flex-col gap-8">
@@ -59,13 +60,16 @@ function ButtonPlate() {
           </Pinned>
           <Pinned label="Loading · no double send">
             <Button loading meta={total}>
-              שולחים…
+              שליחה…
             </Button>
           </Pinned>
-          <Pinned label="Disabled">
-            <Button disabled meta={<Money value={0} round />}>
+          <Pinned label="Disabled · with its reason">
+            <Button disabled meta={<Money value={0} round />} aria-describedby="disabled-reason">
               שליחת ההזמנה
             </Button>
+            <p id="disabled-reason" className="text-caption text-frost-2">
+              ההזמנה למחר נסגרה ב־<Num joined>14:00</Num>
+            </p>
           </Pinned>
         </div>
         <div className="flex flex-wrap items-start gap-x-6 gap-y-8 border-t border-hairline pt-8">
@@ -154,7 +158,7 @@ function CardPlate() {
         <Pinned label="Sold out · drained" className="w-full [&>article]:w-full">
           <ProductCard product={bass!} state="soldout" headingLevel="h4" />
         </Pinned>
-        <Pinned label="Loading · fog" className="w-full [&>div]:w-full">
+        <Pinned label="Loading · static hairlines" className="w-full [&>div]:w-full">
           <ProductCard product={fillet!} state="loading" />
         </Pinned>
       </div>
@@ -226,7 +230,7 @@ function RowPlate() {
       id="plate-row"
       title="שורת לוח"
       en="Table row · market board"
-      note="טבלה אמיתית, לא כרטיסים. שם בסריף, מספרים במונו מיושרים להתחלה – כך הנקודות העשרוניות נערמות זו מתחת לזו – ומחיר שהתעדכן מקבל סימון כפור והמילה עודכן."
+      note="טבלה אמיתית, לא כרטיסים, בלי זברה. מספרים במונו מיושרים להתחלה, כך שהנקודות העשרוניות נערמות זו מתחת לזו, והיחידות בכותרת. מחיר שהתעדכן מקבל קו ואת המילה עודכן, לא רק צבע. בחשבונית, מה שעוד לא סופי יושב על כפור."
     >
       <ScrollRegion label="דוגמת לוח השוק" className="relative -mx-4 overflow-x-auto sm:mx-0">
         <table className="w-full min-w-[46rem] border-collapse text-start">
@@ -241,7 +245,7 @@ function RowPlate() {
           </tbody>
         </table>
       </ScrollRegion>
-      <p className="text-small text-mist">
+      <p className="text-caption text-frost-2">
         מחירי דמו, לפני מע״מ.<span className="sm:hidden"> בטלפון הלוח הופך לרשימה אנכית (שלב 1); כאן גוללים לצד.</span>
       </p>
       <ul className="flex flex-wrap gap-x-6 gap-y-2">
@@ -261,6 +265,10 @@ function RowPlate() {
           <StateLabel>Row 5 · sold out</StateLabel>
         </li>
       </ul>
+      <div className="flex flex-col gap-4 border-t border-hairline pt-8">
+        <StateLabel>Invoice · estimated / actual · frost thaws</StateLabel>
+        <InvoiceSpecimen />
+      </div>
     </Plate>
   );
 }

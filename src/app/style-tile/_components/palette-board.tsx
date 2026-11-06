@@ -40,13 +40,13 @@ function ratioFor(id: string): { value: number; note: string } {
 export function PaletteBoard() {
   const rows = colors.filter((c) => c.group === "base" || c.group === "accent");
   return (
-    <div className="rounded-md bg-abyss p-3 shadow-[inset_0_0_0_1px_var(--color-hairline),inset_0_2px_12px_0_rgb(1_6_10/0.9)] sm:p-6">
+    <div className="rounded-edge bg-well p-3 shadow-[inset_0_0_0_1px_var(--color-hairline),inset_0_2px_12px_0_rgb(1_6_10/0.9)] sm:p-6">
       <div className="mb-4 flex items-center justify-between gap-4 px-1">
-        <p className="flex items-center gap-2 text-small text-mist">
+        <p className="flex items-center gap-2 text-caption text-frost-2">
           <span aria-hidden="true" className="size-2 rounded-full bg-fresh" />
           לוח הצבעים
         </p>
-        <p className="label-latin hidden text-fog sm:block">
+        <p className="label-latin hidden text-frost-3 sm:block">
           <bdi dir="ltr" lang="en">Departures · Palette · 8 lines</bdi>
         </p>
       </div>
@@ -62,7 +62,7 @@ export function PaletteBoard() {
             <th scope="col">תפקיד</th>
           </tr>
         </thead>
-        <tbody className="type-lead lg:text-title">
+        <tbody className="type-data lg:text-dish">
           {rows.map((c) => {
             const r = ratioFor(c.id);
             const ratio = (Math.floor(r.value * 100) / 100).toFixed(2);
@@ -71,7 +71,7 @@ export function PaletteBoard() {
                 <td className="w-[3.25em] pe-2">
                   <span
                     aria-hidden="true"
-                    className="block h-[1.5em] w-[3em] rounded-xs shadow-[inset_0_0_0_1px_rgb(232_243_247/0.1)]"
+                    className="block h-[1.5em] w-[3em] rounded-hair shadow-[inset_0_0_0_1px_rgb(232_243_247/0.1)]"
                     style={{ backgroundColor: c.hex }}
                   />
                   <span className="sr-only">{c.en}</span>

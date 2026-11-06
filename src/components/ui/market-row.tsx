@@ -32,7 +32,7 @@ export function MarketRow({ line, state = "default" }: { line: MarketLine; state
     <tr
       data-force={state === "hover" ? "hover" : state === "focus" ? "within" : undefined}
       className={
-        "group/row border-b border-hairline transition-colors duration-fast ease-glide " +
+        "group/row border-b border-hairline transition-colors duration-hover ease-glide " +
         "hover:bg-steel focus-within:bg-steel " +
         (state === "updated" ? "bg-steel/60 " : "")
       }
@@ -42,12 +42,12 @@ export function MarketRow({ line, state = "default" }: { line: MarketLine; state
           aria-hidden="true"
           className={`absolute inset-y-2 start-0 w-0.5 ${line.category === "meat" ? "bg-bordeaux" : "bg-salmon"} ${soldOut ? "opacity-40" : ""}`}
         />
-        <span className={`type-title block ${soldOut ? "text-mist" : "text-frost"}`}>{line.name}</span>
-        <span className="text-small text-mist">
+        <span className={`block text-body font-medium ${soldOut ? "text-frost-2" : "text-frost"}`}>{line.name}</span>
+        <span className="text-caption text-frost-2">
           {line.category === "meat" ? "בשר" : "דג"} · {line.origin}
         </span>
       </th>
-      <td className="px-3 py-4 text-small text-mist">
+      <td className="px-3 py-4 text-caption text-frost-2">
         {line.route ? <Route {...line.route} size={16} className="text-frost" /> : <span>—</span>}
         {line.arrival ? (
           <span className="mt-1 block">
@@ -55,25 +55,25 @@ export function MarketRow({ line, state = "default" }: { line: MarketLine; state
           </span>
         ) : null}
       </td>
-      <td className={`px-3 py-4 text-start ${soldOut ? "text-fog" : "text-frost"}`}>
+      <td className={`px-3 py-4 text-start ${soldOut ? "text-frost-3" : "text-frost"}`}>
         <Num className="text-body">{soldOut ? "0" : formatKg(line.availableKg)}</Num>
-        <span className="text-small text-mist"> {KG}</span>
+        <span className="text-caption text-frost-2"> {KG}</span>
       </td>
       <td className="px-3 py-4 text-start">
         <span className="relative inline-block">
           <Money
             value={line.pricePerKg}
-            className={`text-lead font-medium ${soldOut ? "text-fog line-through decoration-1" : "text-frost"}`}
+            className={`text-data font-medium ${soldOut ? "text-frost-3 line-through decoration-1" : "text-frost"}`}
           />
           {state === "updated" ? <span aria-hidden="true" className="absolute inset-x-0 -bottom-1.5 h-0.5 bg-frost" /> : null}
         </span>
         {state === "updated" ? (
-          <span className="mt-2 block text-micro text-mist">
+          <span className="mt-2 block text-micro text-frost-2">
             עודכן <Num>06:15</Num>
           </span>
         ) : null}
       </td>
-      <td className="px-3 py-4 text-start text-small text-mist">
+      <td className="px-3 py-4 text-start text-caption text-frost-2">
         <span className="inline-flex items-center gap-1">
           <TrendGlyph dir={change.dir} />
           <Num>{change.text}</Num>
@@ -81,8 +81,8 @@ export function MarketRow({ line, state = "default" }: { line: MarketLine; state
       </td>
       <td className="py-4 ps-3 pe-4 text-end">
         {soldOut ? (
-          <span className="inline-flex h-10 items-center gap-2 text-small text-mist">
-            <span aria-hidden="true" className="size-2 rounded-full inset-ring-[1.5px] inset-ring-fog" />
+          <span className="inline-flex h-10 items-center gap-2 text-caption text-frost-2">
+            <span aria-hidden="true" className="size-2 rounded-full inset-ring-[1.5px] inset-ring-frost-3" />
             אזל
           </span>
         ) : (
@@ -102,10 +102,10 @@ export function MarketRow({ line, state = "default" }: { line: MarketLine; state
 }
 
 export function MarketTableHead() {
-  const th = "px-3 pb-3 text-start text-micro font-medium text-fog";
+  const th = "px-3 pb-3 text-start text-micro font-medium text-frost-3";
   return (
     <thead>
-      <tr className="border-b border-boundary">
+      <tr className="border-b border-edge">
         <th scope="col" className={`${th} ps-4`}>
           מוצר
         </th>

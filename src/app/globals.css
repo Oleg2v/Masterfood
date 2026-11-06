@@ -2,7 +2,7 @@
 @import "./tokens.css";
 
 /* type-* presets are composed from token ids at runtime, so name them for the scanner. */
-@source inline("type-{micro,small,body,lead,title,heading,headline,display,monument}");
+@source inline("type-{micro,caption,body,data,dish,title,section,headline,display}");
 
 /* Font families come from next/font CSS variables set on <html>. `inline` so the
    utilities reference them directly (see tokens.css for everything else). */
@@ -16,11 +16,12 @@
 /* Motion vocabulary. No bounce, no spin, no ping: calm and cold. */
 @theme {
   --animate-*: initial;
-  --animate-hairline: hairline 1.6s var(--ease-settle) infinite;
-  --animate-beacon: beacon 2.4s var(--ease-breath) infinite;
+  --animate-hairline: hairline 1.6s var(--ease-move) infinite;
+  --animate-beacon: beacon 2.4s var(--ease-breathe) infinite;
   --animate-toast-timer: toast-timer 6s linear forwards;
-  --animate-breath: breath 2s var(--ease-breath) infinite;
-  --animate-sheen: sheen var(--dur-calm) var(--ease-glide) both;
+  --animate-breath: breath 2s var(--ease-breathe) infinite;
+  --animate-glow: glow 2.4s var(--ease-breathe) infinite;
+  --animate-sheen: sheen var(--dur-thaw) var(--ease-glide) both;
 
   @keyframes hairline {
     from {
@@ -57,6 +58,15 @@
     }
     to {
       translate: -110% 0;
+      opacity: 1;
+    }
+  }
+  @keyframes glow {
+    0%,
+    100% {
+      opacity: 0.4;
+    }
+    50% {
       opacity: 1;
     }
   }
@@ -186,10 +196,10 @@ html[data-motion="off"] ::after {
   background-position: -1px -1px;
 }
 
-/* Loading = fog. Two soft banks drift across a steel plate; no shimmer, no spinner.
-   The element must be positioned (relative/absolute) and clip its overflow. */
+/* Fog: the cold air of the display case, drifting along the base of the hero glass.
+   Never a loading state (loading is a static hairline skeleton). Transparent: the
+   caller supplies the surface. The element must be positioned and clip its overflow. */
 @utility fog {
-  background-color: var(--color-hairline);
   &::before,
   &::after {
     content: "";
@@ -199,7 +209,7 @@ html[data-motion="off"] ::after {
     background:
       radial-gradient(38% 42% at 30% 45%, rgb(232 243 247 / 0.1), transparent 70%),
       radial-gradient(30% 36% at 72% 60%, rgb(232 243 247 / 0.07), transparent 70%);
-    animation: fog-drift 7.2s var(--ease-breath) infinite alternate;
+    animation: fog-drift 7.2s var(--ease-breathe) infinite alternate;
   }
   &::after {
     animation-duration: 11.5s;
@@ -217,28 +227,75 @@ html[data-motion="off"] ::after {
   }
 }
 
-/* Unavailable = frost on the glass: diffuse, pale, a crystal grain. Static, no runtime animation. */
-@utility frost-veil {
-  background-color: rgb(232 243 247 / 0.16);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .91 0 0 0 0 .95 0 0 0 0 .97 0 0 0 1.4 -.55'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
-  background-size: 160px 160px;
+/* Hebrew hangs from the שרטוט: pull a display line up so its letter roofs touch the
+   rule above it. Frank Ruhl Libre (measured): roofs at 0.580em (300) / 0.586em (400);
+   the line box top sits (line-height + 0.623em) / 2 above the baseline. */
+@utility hang-headline {
+  margin-block-start: calc(0.58em - (round(up, 1.05em, 4px) + 0.623em) / 2);
+}
+@utility hang-section {
+  margin-block-start: calc(0.586em - (round(up, 1.1em, 4px) + 0.623em) / 2);
+}
+@utility hang-title {
+  margin-block-start: calc(0.597em - (round(up, 1.2em, 4px) + 0.623em) / 2);
+}
+
+@layer components {
+  /* The cover: the headline at inline-start and the clock in the inline-end corner, both
+     hung from one rule; the concept runs beneath them in three columns. On narrow screens
+     the clock comes straight after the headline, before the concept. */
+  .cover-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "head" "clock" "concept";
+    column-gap: calc(var(--spacing) * 12);
+    row-gap: calc(var(--spacing) * 10);
+  }
+  @media (width >= 80rem) {
+    .cover-grid {
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas: "head clock" "concept concept";
+      row-gap: calc(var(--spacing) * 12);
+    }
+  }
+}
+
+
+/* Estimated = frosted: Frost at 4.5% over the surface, with a faint static crystal whose texels
+   add at most 5.8% more (alpha = 0.095·noise − 0.037, noise ≤ 1). No texel exceeds ~10% Frost
+   (#253744 over Steel), so Frost stays ≥ 10:1 and Frost-2 ≥ 4.5:1 on the brightest grain.
+   It thaws to clear when the real weight lands. Checked by scripts/check-contrast.ts. */
+@utility frost-band {
+  background-color: rgb(232 243 247 / 0.045);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .91 0 0 0 0 .95 0 0 0 0 .97 0 0 0 .095 -.037'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+  background-size: 120px 120px;
 }
 
 /* Menu dot leader between a name and its price: 4px pitch, sits on the baseline. */
 @utility leader {
   min-inline-size: 1.5rem;
   block-size: 0.3em;
-  background-image: radial-gradient(circle, var(--color-fog) 0.8px, transparent 1.2px);
+  background-image: radial-gradient(circle, var(--color-frost-3) 0.8px, transparent 1.2px);
   background-size: 4px 4px;
   background-repeat: repeat-x;
   background-position: 0 100%;
 }
 
+/* The cut map's leader draws from the region to its name (pathLength = 1). */
+@keyframes cm-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
 .toast-enter {
-  animation: toast-in var(--dur-slow) var(--ease-glide) both;
+  animation: toast-in var(--dur-panel) var(--ease-glide) both;
 }
 .toast-leave {
-  animation: toast-out var(--dur-base) var(--ease-settle) both;
+  animation: toast-out var(--dur-exit) var(--ease-exit) both;
 }
 @keyframes toast-in {
   from {
@@ -257,6 +314,7 @@ html[data-motion="off"] ::after {
 @utility num {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 /* Latin micro-labels. Tracking applies only to runs marked lang="en", so a Hebrew

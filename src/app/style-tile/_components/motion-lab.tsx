@@ -13,10 +13,10 @@ function Curve({ bezier }: { bezier: readonly [number, number, number, number] }
   return (
     <svg viewBox={`-4 -4 ${S + 8} ${S + 8}`} className="size-24 shrink-0 overflow-visible" aria-hidden="true">
       <rect x="0" y="0" width={S} height={S} fill="none" stroke="var(--color-hairline)" />
-      <path d={`M${X(0)},${Y(0)} L${X(x1)},${Y(y1)} M${X(1)},${Y(1)} L${X(x2)},${Y(y2)}`} stroke="var(--color-boundary)" strokeDasharray="2 3" />
+      <path d={`M${X(0)},${Y(0)} L${X(x1)},${Y(y1)} M${X(1)},${Y(1)} L${X(x2)},${Y(y2)}`} stroke="var(--color-edge)" strokeDasharray="2 3" />
       <path d={d} fill="none" stroke="var(--color-frost)" strokeWidth="1.5" />
-      <circle cx={X(x1)} cy={Y(y1)} r="2.5" fill="var(--color-mist)" />
-      <circle cx={X(x2)} cy={Y(y2)} r="2.5" fill="var(--color-mist)" />
+      <circle cx={X(x1)} cy={Y(y1)} r="2.5" fill="var(--color-frost-2)" />
+      <circle cx={X(x2)} cy={Y(y2)} r="2.5" fill="var(--color-frost-2)" />
     </svg>
   );
 }
@@ -35,33 +35,33 @@ export function MotionLab() {
         <button
           type="button"
           onClick={() => setPlay((p) => !p)}
-          className="inline-flex h-12 items-center gap-3 rounded-sm bg-frost px-5 text-body font-medium text-deep-ice transition-[box-shadow,scale] duration-fast ease-glide hover:shadow-frost active:scale-press"
+          className="inline-flex h-12 items-center gap-3 rounded-edge bg-frost px-5 text-body font-medium text-deep-ice transition-[box-shadow,scale] duration-hover ease-glide hover:bg-frost-hover active:scale-press"
         >
           <span aria-hidden="true" className="size-0 border-y-[6px] border-e-[9px] border-y-transparent border-e-current" />
           {play ? "איפוס" : "הפעלת ההדגמה"}
         </button>
-        <p className="text-small text-mist">כל תנועה נעה מההתחלה לסוף – מימין לשמאל.</p>
+        <p className="text-caption text-frost-2">כל תנועה נעה מההתחלה לסוף – מימין לשמאל.</p>
       </div>
 
       <div className="grid grid-cols-1 gap-x-12 gap-y-10 lg:grid-cols-2">
         <div className="flex flex-col gap-4">
-          <h3 lang="en" className="label-latin text-fog">
+          <h3 lang="en" className="label-latin text-frost-3">
             Durations
           </h3>
           <ul className="flex flex-col">
             {durations.map((d) => (
               <li key={d.id} className="grid grid-cols-[5.5rem_1fr] items-center gap-4 border-b border-hairline py-3">
                 <div className="flex flex-col">
-                  <bdi dir="ltr" className="num text-small text-frost">
+                  <bdi dir="ltr" className="num text-caption text-frost">
                     {d.id}
                   </bdi>
-                  <bdi dir="ltr" className="num text-micro text-mist">
+                  <bdi dir="ltr" className="num text-micro text-frost-2">
                     {d.ms >= 1000 ? `${d.ms / 1000}s` : `${d.ms}ms`}
                   </bdi>
                 </div>
                 <div className="flex flex-col gap-2">
                   <span
-                    className="relative block h-1 overflow-hidden rounded-pill bg-hairline"
+                    className="relative block h-1 overflow-hidden rounded-round bg-hairline"
                     style={{ width: `${Math.max(8, (Math.log(d.ms / 60) / Math.log(24000 / 60)) * 100)}%` }}
                   >
                     <span
@@ -74,7 +74,7 @@ export function MotionLab() {
                       }}
                     />
                   </span>
-                  <span className="text-small text-mist">{d.usage}</span>
+                  <span className="text-caption text-frost-2">{d.usage}</span>
                 </div>
               </li>
             ))}
@@ -82,7 +82,7 @@ export function MotionLab() {
         </div>
 
         <div className="flex flex-col gap-4">
-          <h3 lang="en" className="label-latin text-fog">
+          <h3 lang="en" className="label-latin text-frost-3">
             Easings
           </h3>
           <ul className="flex flex-col">
@@ -91,10 +91,10 @@ export function MotionLab() {
                 <Curve bezier={e.bezier} />
                 <div className="flex min-w-0 flex-1 flex-col gap-2">
                   <div className="flex items-baseline justify-between gap-3">
-                    <bdi dir="ltr" className="num text-small text-frost">
+                    <bdi dir="ltr" className="num text-caption text-frost">
                       ease-{e.id}
                     </bdi>
-                    <code dir="ltr" className="num truncate text-micro text-mist">
+                    <code dir="ltr" className="num truncate text-micro text-frost-2">
                       {cubicBezier(e)}
                     </code>
                   </div>
@@ -110,10 +110,10 @@ export function MotionLab() {
                         transitionTimingFunction: cubicBezier(e),
                       }}
                     >
-                      <span className="absolute top-0 right-0 size-3 rounded-full bg-frost shadow-frost" />
+                      <span className="absolute top-0 right-0 size-3 rounded-full bg-frost" />
                     </span>
                   </span>
-                  <span className="text-small text-mist">{e.usage}</span>
+                  <span className="text-caption text-frost-2">{e.usage}</span>
                 </div>
               </li>
             ))}

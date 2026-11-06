@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Frank_Ruhl_Libre, Heebo, IBM_Plex_Mono } from "next/font/google";
-import { DemoBadge } from "@/components/demo-badge";
 import { SkipLink } from "@/components/skip-link";
 import { restoreMotionScript } from "@/lib/motion-script";
 import "./globals.css";
@@ -63,7 +62,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body>
         <SkipLink />
-        <DemoBadge />
         {children}
       </body>
     </html>

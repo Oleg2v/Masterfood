@@ -42,6 +42,13 @@ export const photoSet = {
     tone: "cold",
     key: "high",
   },
+  mackerelIce: {
+    src: "https://images.unsplash.com/photo-1608502712357-b84a5084c6b2",
+    alt: "דגים שלמים בעור כסוף, מונחים על קרח כתוש",
+    photographer: "David Todd McCarty",
+    page: "https://unsplash.com/photos/ccE1IAGnTwA",
+    tone: "cold",
+  },
   crushedIce: {
     src: "https://images.unsplash.com/photo-1662193552881-c1e0900b6bdb",
     alt: "קרח כתוש מקרוב על רקע כהה",

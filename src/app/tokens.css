@@ -14,35 +14,41 @@
   --color-bordeaux: #8C1C2B; /* Bordeaux · בורדו */
   --color-ice: #7FD1FF; /* Ice Blue · כחול קרח */
   --color-fresh: #2BD48A; /* Fresh Green · ירוק טרי */
-  --color-mist: #9DB4C0; /* Mist · ערפל */
-  --color-fog: #7F98A6; /* Fog · אובך */
-  --color-boundary: #5A7488; /* Boundary · גבול */
-  --color-claret: #E58A95; /* Claret · קלרט */
-  --color-abyss: #040C12; /* Abyss · באר */
-  --color-seam: #01060A; /* Seam · תפר */
-  --color-grade: #123A52; /* Grade · צינה */
+  --color-frost-2: #93AAB8; /* Frost 2 · כפור 2 */
+  --color-frost-3: #7A93A3; /* Frost 3 · כפור 3 */
+  --color-edge: #5F7A8B; /* Edge · קצה */
+  --color-meat-ink: #D9849A; /* Meat ink · דיו בשר */
   --color-thaw: #FFB547; /* Thaw · הפשרה */
+  --color-steel-2: #132A3A; /* Steel 2 · פלדה 2 */
+  --color-well: #040E14; /* Well · באר */
+  --color-shadow-ink: #02080C; /* Shadow ink · דיו צל */
+  --color-frost-hover: #F4FAFC; /* Frost hover · קרח מלוטש */
+  --color-frost-press: #CFE2EA; /* Frost press · קרח דחוס */
+  --color-meat-hover: #A02133; /* Meat hover · בורדו ריחוף */
+  --color-meat-press: #74161F; /* Meat press · בורדו לחיצה */
+  --color-frost-wash: #152129; /* Frost wash · שטיפת כפור */
+  --color-thaw-wash: #2A2B22; /* Thaw wash · שטיפת הפשרה */
 
   /* Fluid type: 9 steps, clamp() between 360px and 1440px viewports. */
   --text-*: initial;
-  --text-micro: 0.75rem; /* step -2: 12→12px */
-  --text-micro--line-height: round(up, 1.4em, 4px);
-  --text-small: clamp(0.875rem, 0.8542rem + 0.0926vw, 0.9375rem); /* step -1: 14→15px */
-  --text-small--line-height: round(up, 1.5em, 4px);
-  --text-body: clamp(1rem, 0.9792rem + 0.0926vw, 1.0625rem); /* step 0: 16→17px */
+  --text-micro: clamp(0.75rem, 0.7292rem + 0.0926vw, 0.8125rem); /* step -2: 12→13px */
+  --text-micro--line-height: round(up, 1.33em, 4px);
+  --text-caption: clamp(0.875rem, 0.8542rem + 0.0926vw, 0.9375rem); /* step -1: 14→15px */
+  --text-caption--line-height: round(up, 1.6em, 4px);
+  --text-body: clamp(1rem, 0.9583rem + 0.1852vw, 1.125rem); /* step 0: 16→18px */
   --text-body--line-height: round(up, 1.6em, 4px);
-  --text-lead: clamp(1.125rem, 1.0625rem + 0.2778vw, 1.3125rem); /* step 1: 18→21px */
-  --text-lead--line-height: round(up, 1.5em, 4px);
-  --text-title: clamp(1.5rem, 1.4167rem + 0.3704vw, 1.75rem); /* step 2: 24→28px */
-  --text-title--line-height: round(up, 1.25em, 4px);
-  --text-heading: clamp(1.75rem, 1.5417rem + 0.9259vw, 2.375rem); /* step 3: 28→38px */
-  --text-heading--line-height: round(up, 1.2em, 4px);
-  --text-headline: clamp(1.875rem, 1.4583rem + 1.8519vw, 3.125rem); /* step 4: 30→50px */
-  --text-headline--line-height: round(up, 1.1em, 4px);
-  --text-display: clamp(2.5rem, 1.5833rem + 4.0741vw, 5.25rem); /* step 5: 40→84px */
+  --text-data: clamp(1.125rem, 1.0417rem + 0.3704vw, 1.375rem); /* step 1: 18→22px */
+  --text-data--line-height: round(up, 1.25em, 4px);
+  --text-dish: clamp(1.5rem, 1.375rem + 0.5556vw, 1.875rem); /* step 2: 24→30px */
+  --text-dish--line-height: round(up, 1.25em, 4px);
+  --text-title: clamp(1.75rem, 1.5rem + 1.1111vw, 2.5rem); /* step 3: 28→40px */
+  --text-title--line-height: round(up, 1.2em, 4px);
+  --text-section: clamp(2rem, 1.5rem + 2.2222vw, 3.5rem); /* step 4: 32→56px */
+  --text-section--line-height: round(up, 1.1em, 4px);
+  --text-headline: clamp(2.75rem, 1.8333rem + 4.0741vw, 5.5rem); /* step 5: 44→88px */
+  --text-headline--line-height: round(up, 1.05em, 4px);
+  --text-display: clamp(3.75rem, 1.9167rem + 8.1481vw, 9.25rem); /* step 6: 60→148px */
   --text-display--line-height: round(up, 1em, 4px);
-  --text-monument: clamp(3.25rem, 1.3333rem + 8.5185vw, 9rem); /* step 6: 52→144px */
-  --text-monument--line-height: round(up, 0.92em, 4px);
 
   /* Leading comes from the type tokens (snapped to 4px); the default ratios are off-grid. */
   --leading-*: initial;
@@ -57,11 +63,10 @@
 
   --radius-*: initial;
   --radius-none: 0px;
-  --radius-hair: 1px;
-  --radius-xs: 2px;
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-pill: 9999px;
+  --radius-hair: 2px;
+  --radius-edge: 4px;
+  --radius-sheet: 12px;
+  --radius-round: 9999px;
   --radius-oval: 50%;
 
   --z-index-*: initial;
@@ -71,56 +76,72 @@
   --z-index-skip: 60;
 
   --scale-press: 98%;
-  --container-toast: 26rem;
+  --container-toast: 25rem;
 
   --shadow-*: initial;
-  --shadow-rim: inset 0 1px 0 0 rgb(232 243 247 / 0.07);
-  --shadow-raise: inset 0 1px 0 0 rgb(232 243 247 / 0.08), 0 1px 0 0 rgb(0 0 0 / 0.4), 0 16px 32px -20px rgb(0 0 0 / 0.8);
-  --shadow-float: inset 0 1px 0 0 rgb(232 243 247 / 0.08), 0 24px 48px -16px rgb(2 8 12 / 0.9);
-  --shadow-frost: 0 0 0 1px rgb(232 243 247 / 0.34), 0 0 32px -6px rgb(232 243 247 / 0.16);
-  --shadow-ember: 0 0 0 1px rgb(255 122 89 / 0.35), 0 0 40px -6px rgb(255 122 89 / 0.35);
+  --shadow-rim: inset 0 1px 0 0 rgb(232 243 247 / 0.10);
+  --shadow-rim-lift: inset 0 1px 0 0 rgb(232 243 247 / 0.18), 0 16px 32px -20px rgb(2 8 12 / 0.8);
+  --shadow-pressed: inset 0 2px 4px 0 rgb(2 8 12 / 0.55);
+  --shadow-float: 0 0 0 1px rgb(232 243 247 / 0.08), inset 0 1px 0 0 rgb(232 243 247 / 0.14), 0 24px 48px -16px rgb(2 8 12 / 0.72);
+  --shadow-flap: inset 0 1px 0 0 rgb(232 243 247 / 0.07), inset 0 -1px 0 0 rgb(2 8 12 / 0.5), 0 1px 0 0 rgb(2 8 12 / 0.6);
+  --shadow-frost: inset 0 1px 0 0 rgb(232 243 247 / 0.22), inset 0 0 32px 0 rgb(232 243 247 / 0.06);
+  --shadow-glow-salmon: 0 0 48px 8px rgb(255 122 89 / 0.35);
+  --shadow-glow-ice: 0 0 0 1px rgb(127 209 255 / 0.45), 0 0 20px -4px rgb(127 209 255 / 0.4);
 
   --ease-*: initial;
-  --ease-glide: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-settle: cubic-bezier(0.65, 0, 0.35, 1);
-  --ease-drop: cubic-bezier(0.55, 0, 0.9, 0.4);
-  --ease-breath: cubic-bezier(0.37, 0, 0.63, 1);
+  --ease-glide: cubic-bezier(0.2, 0, 0, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-move: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-flap-fall: cubic-bezier(0.32, 0, 0.67, 0);
+  --ease-flap-land: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-thaw: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-breathe: cubic-bezier(0.37, 0, 0.63, 1);
 
   /* duration-* utilities read --transition-duration-* */
-  --transition-duration-flap: 90ms;
-  --transition-duration-fast: 160ms;
-  --transition-duration-base: 240ms;
-  --transition-duration-slow: 420ms;
-  --transition-duration-calm: 720ms;
-  --transition-duration-thaw: 1800ms;
-  --transition-duration-drift: 24000ms;
+  --transition-duration-tap: 80ms;
+  --transition-duration-hover: 140ms;
+  --transition-duration-state: 220ms;
+  --transition-duration-panel: 320ms;
+  --transition-duration-exit: 200ms;
+  --transition-duration-flap-riffle: 60ms;
+  --transition-duration-flap-fall: 90ms;
+  --transition-duration-flap-land: 70ms;
+  --transition-duration-thaw: 600ms;
+  --transition-duration-breathe: 2400ms;
+  --transition-duration-refreeze: 2400ms;
+  --transition-duration-toast: 6000ms;
 }
 
 /* Motion tokens as plain custom properties too, for keyframes and inline styles. */
 :root {
-  --dur-flap: 90ms;
-  --dur-fast: 160ms;
-  --dur-base: 240ms;
-  --dur-slow: 420ms;
-  --dur-calm: 720ms;
-  --dur-thaw: 1800ms;
-  --dur-drift: 24000ms;
+  --dur-tap: 80ms;
+  --dur-hover: 140ms;
+  --dur-state: 220ms;
+  --dur-panel: 320ms;
+  --dur-exit: 200ms;
+  --dur-flap-riffle: 60ms;
+  --dur-flap-fall: 90ms;
+  --dur-flap-land: 70ms;
+  --dur-thaw: 600ms;
+  --dur-breathe: 2400ms;
+  --dur-refreeze: 2400ms;
+  --dur-toast: 6000ms;
 }
 
 /* Typographic presets: family + size + line-height + weight in one class. */
 @utility type-micro {
   font-family: var(--font-mono);
   font-size: var(--text-micro);
-  line-height: 1.4; /* fallback where round() is unsupported */
+  line-height: 1.33; /* fallback where round() is unsupported */
   line-height: var(--text-micro--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
-@utility type-small {
+@utility type-caption {
   font-family: var(--font-sans);
-  font-size: var(--text-small);
-  line-height: 1.5; /* fallback where round() is unsupported */
-  line-height: var(--text-small--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */
+  font-size: var(--text-caption);
+  line-height: 1.6; /* fallback where round() is unsupported */
+  line-height: var(--text-caption--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */
   font-weight: 400;
 }
 @utility type-body {
@@ -130,45 +151,46 @@
   line-height: var(--text-body--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */
   font-weight: 400;
 }
-@utility type-lead {
-  font-family: var(--font-sans);
-  font-size: var(--text-lead);
-  line-height: 1.5; /* fallback where round() is unsupported */
-  line-height: var(--text-lead--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */
-  font-weight: 400;
+@utility type-data {
+  font-family: var(--font-mono);
+  font-size: var(--text-data);
+  line-height: 1.25; /* fallback where round() is unsupported */
+  line-height: var(--text-data--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+@utility type-dish {
+  font-family: var(--font-display);
+  font-size: var(--text-dish);
+  line-height: 1.25; /* fallback where round() is unsupported */
+  line-height: var(--text-dish--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */
+  font-weight: 500;
 }
 @utility type-title {
   font-family: var(--font-display);
   font-size: var(--text-title);
-  line-height: 1.25; /* fallback where round() is unsupported */
+  line-height: 1.2; /* fallback where round() is unsupported */
   line-height: var(--text-title--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */
   font-weight: 500;
 }
-@utility type-heading {
+@utility type-section {
   font-family: var(--font-display);
-  font-size: var(--text-heading);
-  line-height: 1.2; /* fallback where round() is unsupported */
-  line-height: var(--text-heading--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */
-  font-weight: 500;
+  font-size: var(--text-section);
+  line-height: 1.1; /* fallback where round() is unsupported */
+  line-height: var(--text-section--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */
+  font-weight: 400;
 }
 @utility type-headline {
   font-family: var(--font-display);
   font-size: var(--text-headline);
-  line-height: 1.1; /* fallback where round() is unsupported */
+  line-height: 1.05; /* fallback where round() is unsupported */
   line-height: var(--text-headline--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */
-  font-weight: 400;
+  font-weight: 300;
 }
 @utility type-display {
   font-family: var(--font-display);
   font-size: var(--text-display);
   line-height: 1; /* fallback where round() is unsupported */
   line-height: var(--text-display--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */
-  font-weight: 300;
-}
-@utility type-monument {
-  font-family: var(--font-display);
-  font-size: var(--text-monument);
-  line-height: 0.92; /* fallback where round() is unsupported */
-  line-height: var(--text-monument--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */
   font-weight: 300;
 }

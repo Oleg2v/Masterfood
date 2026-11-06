@@ -10,12 +10,12 @@ import type { CSSProperties, ReactNode } from "react";
  * for Hebrew words, whose shaping must never be split across cells.
  */
 
-const plate =
-  "relative inline-flex items-center justify-center overflow-hidden rounded-xs bg-abyss text-frost " +
+export const flapPlate =
+  "relative inline-flex items-center justify-center overflow-hidden rounded-hair bg-well text-frost " +
   "shadow-[inset_0_1px_0_0_rgb(232_243_247/0.07),inset_0_-1px_0_0_rgb(1_6_10/0.9),0_1px_0_0_rgb(1_6_10/0.9)] " +
   // upper half catches the overhead light, lower half sits in shadow; the seam is a 1px cut
   "before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-1/2 before:bg-[linear-gradient(to_bottom,rgb(232_243_247/0.06),rgb(232_243_247/0.015))] before:content-[''] " +
-  "after:pointer-events-none after:absolute after:inset-x-0 after:top-1/2 after:h-px after:-translate-y-1/2 after:bg-seam after:shadow-[0_1px_0_0_rgb(232_243_247/0.05)] after:content-['']";
+  "after:pointer-events-none after:absolute after:inset-x-0 after:top-1/2 after:h-px after:-translate-y-1/2 after:bg-shadow-ink after:shadow-[0_1px_0_0_rgb(232_243_247/0.05)] after:content-['']";
 
 /** One glyph per cell, for Latin codes and figures. Rendered LTR and isolated. */
 export function FlapCells({
@@ -35,7 +35,7 @@ export function FlapCells({
         <span
           key={i}
           aria-hidden={ch === " " ? true : undefined}
-          className={`${plate} h-[1.5em] w-[0.72em] font-mono font-medium [font-variant-numeric:tabular-nums] ${cellClassName}`}
+          className={`${flapPlate} h-[1.5em] w-[0.72em] font-mono font-medium [font-variant-numeric:tabular-nums] ${cellClassName}`}
         >
           {/* blank flaps carry an invisible glyph so every row shares one baseline */}
           {ch === " " ? <span className="invisible">0</span> : <span className="relative">{ch}</span>}
@@ -56,7 +56,7 @@ export function FlapWord({
   style?: CSSProperties;
 }) {
   return (
-    <span className={`${plate} h-[1.5em] px-[0.4em] ${className}`} style={style}>
+    <span className={`${flapPlate} h-[1.5em] px-[0.4em] ${className}`} style={style}>
       <span className="relative whitespace-nowrap">{children}</span>
     </span>
   );

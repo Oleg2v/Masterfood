@@ -45,3 +45,13 @@ export function setMotionStopped(stopped: boolean) {
   }
 }
 
+
+/* ?still=1 pins the demo morning for screenshots: the clock stops at 04:12:33 with its
+   seconds, and the frost glass shows its composed, pre-wiped arc. */
+const noop = () => () => {};
+export const isPinned = () => new URLSearchParams(window.location.search).has("still");
+
+/** true on ?still=1 (screenshots and review links) */
+export function usePinned(): boolean {
+  return useSyncExternalStore(noop, isPinned, () => false);
+}

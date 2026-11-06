@@ -75,18 +75,19 @@ export function WeightField({
   };
 
   const stepBtn =
-    "grid size-12 shrink-0 place-items-center text-frost transition-[background-color,color] duration-fast ease-glide " +
-    "hover:bg-hairline active:bg-boundary/40 aria-disabled:cursor-not-allowed aria-disabled:text-fog aria-disabled:hover:bg-transparent " +
-    "disabled:text-fog disabled:pointer-events-none";
+    "grid size-14 shrink-0 place-items-center text-frost transition-[background-color,color] duration-hover ease-glide " +
+    "hover:bg-hairline active:bg-edge/40 aria-disabled:cursor-not-allowed aria-disabled:text-frost-3 aria-disabled:hover:bg-transparent " +
+    "disabled:text-frost-3 disabled:pointer-events-none";
 
   return (
     <div className="flex w-full flex-col gap-2">
       <div className="flex items-baseline justify-between gap-4">
-        <label htmlFor={id} className="text-small font-medium text-frost">
-          {label} <span className="text-mist">· {product}</span>
+        <label htmlFor={id} className="text-caption font-medium text-frost">
+          {label} <span className="text-frost-2">· {product}</span>
+          <span className="ms-2 rounded-hair px-1.5 py-0.5 text-frost-3 inset-ring inset-ring-hairline">משקל משתנה</span>
           <span className="sr-only">, ב{KG}</span>
         </label>
-        <span className="text-small text-mist">
+        <span className="text-caption text-frost-2">
           <Money value={pricePerKg} /> ל{KG}
         </span>
       </div>
@@ -94,32 +95,32 @@ export function WeightField({
       <div
         data-force={force === "focus" ? "within" : force}
         className={
-          "flex h-12 items-stretch rounded-sm bg-deep-ice transition-shadow duration-fast ease-glide " +
+          "flex h-14 items-stretch rounded-edge bg-deep-ice transition-shadow duration-hover ease-glide " +
           "field-focus:outline-2 field-focus:outline-offset-2 field-focus:outline-frost " +
           (disabled
             ? "inset-ring inset-ring-hairline "
             : invalid
               ? "inset-ring inset-ring-thaw field-focus:inset-ring-2 "
-              : "inset-ring inset-ring-boundary hover:inset-ring-mist field-focus:inset-ring-frost ")
+              : "inset-ring inset-ring-edge hover:inset-ring-frost-2 field-focus:inset-ring-frost ")
         }
       >
         <button
           type="button"
-          className={`${stepBtn} rounded-s-sm`}
-          aria-label={`פחות ${stepKg} ${KG}`}
+          className={`${stepBtn} rounded-s-edge`}
+          aria-label={`עוד ${stepKg} ${KG}`}
           aria-controls={id}
           disabled={disabled}
-          aria-disabled={!disabled && atMin ? true : undefined}
-          onClick={() => step(-1)}
+          aria-disabled={!disabled && atMax ? true : undefined}
+          onClick={() => step(1)}
         >
-          <Icon name="minus" size={18} />
+          <Icon name="plus" size={18} />
         </button>
         {/* the whole cell focuses the input, so the tap target is the cell, not the digits */}
         <div
           className="flex flex-1 cursor-text items-center justify-center border-x border-hairline"
           onClick={() => inputRef.current?.focus()}
         >
-          <span aria-hidden="true" className={disabled ? "text-fog" : "text-mist"}>
+          <span aria-hidden="true" className={disabled ? "text-frost-3" : "text-frost-2"}>
             כ־
           </span>
           <input
@@ -141,39 +142,39 @@ export function WeightField({
               }
             }}
             onBlur={() => setKg((v) => clamp(v))}
-            className="num w-[4ch] bg-transparent text-right text-lead font-medium text-frost outline-none! disabled:text-fog"
+            className="num w-[4ch] bg-transparent text-right text-data font-medium text-frost outline-none! disabled:text-frost-3"
           />
-          <span className={`ms-2 ${disabled ? "text-fog" : "text-mist"}`}>{KG}</span>
+          <span className={`ms-2 ${disabled ? "text-frost-3" : "text-frost-2"}`}>{KG}</span>
         </div>
         <button
           type="button"
-          className={`${stepBtn} rounded-e-sm`}
-          aria-label={`עוד ${stepKg} ${KG}`}
+          className={`${stepBtn} rounded-e-edge`}
+          aria-label={`פחות ${stepKg} ${KG}`}
           aria-controls={id}
           disabled={disabled}
-          aria-disabled={!disabled && atMax ? true : undefined}
-          onClick={() => step(1)}
+          aria-disabled={!disabled && atMin ? true : undefined}
+          onClick={() => step(-1)}
         >
-          <Icon name="plus" size={18} />
+          <Icon name="minus" size={18} />
         </button>
       </div>
 
       {/* The estimate and its band, drawn as a confidence interval. */}
-      <div id={`${id}-estimate`} className="flex flex-col gap-1.5">
-        <div className="flex items-baseline justify-between gap-3 text-small">
-          <span className="text-mist">מחיר משוער</span>
+      <div id={`${id}-estimate`} className="frost-band flex flex-col gap-1.5 rounded-edge px-3 py-2.5 shadow-frost">
+        <div className="flex items-baseline justify-between gap-3 text-caption">
+          <span className="text-frost-2">משוער</span>
           <span className="text-frost">
             כ־<Money joined value={estimate} round className="text-body font-medium" />
           </span>
         </div>
         <div aria-hidden="true" className="relative h-1.5">
           <span className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-hairline" />
-          <span className="absolute inset-y-0 start-[18%] end-[18%] rounded-pill bg-frost/10 inset-ring inset-ring-frost/40" />
+          <span className="absolute inset-y-0 start-[18%] end-[18%] rounded-round bg-frost/10 inset-ring inset-ring-frost/40" />
           <span className="absolute inset-y-[-3px] start-1/2 w-px bg-frost" />
         </div>
-        <div className="flex justify-between text-micro text-fog">
+        <div className="flex justify-between text-micro text-frost-2">
           <Money value={low} round />
-          <span className="font-sans text-small text-mist">
+          <span className="font-sans text-caption text-frost-2">
             טווח <Num>±{Math.round(variance * 100)}%</Num>
           </span>
           <Money value={high} round />
@@ -184,12 +185,12 @@ export function WeightField({
       </p>
 
       {invalid ? (
-        <p id={`${id}-error`} className="flex items-center gap-2 text-small text-thaw">
+        <p id={`${id}-error`} className="flex items-center gap-2 text-caption text-thaw">
           <Icon name="alert" size={16} />
           <span>{error}</span>
         </p>
       ) : null}
-      <p id={`${id}-note`} className="text-small text-mist">
+      <p id={`${id}-note`} className="text-caption text-frost-2">
         מוצרים במשקל משתנה יחויבו לפי שקילה בפועל
       </p>
     </div>

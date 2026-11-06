@@ -4,29 +4,29 @@ type Variant = "primary" | "secondary" | "quiet";
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "group/btn relative isolate inline-flex shrink-0 select-none items-center justify-center gap-3 whitespace-nowrap rounded-sm font-medium " +
-  "transition-[background-color,color,box-shadow,scale,opacity] duration-fast ease-glide " +
+  "group/btn relative isolate inline-flex shrink-0 select-none items-center justify-center gap-3 whitespace-nowrap rounded-edge font-medium " +
+  "transition-[background-color,color,box-shadow,scale,opacity] duration-hover ease-glide " +
   "active:scale-press disabled:pointer-events-none aria-disabled:cursor-not-allowed";
 
 const variants: Record<Variant, string> = {
   // Ice-white is the only primary colour: category accents stay semantic.
   primary:
-    "bg-frost text-deep-ice shadow-[inset_0_-1px_0_0_rgb(7_20_28/0.18)] hover:shadow-frost " +
-    "active:bg-mist disabled:bg-steel disabled:text-fog disabled:shadow-none disabled:inset-ring disabled:inset-ring-hairline",
+    "bg-frost text-deep-ice shadow-[inset_0_-1px_0_0_rgb(7_20_28/0.18)] hover:bg-frost-hover " +
+    "active:bg-frost-press active:shadow-pressed disabled:bg-steel-2 disabled:text-frost-3 disabled:shadow-none disabled:outline-1 disabled:outline-dashed disabled:outline-edge disabled:-outline-offset-1",
   secondary:
-    "bg-transparent text-frost inset-ring inset-ring-boundary " +
-    "hover:bg-steel hover:inset-ring-mist active:bg-hairline " +
-    "disabled:text-fog disabled:inset-ring-hairline",
+    "bg-transparent text-frost inset-ring inset-ring-edge " +
+    "hover:bg-steel hover:inset-ring-frost-2 active:bg-hairline " +
+    "disabled:text-frost-3 disabled:inset-ring-hairline",
   quiet:
-    "min-w-11 px-1! text-frost underline decoration-boundary decoration-1 underline-offset-4 " +
-    "hover:decoration-frost active:text-mist disabled:text-fog disabled:decoration-hairline",
+    "min-w-11 px-1! text-frost underline decoration-edge decoration-1 underline-offset-4 " +
+    "hover:decoration-frost active:text-frost-2 disabled:text-frost-3 disabled:decoration-hairline",
 };
 
 /* sm keeps a dense 40px plate but answers to a 44px hit area (::after reaches 2px past each edge). */
 const sizes: Record<Size, string> = {
-  sm: "h-10 px-4 text-small after:absolute after:inset-x-0 after:-inset-y-0.5 after:content-['']",
+  sm: "h-10 px-4 text-caption after:absolute after:inset-x-0 after:-inset-y-0.5 after:content-['']",
   md: "h-12 px-5 text-body",
-  lg: "h-14 px-6 text-lead",
+  lg: "h-14 px-6 text-body",
 };
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {

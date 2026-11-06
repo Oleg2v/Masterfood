@@ -1,8 +1,9 @@
 import { Fragment } from "react";
 import { Num } from "./num";
 
-/* A figure: optional ₪ or sign, digits with separators, optional % or °. */
-const FIGURE = /(₪?[−+]?\d[\d.,:–]*[%°]?)/g;
+/* A figure: optional ₪ or sign, digits with separators, optional % or °. It ends on a digit
+   (or % / °), so sentence punctuation after it ("01:", "5568,") stays outside the LTR isolate. */
+const FIGURE = /(₪?[−+]?\d(?:[\d.,:–]*\d)?[%°]?)/g;
 
 /**
  * Plain strings with figures in them (concept lines, decisions, notes): every

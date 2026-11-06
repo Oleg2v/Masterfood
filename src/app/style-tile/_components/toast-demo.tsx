@@ -70,7 +70,7 @@ export function ToastDemo() {
           הדמיית נחיתה
         </Button>
       </div>
-      <p className="max-w-[60ch] text-small text-pretty text-mist">
+      <p className="max-w-[60ch] text-caption text-pretty text-frost-2">
         הודעה עם פעולה נשארת עד שסוגרים אותה. הודעה בלי פעולה נמסה אחרי <Num>6</Num> שניות, ונעצרת כשמרחפים או מתמקדים
         בה.
       </p>

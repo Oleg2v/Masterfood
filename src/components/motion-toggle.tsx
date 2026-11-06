@@ -17,10 +17,10 @@ export function MotionToggle({ className = "" }: { className?: string }) {
       aria-pressed={off}
       onClick={() => setMotionStopped(!off)}
       className={
-        "relative inline-flex h-10 items-center gap-2 rounded-pill px-4 text-small font-medium text-frost inset-ring inset-ring-boundary " +
-        "transition-[background-color,color,scale] duration-fast ease-glide active:scale-press " +
+        "relative inline-flex h-10 items-center gap-2 rounded-edge px-4 text-caption font-medium text-frost inset-ring inset-ring-edge " +
+        "transition-[background-color,color,scale] duration-hover ease-glide active:scale-press " +
         "after:absolute after:inset-x-0 after:-inset-y-0.5 after:content-[''] " + // 44px hit area
-        "hover:bg-steel hover:inset-ring-mist aria-pressed:bg-frost aria-pressed:text-deep-ice " +
+        "hover:bg-steel hover:inset-ring-frost-2 aria-pressed:bg-frost aria-pressed:text-deep-ice " +
         className
       }
     >

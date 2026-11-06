@@ -14,14 +14,14 @@ function Ratio({ fg, bg, label, kind = "text" }: { fg: string; bg: string; label
   const verdict = kind === "ui" ? (pass ? "UI 3:1" : "—") : kind === "fill" && !pass ? "לא לטקסט" : grade(r) === "decorative" ? "—" : grade(r);
   return (
     <li className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 py-2">
-      <span className="text-small text-mist">{label}</span>
+      <span className="text-caption text-frost-2">{label}</span>
       <span className="flex items-center gap-2">
-        <bdi dir="ltr" className="num text-small text-frost">
+        <bdi dir="ltr" className="num text-caption text-frost">
           {formatRatio(r)}
         </bdi>
         <span
           lang={/[A-Z]/.test(verdict) ? "en" : undefined}
-          className={`rounded-xs px-1.5 py-0.5 ${/[A-Z]/.test(verdict) ? "label-latin" : "text-micro"} ${pass ? "text-fresh inset-ring inset-ring-fresh/40" : "text-fog inset-ring inset-ring-hairline"}`}
+          className={`rounded-hair px-1.5 py-0.5 ${/[A-Z]/.test(verdict) ? "label-latin" : "text-micro"} ${pass ? "text-fresh inset-ring inset-ring-fresh/40" : "text-frost-3 inset-ring inset-ring-hairline"}`}
         >
           {verdict}
         </span>
@@ -39,24 +39,24 @@ function Slab({ c, tall = false }: { c: ColorToken; tall?: boolean }) {
   return (
     <li className="flex flex-col gap-3">
       <div
-        className={`relative flex flex-col justify-end rounded-sm shadow-[inset_0_0_0_1px_rgb(232_243_247/0.08)] ${plate ? "p-2" : "p-4"} ${tall ? "h-48 sm:h-64" : "h-32"}`}
+        className={`relative flex flex-col justify-end rounded-edge shadow-[inset_0_0_0_1px_rgb(232_243_247/0.08)] ${plate ? "p-2" : "p-4"} ${tall ? "h-48 sm:h-64" : "h-32"}`}
         style={{ backgroundColor: c.hex }}
       >
-       <div className={`flex flex-col gap-1 ${plate ? "rounded-xs bg-deep-ice p-2" : ""}`} style={{ color: onSlab }}>
-        <span className="type-title" lang="he">
+       <div className={`flex flex-col gap-1 ${plate ? "rounded-hair bg-deep-ice p-2" : ""}`} style={{ color: onSlab }}>
+        <span className="type-dish" lang="he">
           {c.he}
         </span>
         <span className="flex items-baseline justify-between gap-2">
           <bdi dir="ltr" lang="en" className="label-latin">
             {c.en}
           </bdi>
-          <bdi dir="ltr" className="num text-small">
+          <bdi dir="ltr" className="num text-caption">
             {c.hex}
           </bdi>
         </span>
        </div>
       </div>
-      <p className="min-h-[3em] text-small text-mist">{c.role}</p>
+      <p className="min-h-[3em] text-caption text-frost-2">{c.role}</p>
       <ul className="divide-y divide-hairline border-y border-hairline">
         {c.text ? (
           <>
