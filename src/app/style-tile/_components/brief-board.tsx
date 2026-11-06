@@ -10,6 +10,9 @@ import { KG } from "@/lib/format";
  * plate: Hebrew letters in Frank Ruhl Libre 500 (widest letter ש = 0.619em), figures
  * in Plex Mono 500 (0.6em), both in 0.66em cells, so the board reads as one machine.
  * Hebrew runs right to left, figures left to right, each segment isolated.
+ * The plates take their ink from the board: Frost for every value, Frost-2 for the
+ * change column, whose ▲ ▼ = sits at the figure's inline start (right), as in the
+ * market rows.
  *
  * Static in Stage 0; the Stage 1 engine riffles each changed cell through the drum
  * (alef-bet, finals after their base letter, then 0–9), from the inline-start edge.
@@ -28,7 +31,7 @@ const LINES: {
 }[] = [
   {
     name: "סלמון נורבגי טרי",
-    origin: "נורווגיה",
+    origin: "נורבגיה",
     landed: "05:40",
     kg: "312",
     price: "62.90",
@@ -155,11 +158,12 @@ export function BriefBoard() {
               <Figures text={l.landed || "—"} width={W.landed} center={!l.landed} />
               <Figures text={l.kg} width={W.kg} />
               <Figures text={l.price} width={W.price} />
+              {/* the change in Frost-2, glyph after the figure in this LTR run, so it reads first (right) */}
               <span dir="ltr" className="flex gap-[2px] text-frost-2">
+                <Figures text={l.change} width={W.change} />
                 <span className={cell}>
                   <TrendGlyph dir={l.dir} className="relative" />
                 </span>
-                <Figures text={l.change} width={W.change} />
               </span>
             </Fragment>
           ))}
@@ -182,7 +186,10 @@ export function BriefBoard() {
             </div>
             <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-caption text-frost-2">
               <span>
-                {l.origin} · נחת <Num>{l.landed || "—"}</Num> · <Num>{l.kg}</Num> {KG}
+                {l.origin} · <span className="whitespace-nowrap">נחת <Num>{l.landed || "—"}</Num></span> ·{" "}
+                <span className="whitespace-nowrap">
+                  <Num>{l.kg}</Num> {KG}
+                </span>
               </span>
               <span className="inline-flex items-center gap-1">
                 <TrendGlyph dir={l.dir} />

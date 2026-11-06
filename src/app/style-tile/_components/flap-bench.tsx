@@ -41,12 +41,17 @@ export function FlapBench() {
   const [value, setValue] = useState(FIRST);
   const [busy, setBusy] = useState(false);
   const [h, setH] = useState(0);
+  const [digit, setDigit] = useState(0);
   const turn = useRef(0);
 
   useEffect(() => {
     const el = cell.current;
     if (!el) return;
-    const ro = new ResizeObserver(() => setH(Math.round(el.getBoundingClientRect().height)));
+    // The digit is set at step 6 (148px at 1440); its plate is 1.2em of that, so the two are read side by side.
+    const ro = new ResizeObserver(() => {
+      setH(Math.round(el.getBoundingClientRect().height));
+      setDigit(Math.round(parseFloat(getComputedStyle(el).fontSize)));
+    });
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
@@ -112,6 +117,7 @@ export function FlapBench() {
 
   return (
     <div className="flex flex-wrap items-end gap-8">
+      {/* flapPlate carries no colour of its own: the bench's digit is Frost */}
       <div aria-hidden="true" className="type-display font-light text-frost">
         <div ref={cell} className={`${flapPlate} h-[1.2em] w-[0.74em] rounded-edge [perspective:600px]`}>
           <span ref={topStill} className={`${half} top-0`}>
@@ -130,6 +136,10 @@ export function FlapBench() {
       </div>
       <div className="flex flex-col items-start gap-4">
         <dl className="grid grid-cols-[auto_auto] gap-x-6 gap-y-1 text-caption">
+          <dt className="text-frost-3">גודל הספרה</dt>
+          <dd className="text-frost">
+            <Num>{digit ? `${digit}px` : "—"}</Num>
+          </dd>
           <dt className="text-frost-3">גובה התא</dt>
           <dd className="text-frost">
             <Num>{h ? `${h}px` : "—"}</Num>
@@ -140,7 +150,10 @@ export function FlapBench() {
           </dd>
           <dt className="text-frost-3">דפדוף</dt>
           <dd className="text-frost">
-            <Num>{`${RIFFLE}ms`}</Num> לאות, עד <Num>3</Num> אותיות
+            <Num>{`${RIFFLE}ms`}</Num> לתו,{" "}
+            <span className="whitespace-nowrap">
+              עד <Num>3</Num> תווים
+            </span>
           </dd>
         </dl>
         <Button variant="secondary" size="sm" onClick={flip} aria-disabled={busy || undefined}>

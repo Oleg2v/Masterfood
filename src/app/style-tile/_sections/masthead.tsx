@@ -1,12 +1,14 @@
 import { DemoStrip } from "@/components/demo-badge";
 import { MotionToggle } from "@/components/motion-toggle";
+import { RailHeight } from "@/components/rail-height";
+import { Num } from "@/components/ui/num";
 import { Typeset } from "@/components/ui/typeset";
 import { hebrewDateline } from "@/lib/hebrew-date";
 import { concept } from "../_content";
 import { BriefBoard } from "../_components/brief-board";
 import { CountdownSpecimen } from "../_components/countdown-specimen";
 import { CoverGlass } from "../_components/cover-glass";
-import { BiLabel, Container } from "../_components/frame";
+import { BiLabel, Container, LabelParts } from "../_components/frame";
 
 const nav = [
   ["palette", "01", "פלטה"],
@@ -19,12 +21,17 @@ const nav = [
   ["decisions", "08", "החלטות"],
 ] as const;
 
-/** The top rail: the demo disclaimer, then the brand, the contents and "עצירת אנימציה". Opaque, sticky, nothing floats. */
+/**
+ * The top rail: the demo disclaimer and "מחירי דמו" (at every width), then the brand, the contents
+ * and "עצירת אנימציה". Opaque and sticky, nothing floats (.rail in globals.css; on a short screen
+ * only the bar stays). It publishes its height, so focus and anchors always land clear of it.
+ */
 export function TopBar() {
   return (
-    <header className="sticky top-0 z-bar">
+    <header className="rail">
+      <RailHeight />
       <DemoStrip>
-        <p className="hidden text-caption text-frost-2 sm:block">מחירי דמו · לפני מע״מ</p>
+        <p className="text-caption text-frost-2">מחירי דמו · לפני מע״מ</p>
       </DemoStrip>
       <div className="border-b border-hairline bg-deep-ice">
         <Container className="flex h-14 items-center justify-between gap-6">
@@ -32,7 +39,7 @@ export function TopBar() {
             <span className="font-display text-dish font-medium leading-none text-frost">מאסטרפוד</span>
             <span className="hidden text-caption text-frost-2 sm:inline">השוק של מחר</span>
           </a>
-          <nav aria-label="תוכן הסטייל־טייל" className="hidden min-w-0 xl:block">
+          <nav aria-label="תוכן לוח הסגנון" className="hidden min-w-0 xl:block">
             <ol className="flex items-center gap-1">
               {nav.map(([id, n, label]) => (
                 <li key={id}>
@@ -83,8 +90,8 @@ export function Masthead() {
                 {date.civil}
               </bdi>
             </span>
-            <bdi dir="ltr" lang="en" className="label-latin text-frost-3">
-              Stage 0 · Art direction · Style tile
+            <bdi dir="ltr" lang="en" className="label-latin text-balance text-frost-3">
+              <LabelParts text="Stage 0 · Art direction · Style tile" />
             </bdi>
           </p>
 
@@ -105,7 +112,8 @@ export function Masthead() {
               <ol className="grid grid-cols-1 border-t border-hairline lg:grid-cols-3 lg:gap-x-6">
                 {concept.map((line, i) => (
                   <li key={i} className="flex flex-col gap-2 border-b border-hairline py-5 lg:border-b-0">
-                    <bdi dir="ltr" className="num text-micro text-frost-3">
+                    {/* self-start: the LTR numeral shrinks to its digits at the column's start (right) edge */}
+                    <bdi dir="ltr" className="num self-start text-micro text-frost-3">
                       0{i + 1}
                     </bdi>
                     <p className="max-w-[46ch] text-body text-pretty text-frost">
@@ -124,8 +132,8 @@ export function Masthead() {
           <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
             <BiLabel as="h2" en="The board · the brief's three lines" he="שלוש השורות מהבריף, בעמודות" />
             <p className="max-w-[60ch] text-caption text-pretty text-frost-2">
-              כל שורה היא מקטעים מוקלדים: המילים העבריות באותיות, המספרים בתאים של מונו, והיחידות בכותרת. בשלב 0 הלוח
-              סטטי; בשלב 1 התאים מדפדפים, מימין לשמאל.
+              כל שורה בנויה משדות נפרדים, ולכל שדה סוג וכיוון משלו: המילים העבריות אות־אות, המספרים בתאי מונו, והיחידות
+              בכותרת. בשלב <Num>0</Num> הלוח סטטי; בשלב <Num>1</Num> התאים מדפדפים, מימין לשמאל.
             </p>
           </div>
           <BriefBoard />

@@ -13,52 +13,22 @@
   --font-mono: var(--font-plex-mono), var(--font-heebo), ui-monospace, monospace;
 }
 
-/* Motion vocabulary. No bounce, no spin, no ping: calm and cold. */
+/* Motion vocabulary: motion is data or atmosphere, never decoration. No bounce, no spin, no ping,
+   no shimmer. Three things run on their own: the hero fog (the fog utility below), the Salmon
+   glow that breathes under 30 minutes, and the toast's melting hairline. Everything else plays
+   once, when a value changes (a toast arriving, the cut map's leader). Loading is a still
+   hairline, and a press is one pixel down within --dur-tap: neither needs a keyframe. */
 @theme {
   --animate-*: initial;
-  --animate-hairline: hairline 1.6s var(--ease-move) infinite;
-  --animate-beacon: beacon 2.4s var(--ease-breathe) infinite;
-  --animate-toast-timer: toast-timer 6s linear forwards;
-  --animate-breath: breath 2s var(--ease-breathe) infinite;
-  --animate-glow: glow 2.4s var(--ease-breathe) infinite;
-  --animate-sheen: sheen var(--dur-thaw) var(--ease-glide) both;
+  --animate-toast-timer: toast-timer var(--dur-toast) linear forwards;
+  --animate-glow: glow var(--dur-breathe) var(--ease-breathe) infinite;
 
-  @keyframes hairline {
-    from {
-      translate: 120% 0;
-    }
-    to {
-      translate: -320% 0;
-    }
-  }
-  @keyframes beacon {
-    0%,
-    100% {
-      scale: 1;
-      opacity: 0.9;
-    }
-    50% {
-      scale: 2.6;
-      opacity: 0;
-    }
-  }
   @keyframes toast-timer {
     from {
       scale: 1 1;
     }
     to {
       scale: 0 1;
-    }
-  }
-  /* light crossing a block of ice, once per hover, start → end (right → left) */
-  @keyframes sheen {
-    from {
-      translate: 110% 0;
-      opacity: 1;
-    }
-    to {
-      translate: -110% 0;
-      opacity: 1;
     }
   }
   @keyframes glow {
@@ -70,22 +40,31 @@
       opacity: 1;
     }
   }
-  @keyframes breath {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.72;
-    }
-  }
 }
 
+/* Motion state: html[data-motion] is "off" (the visitor stopped it with "עצירת אנימציה"), "on"
+   (the visitor resumed it over an OS reduced-motion setting) or absent (follow the OS). Still =
+   off, or the OS reduces motion and the visitor has not switched it on. use-motion.ts computes
+   the same state for JS, so the stylesheet, both toggles and every scripted animation agree. */
 @custom-variant motion-ok {
   @media (prefers-reduced-motion: no-preference) {
     html:not([data-motion="off"]) & {
       @slot;
     }
+  }
+  html[data-motion="on"] & {
+    @slot;
+  }
+}
+/* The exact complement of motion-ok: the server markup is already right for every visitor. */
+@custom-variant motion-still {
+  @media (prefers-reduced-motion: reduce) {
+    html:not([data-motion="on"]) & {
+      @slot;
+    }
+  }
+  html[data-motion="off"] & {
+    @slot;
   }
 }
 
@@ -108,6 +87,11 @@
 @custom-variant field-focus (&:has(input:focus-visible), &[data-force~="within"]);
 
 @layer base {
+  :root {
+    /* The rail's bar: masthead.tsx's h-14 row and its 1px rule. */
+    --rail-bar: calc(3.5rem + 1px);
+  }
+
   html {
     background-color: var(--color-deep-ice);
     color: var(--color-frost);
@@ -115,7 +99,15 @@
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
-    scroll-padding-top: calc(var(--spacing) * 20);
+    /* Keyboard focus and #anchors land 12px clear of the sticky rail, whatever its height: the
+       rail publishes it as --rail-h (rail-height.tsx); 92px is its usual height, until then. */
+    scroll-padding-top: calc(var(--rail-h, 92px) + 12px);
+  }
+  /* A short screen (a phone on its side, 400% zoom): only the rail's bar stays (see .rail). */
+  @media (max-height: 30rem) {
+    html {
+      scroll-padding-top: calc(var(--rail-bar) + 12px);
+    }
   }
 
   body {
@@ -158,27 +150,66 @@
   [hidden] {
     display: none !important;
   }
-}
 
-/* Reduced motion — the OS setting and the in-app "עצירת אנימציה" control share one rule. */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  ::before,
-  ::after {
+  /* Still (the motion-still condition): every animation and transition collapses to a cut. 0.01ms,
+     not none, so animationend and transitionend still fire. In the base layer, so no !important
+     utility can set anything moving again. */
+  @media (prefers-reduced-motion: reduce) {
+    html:not([data-motion="on"]),
+    html:not([data-motion="on"]) *,
+    html:not([data-motion="on"]) ::before,
+    html:not([data-motion="on"]) ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  html[data-motion="off"],
+  html[data-motion="off"] *,
+  html[data-motion="off"] ::before,
+  html[data-motion="off"] ::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
 
-html[data-motion="off"] *,
-html[data-motion="off"] ::before,
-html[data-motion="off"] ::after {
-  animation-duration: 0.01ms !important;
-  animation-iteration-count: 1 !important;
-  transition-duration: 0.01ms !important;
-  scroll-behavior: auto !important;
+  /* Forced colours drop every box-shadow, so each inset-ring boundary (inputs, outlined buttons,
+     chips, tags, plates, lamps, with or without a variant prefix) is redrawn as a real 1px outline.
+     It sits in the base layer, so an outline utility still wins over it: a field's focus ring, a
+     dashed "unavailable" edge, the frost tile's dashed edge. */
+  @media (forced-colors: active) {
+    [class*="inset-ring"] {
+      outline: 1px solid CanvasText;
+      outline-offset: -1px;
+    }
+    :focus-visible,
+    [data-force~="focus"] {
+      outline: 2px solid Highlight;
+      outline-offset: 2px;
+    }
+  }
+
+  /* More contrast: Hairline is promoted to Edge, so every rule, plate and chip boundary reads at
+     3:1 or better on every surface, and Frost-3 is promoted to Frost-2. Hairline also fills a few
+     pressed or hovered controls under a Frost label (a secondary button, a stepper, a toast's
+     close): those fills keep the Hairline they had, so the label stays at 10:1 rather than 4:1.
+     A fill is the one that comes with a state (hover:bg-hairline, active:bg-hairline); a bare
+     bg-hairline is a drawn rule and is promoted. The promotion is set on body, so :root still
+     holds the original value for --hairline-fill. */
+  @media (prefers-contrast: more) {
+    :root {
+      --hairline-fill: var(--color-hairline);
+    }
+    body {
+      --color-hairline: var(--color-edge);
+      --color-frost-3: var(--color-frost-2);
+    }
+    [class*=":bg-hairline"] {
+      --color-hairline: var(--hairline-fill);
+    }
+  }
 }
 
 /* The 4px grid made visible (style tile and debug overlays): 4px minor, 16px major. */
@@ -196,9 +227,11 @@ html[data-motion="off"] ::after {
   background-position: -1px -1px;
 }
 
-/* Fog: the cold air of the display case, drifting along the base of the hero glass.
-   Never a loading state (loading is a static hairline skeleton). Transparent: the
-   caller supplies the surface. The element must be positioned and clip its overflow. */
+/* Fog: the cold air of the display case, drifting along the base of the hero glass. Hero only,
+   and atmosphere, not data: two layers, translate only, the front one at 8% at its densest on a
+   60s loop (--dur-fog-a), the back one at 6% on a 96s loop (--dur-fog-b), against it. Never a
+   loading state (loading is a still hairline). Transparent: the caller supplies the surface.
+   The element must be positioned and clip its overflow. */
 @utility fog {
   &::before,
   &::after {
@@ -207,14 +240,14 @@ html[data-motion="off"] ::after {
     inset: -40% -60%;
     pointer-events: none;
     background:
-      radial-gradient(38% 42% at 30% 45%, rgb(232 243 247 / 0.1), transparent 70%),
-      radial-gradient(30% 36% at 72% 60%, rgb(232 243 247 / 0.07), transparent 70%);
-    animation: fog-drift 7.2s var(--ease-breathe) infinite alternate;
+      radial-gradient(38% 42% at 30% 45%, rgb(232 243 247 / 0.08), transparent 70%),
+      radial-gradient(30% 36% at 72% 60%, rgb(232 243 247 / 0.06), transparent 70%);
+    animation: fog-drift var(--dur-fog-a, 60s) var(--ease-breathe) infinite alternate;
   }
   &::after {
-    animation-duration: 11.5s;
+    animation-duration: var(--dur-fog-b, 96s);
     animation-direction: alternate-reverse;
-    opacity: 0.7;
+    opacity: 0.75;
   }
 }
 
@@ -227,17 +260,19 @@ html[data-motion="off"] ::after {
   }
 }
 
-/* Hebrew hangs from the שרטוט: pull a display line up so its letter roofs touch the
-   rule above it. Frank Ruhl Libre (measured): roofs at 0.580em (300) / 0.586em (400);
-   the line box top sits (line-height + 0.623em) / 2 above the baseline. */
+/* Hebrew hangs from the שרטוט: pull a display line up so its letter roofs touch the rule above
+   it. Frank Ruhl Libre: the serif heads of ש and ו reach 0.580em (300), 0.586em (400) and 0.597em
+   (500) above the baseline; the flat roofs of ה ק ח ד, which carry the line, sit about 0.04em
+   lower, and those are the roofs that touch. The line box top sits (line-height + 0.623em) / 2
+   above the baseline. (To be re-measured against a 2× overlay at 1440 and 390.) */
 @utility hang-headline {
-  margin-block-start: calc(0.58em - (round(up, 1.05em, 4px) + 0.623em) / 2);
+  margin-block-start: calc(0.54em - (round(up, 1.05em, 4px) + 0.623em) / 2);
 }
 @utility hang-section {
-  margin-block-start: calc(0.586em - (round(up, 1.1em, 4px) + 0.623em) / 2);
+  margin-block-start: calc(0.546em - (round(up, 1.1em, 4px) + 0.623em) / 2);
 }
 @utility hang-title {
-  margin-block-start: calc(0.597em - (round(up, 1.2em, 4px) + 0.623em) / 2);
+  margin-block-start: calc(0.557em - (round(up, 1.2em, 4px) + 0.623em) / 2);
 }
 
 @layer components {
@@ -258,8 +293,22 @@ html[data-motion="off"] ::after {
       row-gap: calc(var(--spacing) * 12);
     }
   }
-}
 
+  /* The top rail (masthead.tsx): the demo strip over the bar, sticky as one, so the disclaimer
+     and "מחירי דמו" travel with every screen. On a short screen (a phone on its side, 400% zoom)
+     the strip scrolls away with the page and only the bar stays, so the rail never takes a
+     quarter of the view. */
+  .rail {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-index-bar);
+  }
+  @media (max-height: 30rem) {
+    .rail {
+      top: calc(var(--rail-bar) - var(--rail-h, 92px));
+    }
+  }
+}
 
 /* Estimated = frosted: Frost at 4.5% over the surface, with a faint static crystal whose texels
    add at most 5.8% more (alpha = 0.095·noise − 0.037, noise ≤ 1). No texel exceeds ~10% Frost
@@ -269,6 +318,14 @@ html[data-motion="off"] ::after {
   background-color: rgb(232 243 247 / 0.045);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .91 0 0 0 0 .95 0 0 0 0 .97 0 0 0 .095 -.037'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
   background-size: 120px 120px;
+
+  /* Forced colours paint the crystal out, so frost keeps one visible mark: a dashed CanvasText
+     edge. As a utility it outranks the base-layer inset-ring outline, so the cover's legend
+     swatch and every משוער tile share the same mark, and a thawed tile (opacity 0) drops it. */
+  @media (forced-colors: active) {
+    outline: 1px dashed CanvasText;
+    outline-offset: -1px;
+  }
 }
 
 /* Menu dot leader between a name and its price: 4px pitch, sits on the baseline. */
@@ -327,24 +384,4 @@ html[data-motion="off"] ::after {
   &:lang(en) {
     letter-spacing: var(--tracking-label);
   }
-}
-
-/* Forced colours: box-shadow boundaries are dropped by the UA, so every inset-ring
-   surface (inputs, outlined buttons, chips, tags, plates) gets a real 1px outline. */
-@media (forced-colors: active) {
-  .inset-ring {
-    outline: 1px solid CanvasText;
-    outline-offset: -1px;
-  }
-  :focus-visible {
-    outline: 2px solid Highlight;
-    outline-offset: 2px;
-  }
-}
-
-/* The sheen pinned mid-sweep, for the style tile's "hover" specimen. */
-[data-force~="hover"] .sheen {
-  translate: 0 0;
-  opacity: 0.55;
-  animation: none;
 }

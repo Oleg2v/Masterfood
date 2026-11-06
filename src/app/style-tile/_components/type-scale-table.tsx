@@ -1,14 +1,26 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
+import { Typeset } from "@/components/ui/typeset";
 import { fluidClamp, typeScale, VIEWPORT } from "@/design/tokens";
 
 const familyName = { display: "Frank Ruhl Libre", ui: "Heebo", mono: "IBM Plex Mono" } as const;
+
+/** A Latin label that wraps only after a separator, never inside a part. */
+function Parts({ parts }: { parts: readonly string[] }) {
+  return parts.map((p, i) => (
+    <Fragment key={p}>
+      {i > 0 ? " " : null}
+      <span className="whitespace-nowrap">{i < parts.length - 1 ? `${p} ·` : p}</span>
+    </Fragment>
+  ));
+}
 
 /**
  * The nine fluid steps set as a carte: the specimen is the dish, a dot leader
  * runs to the "price" — the px range and the size it renders at right now.
  * Resizing the window updates the live readout, so clamp() can be watched.
+ * Nothing is cut off: a specimen or a clamp() that does not fit wraps.
  */
 export function TypeScaleTable() {
   const refs = useRef<(HTMLElement | null)[]>([]);
@@ -29,9 +41,11 @@ export function TypeScaleTable() {
 
   return (
     <div className="flex flex-col">
-      <div className="flex items-baseline justify-between gap-4 border-b border-edge pb-3">
-        <h3 className="label-latin text-frost-3">
-          <bdi dir="ltr" lang="en">Type scale · 9 steps · clamp() {VIEWPORT.minPx}–{VIEWPORT.maxPx}</bdi>
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-edge pb-3">
+        <h3 lang="en" className="label-latin text-frost-3">
+          <bdi dir="ltr">
+            <Parts parts={["Type scale", "9 steps", `clamp() ${VIEWPORT.minPx}–${VIEWPORT.maxPx}`]} />
+          </bdi>
         </h3>
         <p className="text-caption text-frost-2">
           עכשיו ברוחב{" "}
@@ -47,16 +61,19 @@ export function TypeScaleTable() {
             <li key={t.id} className="flex flex-col gap-2 border-b border-hairline py-5">
               {/* dish …… price */}
               <div className="flex items-baseline gap-3">
-                <bdi dir="ltr" className="num w-7 shrink-0 text-caption text-frost-3">
+                {/* the step number sits at the start (right) of its column, units stacked */}
+                <bdi dir="ltr" className="num w-7 shrink-0 text-end text-caption text-frost-3">
                   {t.step > 0 ? `+${t.step}` : t.step === 0 ? "0" : `−${Math.abs(t.step)}`}
                 </bdi>
                 <p
                   ref={(el) => {
                     refs.current[i] = el;
                   }}
-                  className={`type-${t.id} min-w-0 shrink truncate text-frost ${t.id === "micro" ? "label-latin" : ""} ${t.id === "display" ? "tracking-numerals [font-variant-numeric:tabular-nums_lining-nums]" : ""}`}
+                  lang={t.family === "mono" ? "en" : undefined}
+                  className={`type-${t.id} min-w-0 shrink text-balance text-frost ${t.id === "micro" ? "label-latin" : ""} ${t.id === "display" ? "tracking-numerals [font-variant-numeric:tabular-nums_lining-nums]" : ""}`}
                 >
-                  {isLatin ? <bdi dir="ltr" lang={t.family === "mono" ? "en" : undefined}>{t.sample}</bdi> : t.sample}
+                  {/* a ₪ in a sample takes the one shekel treatment, through Typeset */}
+                  {isLatin ? <bdi dir="ltr">{t.sample.includes("₪") ? <Typeset text={t.sample} /> : t.sample}</bdi> : t.sample}
                 </p>
                 <span aria-hidden="true" className="leader hidden min-w-8 flex-1 sm:block" />
                 <span className="hidden shrink-0 items-baseline gap-3 sm:flex">
@@ -74,12 +91,18 @@ export function TypeScaleTable() {
                   <bdi dir="ltr">type-{t.id}</bdi>
                 </span>
                 <span className="text-caption text-frost-2">
-                  {familyName[t.family]} · <bdi dir="ltr" className="num">{t.weight}</bdi> · {t.usage}
+                  <bdi dir="ltr" lang="en">
+                    {familyName[t.family]}
+                  </bdi>{" "}
+                  · <bdi dir="ltr" className="num">{t.weight}</bdi> · <Typeset text={t.usage} />
                 </span>
                 <bdi dir="ltr" className="num text-caption text-frost-2 sm:hidden">
                   {t.minPx}–{t.maxPx}px
                 </bdi>
-                <code dir="ltr" className="num w-full truncate text-start text-micro text-frost-3 lg:w-auto lg:ms-auto">
+                <code
+                  dir="ltr"
+                  className="num w-full text-start text-micro whitespace-normal text-frost-3 [overflow-wrap:anywhere] lg:ms-auto lg:w-auto"
+                >
                   {fluidClamp(t.minPx, t.maxPx)} · lh {t.lineHeight}
                 </code>
               </div>
