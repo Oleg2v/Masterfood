@@ -10,14 +10,18 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   colors,
+  containers,
   cubicBezier,
   durations,
   easings,
   fluidClamp,
+  PRESS_SCALE,
   radii,
   shadows,
+  shapes,
   SPACING_BASE_PX,
   typeScale,
+  zLadder,
   type FontRole,
 } from "../src/design/tokens.ts";
 
@@ -47,7 +51,7 @@ push(`  /* Fluid type: 9 steps, clamp() between 360px and 1440px viewports. */`)
 push("  --text-*: initial;");
 for (const t of typeScale) {
   push(`  --text-${t.id}: ${fluidClamp(t.minPx, t.maxPx)}; /* step ${t.step}: ${t.minPx}→${t.maxPx}px */`);
-  push(`  --text-${t.id}--line-height: ${t.lineHeight};`);
+  push(`  --text-${t.id}--line-height: round(up, ${t.lineHeight}em, 4px);`);
 }
 push();
 push("  /* Tracking: Latin mono labels only. Hebrew is never letter-spaced. */");
@@ -60,6 +64,13 @@ push(`  --spacing: ${SPACING_BASE_PX / 16}rem;`);
 push();
 push("  --radius-*: initial;");
 for (const r of radii) push(`  --radius-${r.id}: ${r.px >= 999 ? "9999px" : `${r.px}px`};`);
+for (const s of shapes) push(`  --radius-${s.id}: ${s.css};`);
+push();
+push("  --z-index-*: initial;");
+for (const z of zLadder) push(`  --z-index-${z.id}: ${z.z};`);
+push();
+push(`  --scale-press: ${PRESS_SCALE * 100}%;`);
+for (const c of containers) push(`  --container-${c.id}: ${c.rem}rem;`);
 push();
 push("  --shadow-*: initial;");
 for (const s of shadows) push(`  --shadow-${s.id}: ${s.css};`);
@@ -81,8 +92,8 @@ for (const t of typeScale) {
   push(`@utility type-${t.id} {`);
   push(`  font-family: ${family[t.family]};`);
   push(`  font-size: var(--text-${t.id});`);
-  push(`  line-height: var(--text-${t.id}--line-height);`);
-  push(`  line-height: round(up, ${t.lineHeight}em, 4px); /* line box on the 4px grid */`);
+  push(`  line-height: ${t.lineHeight}; /* fallback where round() is unsupported */`);
+  push(`  line-height: var(--text-${t.id}--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */`);
   push(`  font-weight: ${t.weight};`);
   if (t.family === "mono") push("  font-variant-numeric: tabular-nums slashed-zero;");
   push("}");

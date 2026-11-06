@@ -20,28 +20,29 @@
   --color-claret: #E58A95; /* Claret · קלרט */
   --color-abyss: #040C12; /* Abyss · באר */
   --color-seam: #01060A; /* Seam · תפר */
+  --color-grade: #123A52; /* Grade · צינה */
   --color-thaw: #FFB547; /* Thaw · הפשרה */
 
   /* Fluid type: 9 steps, clamp() between 360px and 1440px viewports. */
   --text-*: initial;
   --text-micro: 0.75rem; /* step -2: 12→12px */
-  --text-micro--line-height: 1.4;
+  --text-micro--line-height: round(up, 1.4em, 4px);
   --text-small: clamp(0.8125rem, 0.7917rem + 0.0926vw, 0.875rem); /* step -1: 13→14px */
-  --text-small--line-height: 1.5;
+  --text-small--line-height: round(up, 1.5em, 4px);
   --text-body: clamp(1rem, 0.9792rem + 0.0926vw, 1.0625rem); /* step 0: 16→17px */
-  --text-body--line-height: 1.6;
+  --text-body--line-height: round(up, 1.6em, 4px);
   --text-lead: clamp(1.125rem, 1.0625rem + 0.2778vw, 1.3125rem); /* step 1: 18→21px */
-  --text-lead--line-height: 1.5;
+  --text-lead--line-height: round(up, 1.5em, 4px);
   --text-title: clamp(1.5rem, 1.4167rem + 0.3704vw, 1.75rem); /* step 2: 24→28px */
-  --text-title--line-height: 1.25;
+  --text-title--line-height: round(up, 1.25em, 4px);
   --text-heading: clamp(1.75rem, 1.5417rem + 0.9259vw, 2.375rem); /* step 3: 28→38px */
-  --text-heading--line-height: 1.2;
+  --text-heading--line-height: round(up, 1.2em, 4px);
   --text-headline: clamp(1.875rem, 1.4583rem + 1.8519vw, 3.125rem); /* step 4: 30→50px */
-  --text-headline--line-height: 1.1;
+  --text-headline--line-height: round(up, 1.1em, 4px);
   --text-display: clamp(2.5rem, 1.5833rem + 4.0741vw, 5.25rem); /* step 5: 40→84px */
-  --text-display--line-height: 1;
+  --text-display--line-height: round(up, 1em, 4px);
   --text-monument: clamp(3.25rem, 1.3333rem + 8.5185vw, 9rem); /* step 6: 52→144px */
-  --text-monument--line-height: 0.92;
+  --text-monument--line-height: round(up, 0.92em, 4px);
 
   /* Tracking: Latin mono labels only. Hebrew is never letter-spaced. */
   --tracking-*: initial;
@@ -53,10 +54,21 @@
 
   --radius-*: initial;
   --radius-none: 0px;
+  --radius-hair: 1px;
   --radius-xs: 2px;
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-pill: 9999px;
+  --radius-oval: 50%;
+
+  --z-index-*: initial;
+  --z-index-bar: 30;
+  --z-index-toast: 40;
+  --z-index-badge: 50;
+  --z-index-skip: 60;
+
+  --scale-press: 98%;
+  --container-toast: 26rem;
 
   --shadow-*: initial;
   --shadow-rim: inset 0 1px 0 0 rgb(232 243 247 / 0.06), inset 0 0 0 1px rgb(35 57 74 / 1);
@@ -96,64 +108,64 @@
 @utility type-micro {
   font-family: var(--font-mono);
   font-size: var(--text-micro);
-  line-height: var(--text-micro--line-height);
-  line-height: round(up, 1.4em, 4px); /* line box on the 4px grid */
+  line-height: 1.4; /* fallback where round() is unsupported */
+  line-height: var(--text-micro--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */
   font-weight: 500;
   font-variant-numeric: tabular-nums slashed-zero;
 }
 @utility type-small {
   font-family: var(--font-sans);
   font-size: var(--text-small);
-  line-height: var(--text-small--line-height);
-  line-height: round(up, 1.5em, 4px); /* line box on the 4px grid */
+  line-height: 1.5; /* fallback where round() is unsupported */
+  line-height: var(--text-small--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */
   font-weight: 400;
 }
 @utility type-body {
   font-family: var(--font-sans);
   font-size: var(--text-body);
-  line-height: var(--text-body--line-height);
-  line-height: round(up, 1.6em, 4px); /* line box on the 4px grid */
+  line-height: 1.6; /* fallback where round() is unsupported */
+  line-height: var(--text-body--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */
   font-weight: 400;
 }
 @utility type-lead {
   font-family: var(--font-sans);
   font-size: var(--text-lead);
-  line-height: var(--text-lead--line-height);
-  line-height: round(up, 1.5em, 4px); /* line box on the 4px grid */
+  line-height: 1.5; /* fallback where round() is unsupported */
+  line-height: var(--text-lead--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */
   font-weight: 400;
 }
 @utility type-title {
   font-family: var(--font-display);
   font-size: var(--text-title);
-  line-height: var(--text-title--line-height);
-  line-height: round(up, 1.25em, 4px); /* line box on the 4px grid */
+  line-height: 1.25; /* fallback where round() is unsupported */
+  line-height: var(--text-title--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */
   font-weight: 500;
 }
 @utility type-heading {
   font-family: var(--font-display);
   font-size: var(--text-heading);
-  line-height: var(--text-heading--line-height);
-  line-height: round(up, 1.2em, 4px); /* line box on the 4px grid */
+  line-height: 1.2; /* fallback where round() is unsupported */
+  line-height: var(--text-heading--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */
   font-weight: 500;
 }
 @utility type-headline {
   font-family: var(--font-display);
   font-size: var(--text-headline);
-  line-height: var(--text-headline--line-height);
-  line-height: round(up, 1.1em, 4px); /* line box on the 4px grid */
+  line-height: 1.1; /* fallback where round() is unsupported */
+  line-height: var(--text-headline--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */
   font-weight: 400;
 }
 @utility type-display {
   font-family: var(--font-display);
   font-size: var(--text-display);
-  line-height: var(--text-display--line-height);
-  line-height: round(up, 1em, 4px); /* line box on the 4px grid */
+  line-height: 1; /* fallback where round() is unsupported */
+  line-height: var(--text-display--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */
   font-weight: 300;
 }
 @utility type-monument {
   font-family: var(--font-display);
   font-size: var(--text-monument);
-  line-height: var(--text-monument--line-height);
-  line-height: round(up, 0.92em, 4px); /* line box on the 4px grid */
+  line-height: 0.92; /* fallback where round() is unsupported */
+  line-height: var(--text-monument--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */
   font-weight: 300;
 }

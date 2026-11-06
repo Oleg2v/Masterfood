@@ -47,6 +47,7 @@ export const colors: readonly ColorToken[] = [
   // Materials — surfaces of the board and the cold room (never text)
   { id: "abyss", en: "Abyss", he: "באר", hex: "#040C12", group: "material", role: "בית הלוח: השקע שבו יושבים האריחים.", text: false },
   { id: "seam", en: "Seam", he: "תפר", hex: "#01060A", group: "material", role: "החריץ שחוצה כל אריח, והרווח בין האריחים.", text: false },
+  { id: "grade", en: "Grade", he: "צינה", hex: "#123A52", group: "material", role: "שטיפת הצבע הקרה בצילומים (soft-light).", text: false },
   { id: "thaw", en: "Thaw", he: "הפשרה", hex: "#FFB547", group: "derived", role: "שגיאות בלבד. חום הוא האויב של שרשרת הקירור – לכן ענבר, לא אדום.", text: true },
 ];
 
@@ -137,11 +138,29 @@ export interface RadiusToken {
 
 export const radii: readonly RadiusToken[] = [
   { id: "none", px: 0, usage: "לוח, טבלאות, תמונות" },
+  { id: "hair", px: 1, usage: "סימני סטטוס מרובעים, נוריות" },
   { id: "xs", px: 2, usage: "אריחי הלוח המתהפכים" },
   { id: "sm", px: 4, usage: "כפתורים ושדות" },
   { id: "md", px: 8, usage: "כרטיסים וטוסטים" },
   { id: "pill", px: 999, usage: "תגיות סטטוס, כמו נורית בשדה תעופה" },
 ];
+
+/** Shapes that are not a px radius. */
+export const shapes = [{ id: "oval", css: "50%", usage: "חותמת מקור, כמו חותמת וטרינר" }] as const;
+
+/** Stacking order: one ladder, no magic numbers. */
+export const zLadder = [
+  { id: "bar", z: 30, usage: "סרגל עליון דביק" },
+  { id: "toast", z: 40, usage: "הודעות" },
+  { id: "badge", z: 50, usage: "תווית הדמו" },
+  { id: "skip", z: 60, usage: "קישור הדילוג" },
+] as const;
+
+/** Press depth for every pressable surface. */
+export const PRESS_SCALE = 0.98;
+
+/** Widths that are part of the system. */
+export const containers = [{ id: "toast", rem: 26 }] as const;
 
 /* ───────────────────────────── Shadow ───────────────────────────── */
 
