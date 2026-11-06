@@ -18,6 +18,8 @@
   --color-fog: #7F98A6; /* Fog · אובך */
   --color-boundary: #5A7488; /* Boundary · גבול */
   --color-claret: #E58A95; /* Claret · קלרט */
+  --color-abyss: #040C12; /* Abyss · באר */
+  --color-seam: #01060A; /* Seam · תפר */
   --color-thaw: #FFB547; /* Thaw · הפשרה */
 
   /* Fluid type: 9 steps, clamp() between 360px and 1440px viewports. */

@@ -13,7 +13,7 @@
 
 /* ───────────────────────────── Colour ───────────────────────────── */
 
-export type ColorGroup = "base" | "accent" | "derived";
+export type ColorGroup = "base" | "accent" | "derived" | "material";
 
 export interface ColorToken {
   /** CSS/Tailwind name: `--color-${id}` → bg-${id}, text-${id}, border-${id} */
@@ -44,6 +44,9 @@ export const colors: readonly ColorToken[] = [
   { id: "fog", en: "Fog", he: "אובך", hex: "#7F98A6", group: "derived", role: "טקסט שלישוני ותוויות מונו קטנות.", text: true },
   { id: "boundary", en: "Boundary", he: "גבול", hex: "#5A7488", group: "derived", role: "גבולות של שדות ופקדים (3:1).", text: false },
   { id: "claret", en: "Claret", he: "קלרט", hex: "#E58A95", group: "derived", role: "בשר כטקסט: גוון בהיר של בורדו שעובר AA.", text: true },
+  // Materials — surfaces of the board and the cold room (never text)
+  { id: "abyss", en: "Abyss", he: "באר", hex: "#040C12", group: "material", role: "בית הלוח: השקע שבו יושבים האריחים.", text: false },
+  { id: "seam", en: "Seam", he: "תפר", hex: "#01060A", group: "material", role: "החריץ שחוצה כל אריח, והרווח בין האריחים.", text: false },
   { id: "thaw", en: "Thaw", he: "הפשרה", hex: "#FFB547", group: "derived", role: "שגיאות בלבד. חום הוא האויב של שרשרת הקירור – לכן ענבר, לא אדום.", text: true },
 ];
 

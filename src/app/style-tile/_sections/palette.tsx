@@ -1,6 +1,7 @@
 import { colors, type ColorToken } from "@/design/tokens";
 import { contrastRatio, formatRatio, grade } from "@/design/contrast";
 import { Section } from "../_components/frame";
+import { PaletteBoard } from "../_components/palette-board";
 
 const hex = (id: string) => colors.find((c) => c.id === id)!.hex;
 const DEEP = hex("deep-ice");
@@ -94,6 +95,8 @@ export function PaletteSection() {
       he="קר כמו פלדה, צלול כמו קרח"
       lede="ארבעה ניטרליים שבונים את הלילה של השוק, ארבעה צבעי הדגשה שכל אחד מהם הוא מילה. כל זוג טקסט־רקע נבדק מול WCAG – המספרים מחושבים בזמן הבנייה."
     >
+      <PaletteBoard />
+
       <div className="flex flex-col gap-4">
         <h3 className="label-latin text-fog">Neutrals · בסיס</h3>
         <ul className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4 lg:gap-6">
