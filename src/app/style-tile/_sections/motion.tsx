@@ -37,7 +37,7 @@ function FlapTiming() {
       <ol className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         {steps.map((s) => (
           <li key={s.en} className="flex items-center gap-2 text-small text-mist">
-            <span aria-hidden="true" className={`size-2 rounded-[1px] ${s.tone}`} />
+            <span aria-hidden="true" className={`size-2 rounded-hair ${s.tone}`} />
             {s.label}
             <bdi dir="ltr" className="num text-fog">
               {s.en}
@@ -59,8 +59,8 @@ export function MotionSection() {
       id="motion"
       index="05"
       en="Motion"
-      he="תנועה קרה ואטית"
-      lede="שום דבר לא קופץ. הדברים מאטים ונעצרים כמו אדים על זכוכית. מהיר לממשק, אטי לאווירה – ובחירה אחת של עקומה לכל תפקיד."
+      he="תנועה קרה ואיטית"
+      lede="שום דבר לא קופץ. הדברים מאטים ונעצרים כמו אדים על זכוכית. מהיר לממשק, איטי לאווירה – ובחירה אחת של עקומה לכל תפקיד."
     >
       <MotionLab />
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">

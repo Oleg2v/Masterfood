@@ -5,11 +5,11 @@ import { TypeScaleTable } from "../_components/type-scale-table";
 const rules = [
   ["בלי ריווח אותיות בעברית", "ריווח רק לתוויות מונו לטיניות (OSL, HACCP). עברית נשארת בצפיפות שלה."],
   ["גרשיים אמיתיים", "ק״ג עם ״ (U+05F4), לא מירכאות. ומקף עברי בצירוף מספר: כ־20."],
-  ["כל מספר ב־bdi", "מחיר, משקל, שעה וטמפרטורה – ריצת LTR מבודדת, כך ש־₪62.90 לעולם לא מתהפך."],
+  ["כל מספר ב־bdi", <>מחיר, משקל, שעה וטמפרטורה – ריצת LTR מבודדת, כך ש־<Money joined value={62.9} /> לעולם לא מתהפך.</>],
   ["ספרות טבלאיות", "tabular-nums בכל עמודה, ואפס מנוקד של Plex Mono, כדי שהמספרים יעמדו בשורה כמו בלוח מסחר."],
   ["שורה של 1.6 לגוף", "Heebo בגוף טקסט: 16 פיקסל לפחות, שורה 1.6 שנצמדת לרשת של 4, עד 68 תווים. עברית לעולם לא קטנה מ־14."],
   ["קו מפריד, לא מינוס", "רווח–קו מפריד–רווח (–) במשפט, מינוס אמיתי (−) במספרים שליליים."],
-] as const;
+] as const satisfies readonly (readonly [string, React.ReactNode])[];
 
 export function TypeSection() {
   return (
@@ -18,7 +18,7 @@ export function TypeSection() {
       index="02"
       en="Typography"
       he="סריף לשם הנתח, מונו לאמת"
-      lede="שלושה גופנים, שני קולות. Frank Ruhl Libre בגדלים מונומנטליים לרגש, IBM Plex Mono לכל מספר – ו־Heebo לממשק השקט שביניהם. סולם של תשעה צעדים, נוזלי בין 360 ל־1440 פיקסל."
+      lede="שלושה גופנים, שני קולות. Frank Ruhl Libre בגדלים מונומנטליים לרגש, IBM Plex Mono לכל מספר – ו־Heebo לממשק השקט שביניהם. סולם של תשעה צעדים, נוזלי בין 360 ל־1440 פיקסל."
     >
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
         <article className="flex flex-col justify-between gap-8 rounded-md bg-steel/60 p-6 shadow-rim inset-ring inset-ring-hairline sm:p-8 lg:col-span-6">
@@ -46,7 +46,7 @@ export function TypeSection() {
               <span className="text-small text-mist">ממשק, גוף, פקדים</span>
             </header>
             <div className="flex flex-col gap-2">
-              <p className="text-heading font-medium leading-tight text-frost">הוספה להזמנה</p>
+              <p className="text-heading font-medium text-frost">הוספה להזמנה</p>
               <p className="text-lead text-frost">
                 <span className="font-normal">כמו ביום חמישי שעבר</span> ·{" "}
                 <span className="font-medium">חלון אספקה למחר</span> · <span className="font-bold">שליחה</span>

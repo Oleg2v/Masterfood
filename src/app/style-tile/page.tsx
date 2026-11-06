@@ -9,7 +9,7 @@ import { TypeSection } from "./_sections/type";
 
 export const metadata: Metadata = {
   title: "סטייל־טייל",
-  description: "שלב 0 – כיוון אמנותי: פלטה, טיפוגרפיה, מרווחים, רדיוסים, צללים, תנועה ושישה רכיבים.",
+  description: "שלב 0 – כיוון אמנותי: פלטה, טיפוגרפיה, מרווחים, רדיוסים, צללים, תנועה ושישה רכיבים.",
 };
 
 export default function StyleTilePage() {

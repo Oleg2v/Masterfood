@@ -63,7 +63,7 @@ export function ToastDemo() {
   return (
     <div className="flex flex-col items-start gap-4">
       <div className="flex flex-wrap gap-3">
-        <Button ref={trigger} variant="primary" onClick={() => add("added")} meta={<>כ־<Num>20</Num> {KG}</>}>
+        <Button ref={trigger} variant="primary" onClick={() => add("added")} meta={<>כ־<Num joined>20</Num> {KG}</>}>
           הוספת פיקנייה להזמנה
         </Button>
         <Button variant="secondary" onClick={() => add("landed")}>
@@ -98,7 +98,7 @@ export function ToastDemo() {
                 title="נוסף להזמנה של מחר"
                 detail={
                   <>
-                    פיקנייה · כ־<Num>20</Num> {KG} · כ־<Money value={1780} round />
+                    פיקנייה · כ־<Num joined>20</Num> {KG} · כ־<Money joined value={1780} round />
                   </>
                 }
                 action={

@@ -1,4 +1,5 @@
 import { MotionToggle } from "@/components/motion-toggle";
+import { Typeset } from "@/components/ui/typeset";
 import { hebrewDateline } from "@/lib/hebrew-date";
 import { concept } from "../_content";
 import { CountdownSpecimen } from "../_components/countdown-specimen";
@@ -17,7 +18,7 @@ const nav = [
 
 export function TopBar() {
   return (
-    <header className="sticky top-0 z-30 border-b border-hairline bg-deep-ice/95">
+    <header className="sticky top-0 z-bar border-b border-hairline bg-deep-ice/95">
       <Container className="flex h-16 items-center justify-between gap-6">
         <a href="#top" className="inline-flex min-h-11 shrink-0 items-center gap-3 rounded-xs">
           <span className="font-display text-title font-medium leading-none text-frost">מאסטרפוד</span>
@@ -65,7 +66,7 @@ export function Masthead() {
               השוק של מחר
             </h1>
             <p className="type-lead max-w-[34ch] text-pretty text-mist">
-              המחירים של היום, מה שנחת הבוקר, וההזמנה למחר – בדקה.
+              המחירים של היום, מה שנחת הבוקר, וההזמנה למחר – בדקה.
             </p>
           </div>
           <dl className="grid grid-cols-2 content-start gap-x-6 gap-y-3 self-end border-t border-hairline pt-4 text-small lg:col-span-4 lg:grid-cols-[auto_1fr]">
@@ -99,7 +100,9 @@ export function Masthead() {
                   <bdi dir="ltr" className="num pt-1 text-small text-fog">
                     0{i + 1}
                   </bdi>
-                  <p className="text-lead text-pretty text-frost">{line}</p>
+                  <p className="text-lead text-pretty text-frost">
+                    <Typeset text={line} />
+                  </p>
                 </li>
               ))}
             </ol>

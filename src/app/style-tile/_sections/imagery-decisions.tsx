@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { GradedPhoto } from "@/components/ui/graded-photo";
+import { Typeset } from "@/components/ui/typeset";
 import { cliches, decisions } from "../_content";
 import { photoSet } from "../_photos";
 import { BiLabel, Container, Section } from "../_components/frame";
@@ -8,7 +9,7 @@ import { Materials } from "../_components/materials";
 const trio = [
   { photo: photoSet.marbling, caption: "שיש של שומן, מקרוב" },
   { photo: photoSet.salmonFlesh, caption: "בשר סלמון, קווי השומן" },
-  { photo: photoSet.crushedIce, caption: "קרח כתוש – האור, לא קישוט" },
+  { photo: photoSet.crushedIce, caption: "קרח כתוש – האור, לא קישוט" },
 ] as const;
 
 function Credit({ name, page }: { name: string; page?: string }) {
@@ -88,7 +89,9 @@ export function DecisionsSection() {
               </bdi>
               <div className="flex flex-col gap-2">
                 <h3 className="type-heading text-balance text-frost">{d.title}</h3>
-                <p className="max-w-[60ch] text-body text-pretty text-mist">{d.body}</p>
+                <p className="max-w-[60ch] text-body text-pretty text-mist">
+                  <Typeset text={d.body} />
+                </p>
               </div>
             </li>
           ))}
@@ -99,7 +102,9 @@ export function DecisionsSection() {
             {cliches.map((c) => (
               <li key={c.title} className="flex flex-col gap-1 border-t border-hairline py-5">
                 <p className="text-lead font-medium text-mist line-through decoration-salmon decoration-1">{c.title}</p>
-                <p className="text-small text-pretty text-mist">{c.instead}</p>
+                <p className="text-small text-pretty text-mist">
+                  <Typeset text={c.instead} />
+                </p>
               </li>
             ))}
           </ul>

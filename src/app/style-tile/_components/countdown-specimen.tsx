@@ -43,7 +43,7 @@ export function CountdownSpecimen() {
         ההזמנה למחר נסגרת בעוד
         {urgent ? (
           <span className="text-small font-medium text-salmon">
-            נסגרת בקרוב · פחות מ־<Num>30</Num> דקות
+            נסגרת בקרוב · פחות מ־<Num joined>30</Num> דקות
           </span>
         ) : null}
       </p>
@@ -71,6 +71,10 @@ export function CountdownSpecimen() {
       <p id="cutoff-spoken" className="sr-only">
         {spoken}
       </p>
+      {/* the absolute time: a butcher plans by the clock, not by a difference */}
+      <p className="text-body text-mist">
+        נסגרת היום ב־<Num joined>14:00</Num> · אספקה מחר, יום שישי, מ־<Num joined>06:00</Num>
+      </p>
       <div className="flex flex-wrap items-center gap-3">
         <button
           type="button"
@@ -88,7 +92,7 @@ export function CountdownSpecimen() {
           }
         >
           <span aria-hidden="true" className="size-2 rounded-full bg-salmon group-aria-pressed:bg-deep-ice" />
-          מצב דחיפות: פחות מ־<Num>30</Num> דקות
+          מצב דחיפות: פחות מ־<Num joined>30</Num> דקות
         </button>
         <span className="text-small text-mist">
           סלמון ופעימה איטית, <Num>2</Num> שניות למחזור

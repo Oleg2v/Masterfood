@@ -18,7 +18,7 @@ const variants: Record<Variant, string> = {
     "hover:bg-steel hover:inset-ring-mist active:bg-hairline " +
     "disabled:text-fog disabled:inset-ring-hairline",
   quiet:
-    "min-w-11 px-1! text-frost underline decoration-boundary decoration-1 underline-offset-[0.4em] " +
+    "min-w-11 px-1! text-frost underline decoration-boundary decoration-1 underline-offset-4 " +
     "hover:decoration-frost active:text-mist disabled:text-fog disabled:decoration-hairline",
 };
 

@@ -8,9 +8,9 @@ const fmt0 = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
  * Plex Mono's own shekel is a full monospace cell and shouts; the small Heebo
  * sign sits like a menu's currency mark.
  */
-export function Money({ value, round = false, className = "" }: { value: number; round?: boolean; className?: string }) {
+export function Money({ value, round = false, joined = false, className = "" }: { value: number; round?: boolean; joined?: boolean; className?: string }) {
   return (
-    <Num className={className}>
+    <Num className={className} joined={joined}>
       <span className="me-[0.06em] font-sans text-[0.75em] font-medium">₪</span>
       {(round ? fmt0 : fmt).format(value)}
     </Num>

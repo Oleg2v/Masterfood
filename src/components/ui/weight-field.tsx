@@ -163,7 +163,7 @@ export function WeightField({
         <div className="flex items-baseline justify-between gap-3 text-small">
           <span className="text-mist">מחיר משוער</span>
           <span className="text-frost">
-            כ־<Money value={estimate} round className="text-body font-medium" />
+            כ־<Money joined value={estimate} round className="text-body font-medium" />
           </span>
         </div>
         <div aria-hidden="true" className="relative h-1.5">

@@ -54,6 +54,9 @@ for (const t of typeScale) {
   push(`  --text-${t.id}--line-height: round(up, ${t.lineHeight}em, 4px);`);
 }
 push();
+push("  /* Leading comes from the type tokens (snapped to 4px); the default ratios are off-grid. */");
+push("  --leading-*: initial;");
+push();
 push("  /* Tracking: Latin mono labels only. Hebrew is never letter-spaced. */");
 push("  --tracking-*: initial;");
 push("  --tracking-label: 0.08em;");
@@ -95,7 +98,7 @@ for (const t of typeScale) {
   push(`  line-height: ${t.lineHeight}; /* fallback where round() is unsupported */`);
   push(`  line-height: var(--text-${t.id}--line-height); /* round(up, …, 4px): the line box sits on the 4px grid */`);
   push(`  font-weight: ${t.weight};`);
-  if (t.family === "mono") push("  font-variant-numeric: tabular-nums slashed-zero;");
+  if (t.family === "mono") push("  font-variant-numeric: tabular-nums;");
   push("}");
 }
 push();

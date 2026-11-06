@@ -40,7 +40,7 @@ export function MotionLab() {
           <span aria-hidden="true" className="size-0 border-y-[6px] border-e-[9px] border-y-transparent border-e-current" />
           {play ? "איפוס" : "הפעלת ההדגמה"}
         </button>
-        <p className="text-small text-mist">כל תנועה נעה מההתחלה לסוף – מימין לשמאל.</p>
+        <p className="text-small text-mist">כל תנועה נעה מההתחלה לסוף – מימין לשמאל.</p>
       </div>
 
       <div className="grid grid-cols-1 gap-x-12 gap-y-10 lg:grid-cols-2">

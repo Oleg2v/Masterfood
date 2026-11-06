@@ -33,7 +33,7 @@ export function Materials({ frostPhoto, icePhoto }: { frostPhoto?: Photo; icePho
           <div className="absolute inset-4 rounded-xs bg-[repeating-linear-gradient(90deg,rgb(232_243_247/0.018)_0_1px,transparent_1px_3px)] shadow-[inset_0_1px_0_0_rgb(232_243_247/0.08),inset_0_0_0_1px_var(--color-hairline)]" />
         </div>
       </Swatch>
-      <Swatch title="כפור" en="Frost · wipe" note="הזכוכית של הוויטרינה: האצבע מנגבת והכפור חוזר לאט. בתוך האפליקציה לכפור משמעות אחת בלבד – ערך משוער.">
+      <Swatch title="כפור" en="Frost · wipe" note="הזכוכית של הוויטרינה: האצבע מנגבת והכפור חוזר לאט. בתוך האפליקציה לכפור משמעות אחת בלבד – ערך משוער.">
         {frostPhoto ? (
           <FrostGlass src={local(frostPhoto.src)} alt={frostPhoto.alt} fill />
         ) : (
@@ -45,7 +45,7 @@ export function Materials({ frostPhoto, icePhoto }: { frostPhoto?: Photo; icePho
       <Swatch title="ערפל" en="Fog · loading" note="טעינה: שתי שכבות ערפל נעות לאט על פלדה. בלי ספינר ובלי הבהוב.">
         <div className="fog absolute inset-0 overflow-hidden" />
       </Swatch>
-      <Swatch title="קרח" en="Ice · light" note="קרח אמיתי הוא האור של הצילום – לא קישוט ולא פתיתי שלג מצוירים.">
+      <Swatch title="קרח" en="Ice · light" note="קרח אמיתי הוא האור של הצילום – לא קישוט ולא פתיתי שלג מצוירים.">
         {icePhoto ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img

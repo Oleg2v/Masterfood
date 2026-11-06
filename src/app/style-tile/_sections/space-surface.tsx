@@ -76,7 +76,7 @@ export function SurfaceSection() {
       index="04"
       en="Radius · Shadow"
       he="פינות של פלדה, אור במקום צל"
-      lede="פינות כמעט חדות – כמו להב ומגש נירוסטה. ובמסך כהה צל לא נראה, אז העומק נבנה מאור: קו קצה בהיר, הילה קרה, וזוהר סלמון רק כשהזמן אוזל."
+      lede="פינות כמעט חדות – כמו להב ומגש נירוסטה. ובמסך כהה צל לא נראה, אז העומק נבנה מאור: קו קצה בהיר, הילה קרה, וזוהר סלמון רק כשהזמן אוזל."
     >
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-6">
         <div className="flex flex-col gap-4 lg:col-span-5">

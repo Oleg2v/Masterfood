@@ -144,7 +144,7 @@ export function ProductCard({
             <p className="flex items-center gap-2 text-small text-mist">
               <span aria-hidden="true" className="size-2 rounded-full inset-ring-[1.5px] inset-ring-fog" />
               <span>
-                חוזר מחר ב־<Num>05:40</Num>
+                חוזר מחר ב־<Num joined>05:40</Num>
               </span>
             </p>
           ) : (
