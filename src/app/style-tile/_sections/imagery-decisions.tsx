@@ -126,7 +126,13 @@ export function DecisionsSection() {
                   </p>
                   <p className="max-w-[62ch] border-s-2 border-edge ps-3 text-caption text-pretty text-frost">
                     <span className="font-medium text-frost-3">בעמוד הזה · </span>
-                    <Typeset text={d.tile} />
+                    <Typeset text={d.tile} />{" "}
+                    <a
+                      href={d.href}
+                      className="whitespace-nowrap text-frost-2 underline decoration-hairline underline-offset-4 transition-colors duration-hover ease-glide hover:text-frost hover:decoration-frost-2"
+                    >
+                      מעבר לדוגמה
+                    </a>
                   </p>
                 </div>
               </li>

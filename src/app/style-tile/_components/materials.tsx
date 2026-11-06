@@ -5,7 +5,20 @@ import { Money } from "@/components/ui/money";
 /** A same-origin, resized image URL. */
 const local = (src: string, w = 640) => `/_next/image?url=${encodeURIComponent(src)}&w=${w}&q=75`;
 
-function Swatch({ title, en, note, children }: { title: string; en: string; note: string; children: ReactNode }) {
+function Swatch({
+  title,
+  en,
+  note,
+  credit,
+  children,
+}: {
+  title: string;
+  en: string;
+  note: string;
+  /** the photographer, for a swatch that is a photograph */
+  credit?: Photo;
+  children: ReactNode;
+}) {
   return (
     <figure className="flex flex-col gap-3">
       <div className="relative aspect-[4/5] overflow-hidden rounded-edge inset-ring inset-ring-hairline">{children}</div>
@@ -17,6 +30,18 @@ function Swatch({ title, en, note, children }: { title: string; en: string; note
           </bdi>
         </span>
         <span className="text-caption text-pretty text-frost-2">{note}</span>
+        {credit ? (
+          <a
+            href={credit.page}
+            className="self-start text-caption text-frost-2 underline decoration-hairline underline-offset-4 transition-colors duration-hover ease-glide hover:text-frost hover:decoration-frost-2"
+          >
+            צילום:{" "}
+            <bdi dir="ltr" lang="en">
+              {credit.photographer}
+            </bdi>{" "}
+            / <span lang="en">Unsplash</span>
+          </a>
+        ) : null}
       </figcaption>
     </figure>
   );
@@ -53,7 +78,7 @@ export function Materials({ icePhoto }: { icePhoto?: Photo }) {
           <div className="absolute inset-x-0 bottom-0 h-2/5 bg-[radial-gradient(60%_55%_at_30%_70%,rgb(232_243_247/0.14),transparent_70%),radial-gradient(50%_45%_at_74%_82%,rgb(232_243_247/0.1),transparent_70%)]" />
         </div>
       </Swatch>
-      <Swatch title="קרח" en="Ice · light" note="קרח אמיתי הוא האור של הצילום – לא קישוט, ולא פתיתי שלג מצוירים.">
+      <Swatch title="קרח" en="Ice · light" note="קרח אמיתי הוא האור של הצילום – לא קישוט, ולא פתיתי שלג מצוירים." credit={icePhoto}>
         {icePhoto ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
