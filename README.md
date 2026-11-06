@@ -12,7 +12,7 @@ fresh protein, dressed like a Michelin menu.
 
 | Stage | Scope | State |
 | --- | --- | --- |
-| 0 | Art direction: concept, `/style-tile`, decisions and clichés | **in review** |
+| 0 | Art direction: concept, `/style-tile`, decisions and clichés | **done, awaiting approval** |
 | 1 | Signature moment (market board) on `/hero-lab` | not started |
 | 2 | App flows on demo data | not started |
 | 3 | Polish pass | not started |
@@ -33,15 +33,18 @@ npm run dev          # http://localhost:3000/style-tile
 | `node scripts/axe.mjs` | axe-core audit (WCAG 2.0/2.1 A and AA) at 1440 and 390, with and without reduced motion, against a running server (`--base`, default `http://localhost:3100`). |
 | `node scripts/screenshots.mjs` | Playwright screenshots (`--routes`, `--viewports`, `--scroll 0,25,50,75,100`, `--full`, `--reduced`). |
 
+For screenshots and review links, open `/style-tile?still=1`. It pins the countdown at 04:12:33 and
+shows the frost glass with its composed, pre-wiped arc.
+
 ## Design system in one paragraph
 
 All tokens live in [`src/design/tokens.ts`](src/design/tokens.ts): colour (the brief's eight plus
 derived tints that keep AA), a 9-step fluid type scale (`clamp()` between 360 and 1440px), the 4px
 spacing scale, radii, light-based elevation, and motion durations and easings. A generator turns
-them into Tailwind utilities (`bg-steel`, `type-display`, `rounded-sm`, `shadow-rim`, `ease-glide`,
-`duration-flap` …). The `/style-tile` page renders its documentation from the same objects, and
-its contrast ratios are computed at build time. The full art-direction rationale is in
-[`docs/art-direction.md`](docs/art-direction.md).
+them into Tailwind utilities (`bg-steel`, `type-display`, `rounded-edge`, `shadow-rim`, `ease-glide`,
+`duration-hover` …). The `/style-tile` page renders its documentation from the same objects, and
+its contrast ratios are checked by script. The concept, the five decisions, the five clichés and the
+open questions for Masterfood are in [`docs/art-direction.md`](docs/art-direction.md).
 
 ## Stack
 
