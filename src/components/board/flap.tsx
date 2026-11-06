@@ -22,21 +22,19 @@ export function FlapCells({
   text,
   className = "",
   cellClassName = "",
-  label,
 }: {
   text: string;
   className?: string;
   cellClassName?: string;
-  /** Accessible text when the cells are not self-describing. */
-  label?: string;
 }) {
+  // Visual only: callers render the same text for assistive tech (sr-only) and hide this.
   return (
-    <bdi dir="ltr" className={`inline-flex gap-px ${className}`} aria-label={label}>
+    <bdi dir="ltr" className={`inline-flex gap-px ${className}`}>
       {[...text].map((ch, i) => (
         /* a space is a blank flap, exactly as wide as a glyph flap */
         <span
           key={i}
-          aria-hidden={label || ch === " " ? true : undefined}
+          aria-hidden={ch === " " ? true : undefined}
           className={`${plate} h-[1.5em] w-[0.72em] font-mono font-medium [font-variant-numeric:tabular-nums] ${cellClassName}`}
         >
           {/* blank flaps carry an invisible glyph so every row shares one baseline */}
