@@ -1,0 +1,245 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+/* type-* presets are composed from token ids at runtime, so name them for the scanner. */
+@source inline("type-{micro,small,body,lead,title,heading,headline,display,monument}");
+
+/* Font families come from next/font CSS variables set on <html>. `inline` so the
+   utilities reference them directly (see tokens.css for everything else). */
+@theme inline {
+  --font-*: initial;
+  --font-display: var(--font-frank), "Frank Ruhl Libre", "Times New Roman", serif;
+  --font-sans: var(--font-heebo), "Heebo", system-ui, "Segoe UI", Arial, sans-serif;
+  --font-mono: var(--font-plex-mono), "IBM Plex Mono", var(--font-heebo), ui-monospace, monospace;
+}
+
+/* Motion vocabulary. No bounce, no spin, no ping: calm and cold. */
+@theme {
+  --animate-*: initial;
+  --animate-hairline: hairline 1.6s var(--ease-settle) infinite;
+  --animate-beacon: beacon 2.4s var(--ease-breath) infinite;
+  --animate-toast-timer: toast-timer 6s linear forwards;
+  --animate-breath: breath 2s var(--ease-breath) infinite;
+
+  @keyframes hairline {
+    from {
+      translate: 120% 0;
+    }
+    to {
+      translate: -320% 0;
+    }
+  }
+  @keyframes beacon {
+    0%,
+    100% {
+      scale: 1;
+      opacity: 0.9;
+    }
+    50% {
+      scale: 2.6;
+      opacity: 0;
+    }
+  }
+  @keyframes toast-timer {
+    from {
+      scale: 1 1;
+    }
+    to {
+      scale: 0 1;
+    }
+  }
+  @keyframes breath {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.72;
+    }
+  }
+}
+
+@custom-variant motion-ok {
+  @media (prefers-reduced-motion: no-preference) {
+    html:not([data-motion="off"]) & {
+      @slot;
+    }
+  }
+}
+
+/* Interaction variants also answer to data-force="hover|focus|active", so the
+   style tile can pin any state of the real components without duplicate styles. */
+@custom-variant hover {
+  @media (hover: hover) {
+    &:hover {
+      @slot;
+    }
+  }
+  &[data-force~="hover"] {
+    @slot;
+  }
+}
+@custom-variant focus-visible (&:focus-visible, &[data-force~="focus"]);
+@custom-variant focus-within (&:focus-within, &[data-force~="within"]);
+@custom-variant active (&:active, &[data-force~="active"]);
+
+@layer base {
+  html {
+    background-color: var(--color-deep-ice);
+    color: var(--color-frost);
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    scroll-padding-top: calc(var(--spacing) * 20);
+  }
+
+  body {
+    min-height: 100dvh;
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    font-kerning: normal;
+    font-synthesis: none; /* Frank Ruhl Libre has no italic; a faux oblique slants Hebrew the wrong way */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: var(--color-frost);
+    color: var(--color-deep-ice);
+  }
+
+  /* One focus language everywhere: an Ice Blue ring, offset from the element. */
+  :focus-visible,
+  [data-force~="focus"] {
+    outline: 2px solid var(--color-frost);
+    outline-offset: 2px;
+  }
+
+  /* Prices, weights and times are isolated so the bidi algorithm never reorders them. */
+  bdi {
+    unicode-bidi: isolate;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+}
+
+/* Reduced motion — the OS setting and the in-app "עצירת אנימציה" control share one rule. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html[data-motion="off"] *,
+html[data-motion="off"] ::before,
+html[data-motion="off"] ::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* The 4px grid made visible (style tile and debug overlays): 4px minor, 16px major. */
+@utility grid-4 {
+  background-image:
+    linear-gradient(to right, rgb(232 243 247 / 0.09) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(232 243 247 / 0.09) 1px, transparent 1px),
+    linear-gradient(to right, rgb(232 243 247 / 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(232 243 247 / 0.035) 1px, transparent 1px);
+  background-size:
+    16px 16px,
+    16px 16px,
+    4px 4px,
+    4px 4px;
+  background-position: -1px -1px;
+}
+
+/* Loading = fog. Two soft banks drift across a steel plate; no shimmer, no spinner.
+   The element must be positioned (relative/absolute) and clip its overflow. */
+@utility fog {
+  background-color: var(--color-hairline);
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    inset: -40% -60%;
+    pointer-events: none;
+    background:
+      radial-gradient(38% 42% at 30% 45%, rgb(232 243 247 / 0.1), transparent 70%),
+      radial-gradient(30% 36% at 72% 60%, rgb(232 243 247 / 0.07), transparent 70%);
+    animation: fog-drift 7.2s var(--ease-breath) infinite alternate;
+  }
+  &::after {
+    animation-duration: 11.5s;
+    animation-direction: alternate-reverse;
+    opacity: 0.7;
+  }
+}
+
+@keyframes fog-drift {
+  from {
+    translate: 12% 0;
+  }
+  to {
+    translate: -12% 0;
+  }
+}
+
+/* Unavailable = frost on the glass: diffuse, pale, a crystal grain. Static, no runtime animation. */
+@utility frost-veil {
+  background-color: rgb(232 243 247 / 0.16);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .91 0 0 0 0 .95 0 0 0 0 .97 0 0 0 1.4 -.55'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+/* Menu dot leader between a name and its price: 4px pitch, sits on the baseline. */
+@utility leader {
+  min-inline-size: 1.5rem;
+  block-size: 0.3em;
+  background-image: radial-gradient(circle, var(--color-fog) 0.8px, transparent 1.2px);
+  background-size: 4px 4px;
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+}
+
+.toast-enter {
+  animation: toast-in var(--dur-slow) var(--ease-glide) both;
+}
+.toast-leave {
+  animation: toast-out var(--dur-base) var(--ease-settle) both;
+}
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    translate: 0 12px;
+  }
+}
+@keyframes toast-out {
+  to {
+    opacity: 0;
+    translate: 0 8px;
+  }
+}
+
+@utility num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums slashed-zero;
+}
+
+@utility label-latin {
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  line-height: var(--text-micro--line-height);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}

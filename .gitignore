@@ -1,0 +1,23 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+next-env.d.ts
+*.tsbuildinfo
+
+# testing / QA artefacts
+/coverage
+/test-results/
+/playwright-report/
+/.lighthouseci/
+
+# local env
+.env*.local
+.vercel
+.wrangler
+
+# os
+.DS_Store
+npm-debug.log*

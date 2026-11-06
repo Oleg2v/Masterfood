@@ -1,0 +1,3 @@
+# Pitch concept by Kikkey. Not the official Masterfood website. Do not index.
+User-agent: *
+Disallow: /
