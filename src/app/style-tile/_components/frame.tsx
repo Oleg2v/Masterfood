@@ -42,12 +42,14 @@ export function Section({
 
 /** A specimen plate: a titled Steel panel that holds one component and its states. */
 export function Plate({
+  id,
   title,
   en,
   note,
   children,
   className = "",
 }: {
+  id?: string;
   title: string;
   en: string;
   note?: ReactNode;
@@ -55,7 +57,7 @@ export function Plate({
   className?: string;
 }) {
   return (
-    <article className={`flex flex-col gap-6 rounded-md bg-steel/60 p-4 shadow-rim sm:p-8 ${className}`}>
+    <article id={id} className={`flex scroll-mt-20 flex-col gap-6 rounded-md bg-steel/60 p-4 shadow-rim sm:p-8 ${className}`}>
       <header className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-b border-hairline pb-4">
         <h3 className="type-heading text-frost">{title}</h3>
         <p className="label-latin text-fog">

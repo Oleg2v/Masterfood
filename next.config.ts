@@ -6,6 +6,8 @@ import type { NextConfig } from "next";
  * and the Disallow-all robots.txt in /public.
  */
 const nextConfig: NextConfig = {
+  // Lets a second build (e.g. NEXT_DIST_DIR=.next-alt) run beside a live one during reviews.
+  distDir: process.env.NEXT_DIST_DIR || ".next",
   reactStrictMode: true,
   poweredByHeader: false,
   images: {

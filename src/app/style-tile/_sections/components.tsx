@@ -24,6 +24,7 @@ function Pinned({ label, children, className = "" }: { label: string; children: 
 function ButtonPlate() {
   return (
     <Plate
+      id="plate-button"
       title="כפתור"
       en="Button · 48px · rounded-sm"
       note="הפעולה הראשית לבנה כמו קרח – הצבעים שמורים למשמעות. הנתון שהכפתור מתחייב אליו (סכום, משקל) יושב אחרי קו שיער, במונו."
@@ -90,6 +91,7 @@ function ButtonPlate() {
 function InputPlate() {
   return (
     <Plate
+      id="plate-input"
       title="שדה משקל"
       en="Input · variable weight"
       note="מזמינים ״כ־20 ק״ג״ ורואים מחיר משוער עם טווח. הטווח מצויר כמו רווח סמך, והחשבונית תחויב לפי השקילה בפועל."
@@ -116,6 +118,7 @@ function CardPlate() {
   const [picanha, salmon, bream] = cards;
   return (
     <Plate
+      id="plate-card"
       title="כרטיס מוצר"
       en="Card · product"
       note="פס קטגוריה בקצה ההתחלה – בורדו לבשר, סלמון לדג. שם הנתח כמו בתפריט, המספרים במונו, המלאי בנקודה ירוקה."
@@ -141,9 +144,10 @@ function CardPlate() {
 function ChipPlate() {
   return (
     <Plate
+      id="plate-chip"
       title="תגיות"
       en="Chip · status, tag, filter"
-      note="תגיות סטטוס הן נוריות של לוח טיסות: נחת בירוק, בדרך בכחול קרח שמהבהב לאט, בשחרור בטבעת ריקה. מסננים הם מתגים עם aria-pressed."
+      note="תגיות סטטוס הן נוריות של לוח טיסות, והצורה נושאת את המשמעות: נחת – נורית מלאה, בדרך – טבעת שנושמת לאט, בשחרור – חצי נורית. מסננים הם מתגים עם aria-pressed."
     >
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-3">
@@ -197,9 +201,10 @@ function RowPlate() {
   const [salmon, picanha, bream, shoulder, bass] = lines;
   return (
     <Plate
+      id="plate-row"
       title="שורת לוח"
       en="Table row · market board"
-      note="טבלה אמיתית, לא כרטיסים. שם בסריף, נתונים במונו מיושרים לסוף, ומחיר שזה עתה השתנה מקבל קו כחול־קרח שדועך."
+      note="טבלה אמיתית, לא כרטיסים. שם בסריף, מספרים במונו מיושרים להתחלה – כך הנקודות העשרוניות נערמות זו מתחת לזו – ומחיר שהתעדכן מקבל סימון כפור והמילה ״עודכן״."
     >
       <div
         role="region"
@@ -244,6 +249,7 @@ function RowPlate() {
 function ToastPlate() {
   return (
     <Plate
+      id="plate-toast"
       title="הודעה"
       en="Toast · status, polite"
       note="סימן מרובע במקום וי מצויר, שורת פרטים במונו, פעולה אחת. הקו התחתון הוא הטיימר, והוא נעצר כשמרחפים או מתמקדים."

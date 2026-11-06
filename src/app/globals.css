@@ -111,7 +111,15 @@
     color: var(--color-deep-ice);
   }
 
-  /* One focus language everywhere: an Ice Blue ring, offset from the element. */
+  /* Focus rings appear in 0ms: with the colour preset everywhere, transition-colors
+     (which includes outline-color) has nothing to animate when focus lands. */
+  *,
+  ::before,
+  ::after {
+    outline-color: var(--color-frost);
+  }
+
+  /* One focus language everywhere: a Frost ring, offset from the element (the dark page is the gap). */
   :focus-visible,
   [data-force~="focus"] {
     outline: 2px solid var(--color-frost);
