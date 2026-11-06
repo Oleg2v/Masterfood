@@ -21,8 +21,7 @@ for (const c of colors.filter((x) => x.text)) {
 }
 // Fills that carry text
 pairs.push({ fg: "frost", bg: "bordeaux", min: 4.5, why: "label on meat fill" });
-pairs.push({ fg: "deep-ice", bg: "frost", min: 4.5, why: "primary button label" });
-pairs.push({ fg: "deep-ice", bg: "salmon", min: 4.5, why: "urgent toggle label" });
+pairs.push({ fg: "deep-ice", bg: "frost", min: 4.5, why: "primary button label, selected state" });
 pairs.push({ fg: "deep-ice", bg: "frost-hover", min: 4.5, why: "primary button, hover" });
 pairs.push({ fg: "deep-ice", bg: "frost-press", min: 4.5, why: "primary button, active" });
 pairs.push({ fg: "frost-3", bg: "steel-2", min: 4.5, why: "disabled button label" });

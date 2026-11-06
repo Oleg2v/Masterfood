@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { DemoStrip } from "@/components/demo-badge";
 
+const NB = "\u00a0";
+
 export default function Home() {
   return (
     <>
@@ -16,12 +18,12 @@ export default function Home() {
           </bdi>
         </p>
         <h1 className="type-display text-balance text-frost">השוק של מחר</h1>
-        <p className="text-data font-sans text-frost-2">המחירים של היום, מה שנחת הבוקר, וההזמנה למחר – בדקה.</p>
+        <p className="text-data font-sans text-frost-2">המחירים של היום, מה שנחת הבוקר, וההזמנה למחר{NB}– בדקה.</p>
         <Link
           href="/style-tile"
-          className="inline-flex h-12 w-fit items-center rounded-edge bg-frost px-5 text-body font-medium text-deep-ice shadow-rim transition-colors duration-hover ease-glide hover:bg-frost-hover active:bg-frost-press"
+          className="inline-flex h-12 w-fit items-center rounded-edge bg-frost px-5 text-body font-medium text-deep-ice shadow-rim transition-[background-color,box-shadow,translate] duration-hover ease-glide hover:bg-frost-hover active:translate-y-px active:bg-frost-press active:shadow-pressed active:duration-tap"
         >
-          לסטייל־טייל
+          ללוח הסגנון
         </Link>
       </main>
     </>

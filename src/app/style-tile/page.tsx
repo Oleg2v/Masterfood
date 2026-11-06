@@ -8,7 +8,7 @@ import { SpaceSection, SurfaceSection } from "./_sections/space-surface";
 import { TypeSection } from "./_sections/type";
 
 export const metadata: Metadata = {
-  title: "סטייל־טייל",
+  title: "לוח סגנון",
   description: "שלב 0 – כיוון אמנותי: פלטה, טיפוגרפיה, מרווחים, רדיוסים, צללים, תנועה ושישה רכיבים.",
 };
 

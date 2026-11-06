@@ -15,7 +15,6 @@ import {
   durations,
   easings,
   fluidClamp,
-  PRESS_SCALE,
   radii,
   shadows,
   shapes,
@@ -72,7 +71,6 @@ push();
 push("  --z-index-*: initial;");
 for (const z of zLadder) push(`  --z-index-${z.id}: ${z.z};`);
 push();
-push(`  --scale-press: ${PRESS_SCALE * 100}%;`);
 for (const c of containers) push(`  --container-${c.id}: ${c.rem}rem;`);
 push();
 push("  --shadow-*: initial;");

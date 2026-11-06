@@ -103,8 +103,8 @@
        rail publishes it as --rail-h (rail-height.tsx); 92px is its usual height, until then. */
     scroll-padding-top: calc(var(--rail-h, 92px) + 12px);
   }
-  /* A short screen (a phone on its side, 400% zoom): only the rail's bar stays (see .rail). */
-  @media (max-height: 30rem) {
+  /* A short screen (a 568px phone, a phone on its side, 400% zoom): only the rail's bar stays (.rail). */
+  @media (max-height: 36rem) {
     html {
       scroll-padding-top: calc(var(--rail-bar) + 12px);
     }
@@ -261,10 +261,12 @@
 }
 
 /* Hebrew hangs from the שרטוט: pull a display line up so its letter roofs touch the rule above
-   it. Frank Ruhl Libre: the serif heads of ש and ו reach 0.580em (300), 0.586em (400) and 0.597em
-   (500) above the baseline; the flat roofs of ה ק ח ד, which carry the line, sit about 0.04em
-   lower, and those are the roofs that touch. The line box top sits (line-height + 0.623em) / 2
-   above the baseline. (To be re-measured against a 2× overlay at 1440 and 390.) */
+   it. Frank Ruhl Libre, measured on the served outlines: the serif tips (the heads of ש and ו, the
+   corner ticks of ה ק ח ד) reach 0.580em (300), 0.586em (400) and 0.597em (500) above the
+   baseline; the flat roofs of ה ק ח ד, which carry the line, sit about 0.04em lower (0.544, 0.546
+   and 0.550em), and those are the roofs that touch. The line box top sits (line-height + 0.623em)
+   / 2 above the baseline (ascent 0.957 − descent 0.334). Each constant lands within 0.4px of its
+   flat roof at every size; still to be confirmed against a 2× overlay at 1440 and 390. */
 @utility hang-headline {
   margin-block-start: calc(0.54em - (round(up, 1.05em, 4px) + 0.623em) / 2);
 }
@@ -295,15 +297,15 @@
   }
 
   /* The top rail (masthead.tsx): the demo strip over the bar, sticky as one, so the disclaimer
-     and "מחירי דמו" travel with every screen. On a short screen (a phone on its side, 400% zoom)
-     the strip scrolls away with the page and only the bar stays, so the rail never takes a
-     quarter of the view. */
+     and "מחירי דמו" travel with every screen. On a short screen (36rem or less: a 568px phone,
+     where the wrapped strip would make the rail 126px, a phone on its side, 400% zoom) the strip
+     scrolls away with the page and only the 57px bar stays: the rail never crowds the view. */
   .rail {
     position: sticky;
     top: 0;
     z-index: var(--z-index-bar);
   }
-  @media (max-height: 30rem) {
+  @media (max-height: 36rem) {
     .rail {
       top: calc(var(--rail-bar) - var(--rail-h, 92px));
     }

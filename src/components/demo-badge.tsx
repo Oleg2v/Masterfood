@@ -9,11 +9,13 @@ import type { ReactNode } from "react";
  * do not fit on one line, as on a phone, it wraps under the disclaimer rather than
  * being dropped, so the strip says both things at every width. On the narrowest
  * screens the disclaimer itself breaks only at its dash, never inside a phrase.
+ * The strip sets its own lines (the disclaimer and the note) at a 20px leading, not a
+ * caption paragraph's 24px, so a wrapped strip stays shallow under the sticky bar.
  */
 export function DemoStrip({ children }: { children?: ReactNode }) {
   return (
     <div className="border-b border-hairline bg-steel">
-      <div className="mx-auto flex min-h-8 w-full max-w-[90rem] flex-wrap items-center justify-between gap-x-6 px-4 py-1 sm:px-8 xl:px-12">
+      <div className="mx-auto flex min-h-8 w-full max-w-[90rem] flex-wrap items-center justify-between gap-x-6 px-4 py-1 *:leading-5 sm:px-8 xl:px-12">
         <p className="text-caption text-frost-2">
           <span className="whitespace-nowrap">
             קונספט של <span lang="en">Kikkey</span> –

@@ -101,7 +101,8 @@ export function FilterChip({
       aria-pressed={pressed}
       aria-disabled={disabled || undefined}
       data-force={force}
-      onClick={disabled ? (e) => e.preventDefault() : onClick}
+      // disabled: the caller's onClick is withheld, with no handler of its own, so a server component can render it
+      onClick={disabled ? undefined : onClick}
       className={
         "relative inline-flex h-9 items-center gap-2 rounded-hair px-4 text-caption font-medium " +
         "transition-[background-color,color,box-shadow,translate] duration-hover ease-glide " +

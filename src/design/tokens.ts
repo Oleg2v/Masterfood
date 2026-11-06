@@ -3,13 +3,21 @@
  *
  * SINGLE SOURCE OF TRUTH. `npm run tokens` (also run by predev/prebuild)
  * turns this file into src/app/tokens.css, a Tailwind v4 `@theme` block, so
- * every utility (bg-steel, text-h1, rounded-sm, shadow-rim, ease-glide,
- * duration-flap …) is generated from the values below, and the /style-tile
+ * every utility (bg-steel, text-body, rounded-edge, shadow-rim, ease-glide,
+ * duration-flap-fall …) is generated from the values below, and the /style-tile
  * page renders its documentation from the very same objects.
  *
  * Keep this file dependency-free: it is imported by Node directly
  * (type stripping) as well as by Next.
+ *
+ * The Hebrew roles and usages are page copy, typeset by hand like _content.ts and
+ * proofed by `npm run check:copy`.
  */
+
+/** No-break space: between a figure and its unit, and before a spaced dash. */
+const NB = "\u00a0";
+/** Word joiner: keeps a code token whole at a line end (a hyphen is otherwise a break). */
+const WJ = "\u2060";
 
 /* ───────────────────────────── Colour ───────────────────────────── */
 
@@ -32,13 +40,13 @@ export const colors: readonly ColorToken[] = [
   // Brief palette — the four neutrals
   { id: "deep-ice", en: "Deep Ice", he: "קרח עמוק", hex: "#07141C", group: "base", role: "רקע הדף. הלילה שלפני השוק.", text: false },
   { id: "steel", en: "Steel", he: "פלדה", hex: "#0F2230", group: "base", role: "משטחים: לוח, כרטיסים, שורות.", text: false },
-  { id: "frost", en: "Frost", he: "כפור", hex: "#E8F3F7", group: "base", role: "טקסט ראשי, פעולה ראשית וטבעת המיקוד.", text: true },
+  { id: "frost", en: "Frost", he: "כפור", hex: "#E8F3F7", group: "base", role: "טקסט ראשי, פעולות, מצב נבחר וטבעת המיקוד.", text: true },
   { id: "hairline", en: "Hairline", he: "קו שיער", hex: "#23394A", group: "base", role: "קווי הפרדה ורשת. דקורטיבי בלבד.", text: false },
   // Brief palette — category accents: data only, never decoration
-  { id: "salmon", en: "Salmon", he: "סלמון", hex: "#FF7A59", group: "accent", role: "דגים. ותפקיד שני אחד: 30 הדקות האחרונות לפני הסגירה.", text: true },
+  { id: "salmon", en: "Salmon", he: "סלמון", hex: "#FF7A59", group: "accent", role: `דגים. ותפקיד נוסף אחד: 30${NB}הדקות האחרונות לפני הסגירה.`, text: true },
   { id: "bordeaux", en: "Bordeaux", he: "בורדו", hex: "#8C1C2B", group: "accent", role: "בשר. מילוי בלבד, לעולם לא טקסט על רקע כהה.", text: false },
-  { id: "ice", en: "Ice Blue", he: "כחול קרח", hex: "#7FD1FF", group: "accent", role: "טמפרטורה ושרשרת הקירור – ורק הן.", text: true },
-  { id: "fresh", en: "Fresh Green", he: "ירוק טרי", hex: "#2BD48A", group: "accent", role: "במלאי – ורק זה.", text: true },
+  { id: "ice", en: "Ice Blue", he: "כחול קרח", hex: "#7FD1FF", group: "accent", role: `טמפרטורה ושרשרת הקירור${NB}– ורק הן.`, text: true },
+  { id: "fresh", en: "Fresh Green", he: "ירוק טרי", hex: "#2BD48A", group: "accent", role: `במלאי${NB}– ורק זה.`, text: true },
   // Derived — the ramp that keeps the system at AA
   { id: "frost-2", en: "Frost 2", he: "כפור 2", hex: "#93AAB8", group: "derived", role: "טקסט משני: מקור, יחידות, עזרה, שינויי מחיר.", text: true },
   { id: "frost-3", en: "Frost 3", he: "כפור 3", hex: "#7A93A3", group: "derived", role: "טקסט שלישוני: שעות, כותרות עמודה, קרדיטים, נקודות מובילות.", text: true },
@@ -84,7 +92,7 @@ export interface TypeStep {
 export const typeScale: readonly TypeStep[] = [
   { step: -2, id: "micro", minPx: 12, maxPx: 13, lineHeight: 1.33, trackingEm: 0.06, family: "mono", weight: 500, usage: "תוויות לטיניות בלבד: קודי נמל, מק״ט, קרדיטים", sample: "OSL–TLV · 05:40 · HACCP" },
   { step: -1, id: "caption", minPx: 14, maxPx: 15, lineHeight: 1.6, trackingEm: 0, family: "ui", weight: 400, usage: "כיתוב, עזרה, תגיות. הרצפה של העברית: אף פעם לא קטן מ־14", sample: "מוצרים במשקל משתנה יחויבו לפי שקילה בפועל" },
-  { step: 0, id: "body", minPx: 16, maxPx: 18, lineHeight: 1.6, trackingEm: 0, family: "ui", weight: 400, usage: "גוף טקסט, שדות, כפתורים, שורות", sample: "המחירים של היום, מה שנחת הבוקר, וההזמנה למחר – בדקה." },
+  { step: 0, id: "body", minPx: 16, maxPx: 18, lineHeight: 1.6, trackingEm: 0, family: "ui", weight: 400, usage: "גוף טקסט, שדות, כפתורים, שורות", sample: `המחירים של היום, מה שנחת הבוקר, וההזמנה למחר${NB}– בדקה.` },
   { step: 1, id: "data", minPx: 18, maxPx: 22, lineHeight: 1.25, trackingEm: 0, family: "mono", weight: 500, usage: "כל מספר שנסחר: מחיר, משקל, שעה", sample: "₪62.90 · 312 · 05:40" },
   { step: 2, id: "dish", minPx: 24, maxPx: 30, lineHeight: 1.25, trackingEm: 0, family: "display", weight: 500, usage: "שם הנתח, כמו מנה בתפריט. הרצפה של Frank Ruhl", sample: "פיקנייה" },
   { step: 3, id: "title", minPx: 28, maxPx: 40, lineHeight: 1.2, trackingEm: 0, family: "display", weight: 500, usage: "כותרת משנה, הנתח הנבחר במפה", sample: "מה נחת הלילה" },
@@ -161,9 +169,6 @@ export const zLadder = [
   { id: "skip", z: 60, usage: "קישור הדילוג" },
 ] as const;
 
-/** Press depth for every pressable surface. */
-export const PRESS_SCALE = 0.98;
-
 /** Widths that are part of the system. */
 export const containers = [{ id: "toast", rem: 25 }] as const;
 
@@ -176,13 +181,13 @@ export interface ShadowToken {
 }
 
 export const shadows: readonly ShadowToken[] = [
-  { id: "rim", css: "inset 0 1px 0 0 rgb(232 243 247 / 0.10)", usage: "אור קצה על פלדה (הקו עצמו: inset-ring)" },
+  { id: "rim", css: "inset 0 1px 0 0 rgb(232 243 247 / 0.10)", usage: `אור קצה על פלדה (קו המתאר עצמו: inset-${WJ}ring)` },
   { id: "rim-lift", css: "inset 0 1px 0 0 rgb(232 243 247 / 0.18), 0 16px 32px -20px rgb(2 8 12 / 0.8)", usage: "כרטיס בריחוף: קצה בהיר וצל כחול־שחור" },
   { id: "pressed", css: "inset 0 2px 4px 0 rgb(2 8 12 / 0.55)", usage: "לחיצה: נכנס לתוך הקרח" },
   { id: "float", css: "0 0 0 1px rgb(232 243 247 / 0.08), inset 0 1px 0 0 rgb(232 243 247 / 0.14), 0 24px 48px -16px rgb(2 8 12 / 0.72)", usage: "הודעות וגיליונות" },
   { id: "flap", css: "inset 0 1px 0 0 rgb(232 243 247 / 0.07), inset 0 -1px 0 0 rgb(2 8 12 / 0.5), 0 1px 0 0 rgb(2 8 12 / 0.6)", usage: "כל אריח בלוח ולוחית בשעון" },
   { id: "frost", css: "inset 0 1px 0 0 rgb(232 243 247 / 0.22), inset 0 0 32px 0 rgb(232 243 247 / 0.06)", usage: "שפת הזכוכית ומשטחי ״משוער״" },
-  { id: "glow-salmon", css: "0 0 48px 8px rgb(255 122 89 / 0.35)", usage: "הילה נושמת: פחות מ־30 דקות" },
+  { id: "glow-salmon", css: "0 0 48px 8px rgb(255 122 89 / 0.35)", usage: `הילה נושמת, רק כשנותרו פחות מ־30${NB}דקות` },
   { id: "glow-ice", css: "0 0 0 1px rgb(127 209 255 / 0.45), 0 0 20px -4px rgb(127 209 255 / 0.4)", usage: "טמפרטורה בטווח (0–2°) בלבד" },
 ];
 
@@ -198,15 +203,19 @@ export const durations: readonly DurationToken[] = [
   { id: "tap", ms: 80, usage: "משוב לחיצה: שקיעה של פיקסל אחד" },
   { id: "hover", ms: 140, usage: "צבע, גבול ואור בריחוף" },
   { id: "state", ms: 220, usage: "החלפת מצב, סימון וי, פתיחת הטווח" },
-  { id: "panel", ms: 320, usage: "כניסת הודעה, גיליון, מעבר עמוד – התקרה" },
+  { id: "panel", ms: 320, usage: `כניסת הודעה, גיליון, מעבר עמוד${NB}– התקרה` },
   { id: "exit", ms: 200, usage: "יציאה: תמיד מהירה מהכניסה" },
-  { id: "flap-riffle", ms: 60, usage: "כל אות ביניים בתוף (עד 3)" },
-  { id: "flap-fall", ms: 90, usage: "העלה העליון נופל; תא גדול נופל לאט יותר" },
-  { id: "flap-land", ms: 70, usage: "העלה החדש נוחת, בלי קפיצה" },
-  { id: "thaw", ms: 600, usage: "הכפור מתפוגג: משוער הופך לבפועל" },
-  { id: "breathe", ms: 2400, usage: "נשימת הסלמון מתחת ל־30 דקות" },
+  { id: "flap-riffle", ms: 60, usage: "כל תו ביניים בתוף (עד 3)" },
+  { id: "flap-fall", ms: 90, usage: "הדש העליון נופל; תא גדול נופל לאט יותר" },
+  { id: "flap-land", ms: 70, usage: "הדש החדש נוחת, בלי קפיצה" },
+  { id: "thaw", ms: 600, usage: "הכפור מתפוגג: ״משוער״ הופך ל״בפועל״" },
+  { id: "breathe", ms: 2400, usage: `נשימת הסלמון מתחת ל־30${NB}דקות` },
   { id: "refreeze", ms: 2400, usage: "הכפור חוזר אחרי ניגוב" },
-  { id: "toast", ms: 6000, usage: "חיי הודעה בלי פעולה; נעצר בריחוף" },
+  { id: "toast", ms: 6000, usage: "הודעה בלי פעולה נסגרת מעצמה, אלא אם הסמן או המיקוד עליה, או שהתנועה עצורה" },
+  // The hero fog: two layers on loops of different lengths, so the drift never visibly repeats.
+  // Atmosphere, hero only; the fog utility in globals.css reads --dur-fog-a and --dur-fog-b.
+  { id: "fog-a", ms: 60000, usage: "סחיפת הערפל בשער, השכבה הקדמית. אווירה, לא מידע" },
+  { id: "fog-b", ms: 96000, usage: "השכבה האחורית: בכיוון ההפוך ובקצב אחר, כך שהערפל לא חוזר על עצמו" },
 ];
 
 export interface EasingToken {
@@ -219,9 +228,9 @@ export const easings: readonly EasingToken[] = [
   { id: "glide", bezier: [0.2, 0, 0, 1], usage: "ברירת מחדל: יציאה מהירה, התייצבות קרה וארוכה" },
   { id: "exit", bezier: [0.4, 0, 1, 1], usage: "דברים שעוזבים מאיצים ולא מתעכבים" },
   { id: "move", bezier: [0.65, 0, 0.35, 1], usage: "דברים שנעים לעיני הצופה: קו לשונית, קו מוביל" },
-  { id: "flap-fall", bezier: [0.32, 0, 0.67, 0], usage: "העלה נופל לציר ומאיץ, כמו כובד" },
-  { id: "flap-land", bezier: [0.22, 1, 0.36, 1], usage: "העלה החדש נוחת – בלי חריגה" },
-  { id: "thaw", bezier: [0.16, 1, 0.3, 1], usage: "קרח שמשחרר: התחלה איטית, זנב צלול" },
+  { id: "flap-fall", bezier: [0.32, 0, 0.67, 0], usage: "הדש נופל סביב הציר ומאיץ, כמו בנפילה חופשית" },
+  { id: "flap-land", bezier: [0.22, 1, 0.36, 1], usage: "הדש החדש מאט ונוחת, בלי לעבור את היעד" },
+  { id: "thaw", bezier: [0.16, 1, 0.3, 1], usage: "קרח שמשחרר: יציאה מהירה, זנב ארוך וצלול" },
   { id: "breathe", bezier: [0.37, 0, 0.63, 1], usage: "סינוס: נשימת הסלמון והערפל" },
 ];
 

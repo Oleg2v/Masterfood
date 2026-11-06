@@ -91,7 +91,7 @@ export function CountdownSpecimen() {
           />
         ) : null}
         <span className="sr-only">{inWords(h, m)}</span>
-        {/* eight steel plates; the colons stand free between them */}
+        {/* six steel plates, one per digit; the colons stand free between them */}
         <bdi dir="ltr" aria-hidden="true" className="inline-flex items-center gap-[0.04em]">
           <Plates value={pad(h)} />
           <Colon />

@@ -1,20 +1,13 @@
 "use client";
 
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Typeset } from "@/components/ui/typeset";
 import { fluidClamp, typeScale, VIEWPORT } from "@/design/tokens";
+import { LabelParts } from "./frame";
+
+const NB = " ";
 
 const familyName = { display: "Frank Ruhl Libre", ui: "Heebo", mono: "IBM Plex Mono" } as const;
-
-/** A Latin label that wraps only after a separator, never inside a part. */
-function Parts({ parts }: { parts: readonly string[] }) {
-  return parts.map((p, i) => (
-    <Fragment key={p}>
-      {i > 0 ? " " : null}
-      <span className="whitespace-nowrap">{i < parts.length - 1 ? `${p} ·` : p}</span>
-    </Fragment>
-  ));
-}
 
 /**
  * The nine fluid steps set as a carte: the specimen is the dish, a dot leader
@@ -42,9 +35,9 @@ export function TypeScaleTable() {
   return (
     <div className="flex flex-col">
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-edge pb-3">
-        <h3 lang="en" className="label-latin text-frost-3">
+        <h3 lang="en" className="label-latin text-balance text-frost-3">
           <bdi dir="ltr">
-            <Parts parts={["Type scale", "9 steps", `clamp() ${VIEWPORT.minPx}–${VIEWPORT.maxPx}`]} />
+            <LabelParts text={`Type scale · 9 steps · clamp() ${VIEWPORT.minPx}–${VIEWPORT.maxPx}`} />
           </bdi>
         </h3>
         <p className="text-caption text-frost-2">
@@ -85,7 +78,7 @@ export function TypeScaleTable() {
                   </bdi>
                 </span>
               </div>
-              {/* the menu's small print */}
+              {/* the menu's small print; every "·" ends a line rather than starting one */}
               <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 ps-10">
                 <span className="num text-caption text-frost">
                   <bdi dir="ltr">type-{t.id}</bdi>
@@ -93,17 +86,20 @@ export function TypeScaleTable() {
                 <span className="text-caption text-frost-2">
                   <bdi dir="ltr" lang="en">
                     {familyName[t.family]}
-                  </bdi>{" "}
-                  · <bdi dir="ltr" className="num">{t.weight}</bdi> · <Typeset text={t.usage} />
+                  </bdi>
+                  {NB}· <bdi dir="ltr" className="num">{t.weight}</bdi>
+                  {NB}· <Typeset text={t.usage} />
                 </span>
                 <bdi dir="ltr" className="num text-caption text-frost-2 sm:hidden">
                   {t.minPx}–{t.maxPx}px
                 </bdi>
+                {/* wraps at its spaces when the line is narrow (.num alone would not), and "lh" keeps its value */}
                 <code
                   dir="ltr"
                   className="num w-full text-start text-micro whitespace-normal text-frost-3 [overflow-wrap:anywhere] lg:ms-auto lg:w-auto"
                 >
-                  {fluidClamp(t.minPx, t.maxPx)} · lh {t.lineHeight}
+                  {fluidClamp(t.minPx, t.maxPx)}
+                  {NB}· <span className="whitespace-nowrap">lh {t.lineHeight}</span>
                 </code>
               </div>
             </li>

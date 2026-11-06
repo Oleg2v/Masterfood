@@ -33,14 +33,14 @@ export function FlapCells({
   className?: string;
   cellClassName?: string;
 }) {
-  // Visual only: callers render the same text for assistive tech (sr-only) and hide this.
+  // Visual only, and hidden from assistive tech by itself: read cell by cell, a value comes out one
+  // glyph at a time ("0 4 : 1 2"). Callers render the same text once more, whole, in an sr-only span.
   return (
-    <bdi dir="ltr" className={`inline-flex gap-px ${className}`}>
+    <bdi dir="ltr" aria-hidden="true" className={`inline-flex gap-px ${className}`}>
       {[...text].map((ch, i) => (
         /* a space is a blank flap, exactly as wide as a glyph flap */
         <span
           key={i}
-          aria-hidden={ch === " " ? true : undefined}
           className={`${flapPlate} h-[1.5em] w-[0.72em] font-mono font-medium [font-variant-numeric:tabular-nums] ${cellClassName}`}
         >
           {/* blank flaps carry an invisible glyph so every row shares one baseline */}

@@ -29,18 +29,20 @@ export function LabelParts({ text }: { text: string }) {
 /**
  * A bilingual label: the Latin half in tracked mono (lang="en"), the Hebrew half
  * in Heebo, never letter-spaced. Use instead of label-latin on mixed text.
- * The "·" between them belongs to the Hebrew: when the Hebrew wraps onto its own
- * line, the separator goes with it instead of dangling at the end of the Latin.
+ * The "·" between them stands in the gap, just outside the Hebrew half, and the
+ * label clips its inline overflow: when the Hebrew wraps onto its own line, the
+ * separator falls past the edge, so no line ends on a "·" and none starts with one.
  */
 export function BiLabel({ en, he, as: Tag = "p", className = "" }: { en: string; he?: string; as?: "p" | "h2" | "h3" | "span"; className?: string }) {
   return (
-    <Tag className={`flex flex-wrap items-baseline gap-x-2 gap-y-1 text-frost-3 ${className}`}>
+    <Tag className={`flex flex-wrap items-baseline gap-x-5 gap-y-1 overflow-x-clip text-frost-3 ${className}`}>
       <bdi dir="ltr" lang="en" className="label-latin text-balance">
         <LabelParts text={en} />
       </bdi>
       {he ? (
-        <span className="text-caption">
-          <span aria-hidden="true" className="me-2">
+        <span className="relative text-caption">
+          {/* the gap's width, centred in it: on one line it reads "LATIN · עברית" */}
+          <span aria-hidden="true" className="absolute end-full top-0 w-5 text-center">
             ·
           </span>
           {he}
@@ -66,21 +68,22 @@ export function Section({
   children: ReactNode;
 }) {
   return (
-    /* The rule is full-bleed (the section's own border), and the title hangs from it at every width:
-       below lg the title leads the header and the code reads under it; from lg the code takes the
-       first three columns and the title hangs beside it. Anchors land clear of the sticky rail
-       through html's scroll-padding-top alone (globals.css), so a section adds no margin of its own. */
+    /* The rule is full-bleed (the section's own border), and the title hangs from it at every width.
+       The title leads the header, on screen below lg and in the reading order always, and the code
+       reads under it; from lg the code moves into the first three columns and the title hangs
+       beside it. Anchors land clear of the sticky rail through html's scroll-padding-top alone
+       (globals.css), so a section adds no margin of its own. */
     <section id={id} aria-labelledby={`${id}-title`} className="border-t border-hairline pb-16 sm:pb-24">
       <Container className="flex flex-col gap-12 sm:gap-16">
         <header className="grid grid-cols-1 gap-x-6 gap-y-4 lg:grid-cols-12">
-          <p lang="en" className="label-latin text-balance text-frost-3 lg:col-span-3 lg:pt-4">
+          <h2 id={`${id}-title`} className="type-section hang-section text-balance text-frost lg:col-span-5">
+            {he}
+          </h2>
+          <p lang="en" className="label-latin text-balance text-frost-3 lg:order-first lg:col-span-3 lg:pt-4">
             <bdi dir="ltr">
               <LabelParts text={`${index} — ${en}`} />
             </bdi>
           </p>
-          <h2 id={`${id}-title`} className="type-section hang-section text-balance text-frost max-lg:order-first lg:col-span-5">
-            {he}
-          </h2>
           <p className="max-w-[46ch] text-body text-pretty text-frost-2 lg:col-span-4 lg:pt-4">{lede}</p>
         </header>
         {children}

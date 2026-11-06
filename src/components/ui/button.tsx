@@ -97,11 +97,13 @@ export function Button({
 
   return (
     <button
-      type={type}
+      // Inert, the press does nothing without a handler of its own: the caller's onClick is withheld and
+      // the button cannot submit a form. So a server component can render a disabled or busy button too.
+      type={inert ? "button" : type}
       data-force={force}
       aria-disabled={inert || undefined}
       aria-busy={loading || undefined}
-      onClick={inert ? (e) => e.preventDefault() : onClick}
+      onClick={inert ? undefined : onClick}
       className={`${base} ${look.frame ?? ""} ${state} ${sizes[size]} ${className}`}
       {...rest}
     >

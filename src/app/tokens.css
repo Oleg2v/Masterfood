@@ -75,7 +75,6 @@
   --z-index-badge: 50;
   --z-index-skip: 60;
 
-  --scale-press: 98%;
   --container-toast: 25rem;
 
   --shadow-*: initial;
@@ -110,6 +109,8 @@
   --transition-duration-breathe: 2400ms;
   --transition-duration-refreeze: 2400ms;
   --transition-duration-toast: 6000ms;
+  --transition-duration-fog-a: 60000ms;
+  --transition-duration-fog-b: 96000ms;
 }
 
 /* Motion tokens as plain custom properties too, for keyframes and inline styles. */
@@ -126,6 +127,8 @@
   --dur-breathe: 2400ms;
   --dur-refreeze: 2400ms;
   --dur-toast: 6000ms;
+  --dur-fog-a: 60000ms;
+  --dur-fog-b: 96000ms;
 }
 
 /* Typographic presets: family + size + line-height + weight in one class. */

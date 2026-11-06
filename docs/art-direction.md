@@ -30,16 +30,17 @@ Each decision can already be seen on the tile. The **On the tile** line says whe
     one string.
   - The Hebrew drum is the alef-bet with each final form after its base letter, then 0–9.
   - A changed cell riffles through at most the three drum glyphs before its target.
-  - The countdown is the only giant on the board screen. It sits on eight steel plates, with the
-    absolute time beside it.
+  - The countdown is the only giant on the board screen. It sits on six steel plates, one per
+    digit, with the cutoff time itself beside it.
 - **Why.** A naive RTL board prints 312 as 213 and −0.8% as %8.0−, and one wrong price ends the
   pitch. Hebrew letters don't join, so per-letter flaps keep their shapes intact, and a Hebrew
   reader watches real letters riffle in alef-bet order.
 - **On the tile.**
-  - The cover clock and the brief's three board lines, with letters and figures in identical
+  - The cover clock, and the brief's three board lines with letters and figures in identical
     0.66em cells.
   - The palette as a departure board.
-  - A full-size flap bench: fall 90ms and land 70ms, each × √(h/40px); riffles 60ms.
+  - A full-size flap bench, with digits up to 148px: fall 90ms and land 70ms, each × √(h/40px);
+    riffles 60ms.
 - **Risk.** Jank on mid-range Android. Only changed cells animate, transforms only. A
   long-animation-frame watchdog drops the riffles, then falls back to an opacity swap. Reduced
   motion shows the static table.
@@ -53,12 +54,13 @@ Each decision can already be seen on the tile. The **On the tile** line says whe
   - All copy goes through a typesetting pass: ״ ׳ ־ − –, a no-break space between figure and unit,
     and gender-neutral action nouns.
   - The wording is wholesale: הזמנה, never סל.
+  - `npm run check:copy` proofs every string in `src/` against these rules and fails on a slip.
 - **Why.** The hanging line is native to Hebrew writing. Leaders with stacked decimals let a
   butcher compare fifty prices in seconds. Straight quotes and masculine imperatives make a site
   read as translated.
 - **On the tile.**
   - The cover headline and every section title hang from their rules. The offset is computed from
-    the font: the measured roof height minus half of the line box plus 0.623em.
+    the font: the measured height of the flat letter roofs, minus half of (the line box + 0.623em).
   - The type scale is set as a carte.
   - The dateline reads יום חמישי · כ״ה בחשוון תשפ״ז · 5.11.2026.
 - **Risk.** A roof that drifts off its rule looks careless. The offset is computed from Frank Ruhl
@@ -75,7 +77,7 @@ Each decision can already be seen on the tile. The **On the tile** line says whe
     - Bordeaux = meat.
     - Ice Blue = temperature.
     - Fresh Green = in stock.
-  - Actions are Frost, and price moves are grey glyphs.
+  - Actions and selected states are Frost, and price moves are grey (Frost-2) glyphs.
   - Errors are Thaw amber, because in a cold chain the alarm is heat.
 - **Why.** Masterfood began as an ice factory in 1950, and only the product is allowed warmth.
   Trader green/red would tell a buyer that a price rise is good news, and it would collide with
@@ -94,7 +96,8 @@ Each decision can already be seen on the tile. The **On the tile** line says whe
   - Inside the app, frost marks estimated values only: the variable-weight band, the order
     estimate and the invoice's משוער column. It thaws to a clear בפועל in 600ms when the delivery
     note records the real weight.
-  - Product photos are never frosted, and sold-out drains to monochrome.
+  - Product photos are never frosted. A sold-out product fades to monochrome and says אזל להיום,
+    with a quiet עדכון כשיחזור instead of a dead button.
 - **Why.** It turns the brief's most decorative effect into the information a variable-weight buyer
   needs most, estimate versus actual.
 - **On the tile.**
@@ -166,7 +169,7 @@ fill only, and Hairline (1.56:1) is decorative only.
 
 - Hebrew is never letter-spaced, slanted or synthesised.
 - Every figure sits in `<bdi dir="ltr">` in Plex Mono with tabular numerals.
-- ₪ comes from Plex Mono's latin-ext subset.
+- ₪ is Heebo's, set small (0.75em, medium) before the Plex Mono figure, inside the same LTR isolate.
 - Glyphs no font carries (▲ ▼ ≈ ←) are drawn as SVG.
 
 **Space.** A 4px base (`--spacing: 0.25rem`). Targets are at least 44px, controls 48px, and the
@@ -195,12 +198,15 @@ float for toasts, and a frost edge for estimate surfaces. Glows are limited to t
 | --- | --- |
 | Interface durations | tap 80, hover 140, state 220, panel 320, exit 200ms |
 | Flap timings | fall 90, land 70, riffle 60ms; fall and land × √(h/40px) |
-| Atmosphere | thaw 600ms, breathe 2.4s, refreeze 2.4s, toast 6s |
+| Atmosphere | thaw 600ms, breathe 2.4s, refreeze 2.4s, toast 6s, hero fog 60s and 96s |
 | Easings | glide, exit, move, flap-fall, flap-land, thaw, breathe |
 
-Only `transform` and `opacity` animate. The OS reduced-motion setting and the in-app
-"עצירת אנימציה" control share one rule. Under it, the clock updates once a minute as HH:MM and the
-glass is a still.
+Movement is `transform` and `opacity` only, and it is data or atmosphere, never decoration. Three
+things run on their own: the hero fog, the Salmon glow under 30 minutes and a toast's timer.
+Loading is a still hairline, and a press is one pixel down into the pressed inset within the 80ms
+tap; nothing scales or shimmers. The OS reduced-motion setting and the in-app "עצירת אנימציה"
+control share one rule. Under it, the clock updates once a minute as HH:MM, the glass is a still,
+and a toast stays until it is closed.
 
 ## Imagery
 
@@ -220,6 +226,8 @@ to 355° (Bordeaux is 352°). Stage 2 bakes the same stack at build time for the
 - axe-core reports 0 violations at 1440 and 390, with and without reduced motion.
 - `npm run check:contrast` passes all 29 text, boundary and fill pairs. These include the frost
   tile's brightest texel.
+- `npm run check:copy` passes on every Hebrew string: gershayim and maqaf, a true minus, no-break
+  spaces between figures and units, wholesale wording, and nothing below the 14px floor.
 - A skip link and labelled landmarks.
 - A real `<table>` behind every visual board.
 - A Frost focus ring that appears in 0ms and survives forced colours.

@@ -132,8 +132,8 @@ export function Masthead() {
           <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
             <BiLabel as="h2" en="The board · the brief's three lines" he="שלוש השורות מהבריף, בעמודות" />
             <p className="max-w-[60ch] text-caption text-pretty text-frost-2">
-              כל שורה בנויה משדות נפרדים, ולכל שדה סוג וכיוון משלו: המילים העבריות אות־אות, המספרים בתאי מונו, והיחידות
-              בכותרת. בשלב <Num>0</Num> הלוח סטטי; בשלב <Num>1</Num> התאים מדפדפים, מימין לשמאל.
+              כל שורה בנויה משדות נפרדים, ולכל שדה סוג וכיוון משלו: המילים העבריות אות־אות, המספרים ספרה־ספרה,
+              והיחידות בראש העמודה. בשלב <Num>0</Num> הלוח סטטי; בשלב <Num>1</Num> התאים מדפדפים, מימין לשמאל.
             </p>
           </div>
           <BriefBoard />

@@ -13,12 +13,18 @@ export function Shekel() {
   return <span className="me-[0.06em] font-sans text-[0.75em] font-medium">₪</span>;
 }
 
-/** A price: the <Shekel> sign before Plex Mono figures, isolated LTR. */
+/**
+ * A price: the <Shekel> sign before Plex Mono figures, isolated LTR. A credit reads "−₪12.40":
+ * a true minus (U+2212), ahead of the sign, and never on a figure that rounds to zero.
+ */
 export function Money({ value, round = false, joined = false, className = "" }: { value: number; round?: boolean; joined?: boolean; className?: string }) {
+  const figure = (round ? fmt0 : fmt).format(Math.abs(value));
+  const minus = value < 0 && /[1-9]/.test(figure);
   return (
     <Num className={className} joined={joined}>
+      {minus ? "−" : null}
       <Shekel />
-      {(round ? fmt0 : fmt).format(value)}
+      {figure}
     </Num>
   );
 }
