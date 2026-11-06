@@ -2,7 +2,7 @@ import { MotionToggle } from "@/components/motion-toggle";
 import { hebrewDateline } from "@/lib/hebrew-date";
 import { concept } from "../_content";
 import { CountdownSpecimen } from "../_components/countdown-specimen";
-import { Container } from "../_components/frame";
+import { BiLabel, Container } from "../_components/frame";
 
 const nav = [
   ["palette", "01", "פלטה"],
@@ -19,7 +19,7 @@ export function TopBar() {
   return (
     <header className="sticky top-0 z-30 border-b border-hairline bg-deep-ice/95">
       <Container className="flex h-16 items-center justify-between gap-6">
-        <a href="#top" className="flex shrink-0 items-baseline gap-3 rounded-xs">
+        <a href="#top" className="inline-flex min-h-11 shrink-0 items-center gap-3 rounded-xs">
           <span className="font-display text-title font-medium leading-none text-frost">מאסטרפוד</span>
           <span className="hidden text-small text-mist sm:inline">השוק של מחר</span>
         </a>
@@ -47,7 +47,8 @@ export function TopBar() {
 }
 
 export function Masthead() {
-  const date = hebrewDateline(new Date("2026-11-06T07:00:00+02:00"));
+  // The demo morning is a Thursday (09:47, cutoff 14:00): "למחר" is Friday, never Shabbat.
+  const date = hebrewDateline(new Date("2026-11-05T09:47:27+02:00"));
   return (
     <section id="top" aria-labelledby="tile-title" className="relative overflow-hidden pt-12 pb-16 sm:pt-20 sm:pb-24">
       <Container className="flex flex-col gap-12 sm:gap-16">
@@ -76,7 +77,7 @@ export function Masthead() {
             </dd>
             <dt className="text-fog">גרסה</dt>
             <dd className="text-frost">
-              <bdi dir="ltr" className="num">v0.1 · 06.11.2026</bdi>
+              <bdi dir="ltr" lang="en" className="num">v0.1 · 6.11.2026</bdi>
             </dd>
             <dt className="text-fog">מצב</dt>
             <dd className="flex items-center gap-2 text-frost">
@@ -91,7 +92,7 @@ export function Masthead() {
             <CountdownSpecimen />
           </div>
           <div className="flex flex-col gap-4 lg:col-span-5">
-            <h2 className="label-latin text-fog">The concept in three lines · הרעיון בשלוש שורות</h2>
+            <BiLabel as="h2" en="The concept in three lines" he="הרעיון בשלוש שורות" />
             <ol className="flex flex-col">
               {concept.map((line, i) => (
                 <li key={i} className="grid grid-cols-[2.5rem_1fr] gap-3 border-b border-hairline py-4 first:border-t">

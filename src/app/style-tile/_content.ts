@@ -1,6 +1,6 @@
-import type { Photo } from "@/components/ui/graded-photo";
 import type { MarketLine } from "@/components/ui/market-row";
 import type { CardProduct } from "@/components/ui/product-card";
+import { photoSet } from "./_photos";
 
 /* Everything on this page is demo content. Prices are "מחירי דמו". */
 
@@ -41,27 +41,20 @@ export const cliches: { title: string; instead: string }[] = [
   { title: "קפיצות וקונפטי", instead: "קפיצי ספרינג, קונפטי על הזמנה, ספינרים. במקום: תנועה קרה ואטית שנעצרת במקום." },
 ];
 
-/* Photos: Unsplash placeholders, credited. Filled in by the imagery scout. */
-export const photos: Record<string, Photo | undefined> = {
-  picanha: undefined,
-  salmon: undefined,
-  bream: undefined,
-  ice: undefined,
-  marbling: undefined,
-};
-
+/* Cards use the credited photo set; species and cuts are honest. */
 export const cards: CardProduct[] = [
   {
-    name: "פיקנייה",
+    name: "פילה בקר",
     category: "meat",
-    origin: "ברזיל · דרום אמריקה",
-    stamp: "BR · GRU",
+    origin: "אורוגוואי · דרום אמריקה",
+    stamp: "UY · MVD",
     kashrut: "רבנות",
     fresh: true,
-    pricePerKg: 89,
-    changePct: -0.8,
-    availableKg: 140,
-    photo: photos.picanha,
+    pricePerKg: 164.9,
+    changePct: 0.4,
+    availableKg: 48,
+    photo: photoSet.fillet,
+    photoPosition: "center 60%",
   },
   {
     name: "סלמון נורבגי טרי",
@@ -74,20 +67,21 @@ export const cards: CardProduct[] = [
     changePct: 1.2,
     availableKg: 312,
     arrival: "05:40",
-    photo: photos.salmon,
+    photo: photoSet.salmonSteak,
   },
   {
-    name: "דניס",
+    name: "לברק",
     category: "fish",
-    origin: "קפריסין",
-    stamp: "CY · LCA",
+    origin: "טורקיה",
+    stamp: "TR · IST",
     kashrut: "רבנות",
     fresh: true,
-    pricePerKg: 41.5,
-    changePct: 0,
+    pricePerKg: 47.9,
+    changePct: -1.6,
     availableKg: 0,
-    arrival: "06:15",
-    photo: photos.bream,
+    arrival: "04:55",
+    photo: photoSet.seaBass,
+    photoPosition: "center 75%",
   },
 ];
 

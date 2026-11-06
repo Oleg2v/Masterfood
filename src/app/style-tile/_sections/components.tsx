@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { FilterChip, StatusChip, Tag } from "@/components/ui/chip";
 import { Icon } from "@/components/ui/icon";
@@ -5,23 +6,30 @@ import { MarketRow, MarketTableHead } from "@/components/ui/market-row";
 import { Money } from "@/components/ui/money";
 import { Num } from "@/components/ui/num";
 import { ProductCard } from "@/components/ui/product-card";
+import { Route } from "@/components/ui/route";
 import { Toast } from "@/components/ui/toast";
 import { WeightField } from "@/components/ui/weight-field";
 import { KG } from "@/lib/format";
 import { cards, lines } from "../_content";
 import { Plate, Section, StateLabel } from "../_components/frame";
+import { ScrollRegion } from "../_components/scroll-region";
 import { ToastDemo } from "../_components/toast-demo";
 
-function Pinned({ label, children, className = "" }: { label: string; children: React.ReactNode; className?: string }) {
+/**
+ * A pinned specimen: the caption first (spec-sheet order), then the component.
+ * `inert` for forced states, so a pinned "focus" is never a real tab stop.
+ */
+function Pinned({ label, children, inert = false, className = "" }: { label: string; children: ReactNode; inert?: boolean; className?: string }) {
   return (
-    <div className={`flex flex-col items-start gap-3 ${className}`}>
-      {children}
+    <div className={`flex flex-col items-start gap-3 ${className}`} inert={inert}>
       <StateLabel>{label}</StateLabel>
+      {children}
     </div>
   );
 }
 
 function ButtonPlate() {
+  const total = <Money value={1780} round />;
   return (
     <Plate
       id="plate-button"
@@ -30,27 +38,27 @@ function ButtonPlate() {
       note="הפעולה הראשית לבנה כמו קרח – הצבעים שמורים למשמעות. הנתון שהכפתור מתחייב אליו (סכום, משקל) יושב אחרי קו שיער, במונו."
     >
       <div className="flex flex-col gap-8">
-        <div className="flex flex-wrap items-start gap-x-6 gap-y-6">
+        <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
           <Pinned label="Default">
-            <Button meta={<Money value={1780} round />}>שליחת ההזמנה</Button>
+            <Button meta={total}>שליחת ההזמנה</Button>
           </Pinned>
-          <Pinned label="Hover · sheen">
-            <Button force="hover" meta={<Money value={1780} round />}>
+          <Pinned label="Hover · sheen" inert>
+            <Button force="hover" meta={total}>
               שליחת ההזמנה
             </Button>
           </Pinned>
-          <Pinned label="Focus">
-            <Button force="focus" meta={<Money value={1780} round />}>
+          <Pinned label="Focus" inert>
+            <Button force="focus" meta={total}>
               שליחת ההזמנה
             </Button>
           </Pinned>
-          <Pinned label="Active">
-            <Button force="active" meta={<Money value={1780} round />}>
+          <Pinned label="Active · press" inert>
+            <Button force="active" meta={total}>
               שליחת ההזמנה
             </Button>
           </Pinned>
-          <Pinned label="Loading">
-            <Button loading meta={<Money value={1780} round />}>
+          <Pinned label="Loading · no double send">
+            <Button loading meta={total}>
               שולחים…
             </Button>
           </Pinned>
@@ -60,21 +68,21 @@ function ButtonPlate() {
             </Button>
           </Pinned>
         </div>
-        <div className="flex flex-wrap items-start gap-x-6 gap-y-6 border-t border-hairline pt-8">
+        <div className="flex flex-wrap items-start gap-x-6 gap-y-8 border-t border-hairline pt-8">
           <Pinned label="Secondary">
             <Button variant="secondary" icon={<Icon name="clock" size={18} />}>
-              כמו ביום חמישי שעבר
+              הזמנה כמו ביום חמישי שעבר
             </Button>
           </Pinned>
-          <Pinned label="Secondary · hover">
+          <Pinned label="Secondary · hover" inert>
             <Button variant="secondary" force="hover" icon={<Icon name="clock" size={18} />}>
-              כמו ביום חמישי שעבר
+              הזמנה כמו ביום חמישי שעבר
             </Button>
           </Pinned>
           <Pinned label="Quiet">
             <Button variant="quiet">הורדת PDF</Button>
           </Pinned>
-          <Pinned label="Small · secondary">
+          <Pinned label="Small · 44px target">
             <Button variant="secondary" size="sm">
               הוספה
             </Button>
@@ -94,17 +102,30 @@ function InputPlate() {
       id="plate-input"
       title="שדה משקל"
       en="Input · variable weight"
-      note="מזמינים ״כ־20 ק״ג״ ורואים מחיר משוער עם טווח. הטווח מצויר כמו רווח סמך, והחשבונית תחויב לפי השקילה בפועל."
+      note={
+        <>
+          מזמינים כ־<Num>20</Num> {KG} ורואים מחיר משוער עם טווח. הטווח מצויר כמו רווח סמך, והחיוב ייעשה לפי השקילה בפועל.
+        </>
+      }
     >
       <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2">
         <Pinned label="Default" className="w-full">
           <WeightField />
         </Pinned>
-        <Pinned label="Focus" className="w-full">
+        <Pinned label="Focus" className="w-full" inert>
           <WeightField force="focus" product="סלמון נורבגי טרי" pricePerKg={62.9} defaultKg={12} />
         </Pinned>
-        <Pinned label="Error" className="w-full">
-          <WeightField product="סינטה" pricePerKg={112} defaultKg={3} error={`המינימום להזמנה הוא 5 ${KG}`} />
+        <Pinned label="Error · stays amber while fixed" className="w-full">
+          <WeightField
+            product="סינטה"
+            pricePerKg={112}
+            defaultKg={3}
+            error={
+              <>
+                המינימום להזמנה הוא <Num>5</Num> {KG}
+              </>
+            }
+          />
         </Pinned>
         <Pinned label="Disabled · sold out" className="w-full">
           <WeightField product="לברק" pricePerKg={47.9} defaultKg={10} disabled />
@@ -115,26 +136,26 @@ function InputPlate() {
 }
 
 function CardPlate() {
-  const [picanha, salmon, bream] = cards;
+  const [fillet, salmon, bass] = cards;
   return (
     <Plate
       id="plate-card"
       title="כרטיס מוצר"
       en="Card · product"
-      note="פס קטגוריה בקצה ההתחלה – בורדו לבשר, סלמון לדג. שם הנתח כמו בתפריט, המספרים במונו, המלאי בנקודה ירוקה."
+      note="פס קטגוריה בקצה ההתחלה – בורדו לבשר, סלמון לדג – והמילה עצמה בתגית. שם הנתח כמו בתפריט, המחיר בשורת תפריט עם נקודות מובילות, המלאי בנקודה ירוקה."
     >
       <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 xl:grid-cols-4">
         <Pinned label="Default" className="w-full [&>article]:w-full">
-          <ProductCard product={picanha!} />
+          <ProductCard product={fillet!} headingLevel="h4" />
         </Pinned>
-        <Pinned label="Hover · raise" className="w-full [&>article]:w-full">
-          <ProductCard product={salmon!} state="hover" />
+        <Pinned label="Hover · raise" className="w-full [&>article]:w-full" inert>
+          <ProductCard product={salmon!} state="hover" headingLevel="h4" />
         </Pinned>
-        <Pinned label="Sold out" className="w-full [&>article]:w-full">
-          <ProductCard product={bream!} state="soldout" />
+        <Pinned label="Sold out · drained" className="w-full [&>article]:w-full">
+          <ProductCard product={bass!} state="soldout" headingLevel="h4" />
         </Pinned>
-        <Pinned label="Loading · frost skeleton" className="w-full [&>div]:w-full">
-          <ProductCard product={picanha!} state="loading" />
+        <Pinned label="Loading · fog" className="w-full [&>div]:w-full">
+          <ProductCard product={fillet!} state="loading" />
         </Pinned>
       </div>
     </Plate>
@@ -147,15 +168,16 @@ function ChipPlate() {
       id="plate-chip"
       title="תגיות"
       en="Chip · status, tag, filter"
-      note="תגיות סטטוס הן נוריות של לוח טיסות, והצורה נושאת את המשמעות: נחת – נורית מלאה, בדרך – טבעת שנושמת לאט, בשחרור – חצי נורית. מסננים הם מתגים עם aria-pressed."
+      note="תגיות סטטוס הן נוריות של לוח טיסות. הנורית מתמלאת ככל שהסחורה מתקרבת אליכם: בדרך – טבעת, נחת – חצי, בשחרור – שלושה רבעים, במלאי – מלאה וירוקה. כשרות היא טקסט, לעולם לא חותמת."
     >
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-3">
-          <StateLabel>Shipment status</StateLabel>
+          <StateLabel>Shipment status · in order</StateLabel>
           <div className="flex flex-wrap gap-3">
-            <StatusChip status="landed" />
             <StatusChip status="transit" />
+            <StatusChip status="landed" />
             <StatusChip status="release" />
+            <StatusChip status="stock" />
           </div>
         </div>
         <div className="flex flex-col gap-3">
@@ -171,24 +193,24 @@ function ChipPlate() {
             <Tag tone="frozen">
               קפוא <Num>−18°</Num>
             </Tag>
-            <Tag tone="demo">מחירי דמו</Tag>
+            <Tag tone="demo">מחירי דמו · לפני מע״מ</Tag>
           </div>
         </div>
         <div className="flex flex-col gap-3">
           <StateLabel>Filter · off / hover / focus / on / disabled</StateLabel>
           <div className="flex flex-wrap gap-3">
             <FilterChip count={18}>נורווגיה</FilterChip>
-            <FilterChip force="hover" count={6}>
+            <FilterChip force="hover" count={6} inert>
               קפריסין
             </FilterChip>
-            <FilterChip force="focus" count={4}>
+            <FilterChip force="focus" count={4} inert>
               טורקיה
             </FilterChip>
             <FilterChip pressed count={9}>
               מהדרין
             </FilterChip>
             <FilterChip disabled count={0}>
-              קנייה
+              קניה
             </FilterChip>
           </div>
         </div>
@@ -204,16 +226,11 @@ function RowPlate() {
       id="plate-row"
       title="שורת לוח"
       en="Table row · market board"
-      note="טבלה אמיתית, לא כרטיסים. שם בסריף, מספרים במונו מיושרים להתחלה – כך הנקודות העשרוניות נערמות זו מתחת לזו – ומחיר שהתעדכן מקבל סימון כפור והמילה ״עודכן״."
+      note="טבלה אמיתית, לא כרטיסים. שם בסריף, מספרים במונו מיושרים להתחלה – כך הנקודות העשרוניות נערמות זו מתחת לזו – ומחיר שהתעדכן מקבל סימון כפור והמילה עודכן."
     >
-      <div
-        role="region"
-        aria-label="דוגמת לוח השוק – גלילה אופקית במסך צר"
-        tabIndex={0}
-        className="relative -mx-4 overflow-x-auto sm:mx-0"
-      >
+      <ScrollRegion label="דוגמת לוח השוק" className="relative -mx-4 overflow-x-auto sm:mx-0">
         <table className="w-full min-w-[46rem] border-collapse text-start">
-          <caption className="sr-only">שורות לדוגמה בלוח השוק של הבוקר, מחירי דמו</caption>
+          <caption className="sr-only">שורות לדוגמה בלוח השוק של הבוקר. מחירי דמו, לפני מע״מ.</caption>
           <MarketTableHead />
           <tbody>
             <MarketRow line={salmon!} />
@@ -223,23 +240,25 @@ function RowPlate() {
             <MarketRow line={bass!} state="soldout" />
           </tbody>
         </table>
-      </div>
-      <p className="text-small text-mist sm:hidden">בטלפון הלוח הופך לטיקר אנכי (שלב 1). כאן: גלילה לצד.</p>
+      </ScrollRegion>
+      <p className="text-small text-mist">
+        מחירי דמו, לפני מע״מ.<span className="sm:hidden"> בטלפון הלוח הופך לרשימה אנכית (שלב 1); כאן גוללים לצד.</span>
+      </p>
       <ul className="flex flex-wrap gap-x-6 gap-y-2">
         <li>
           <StateLabel>Row 1 · default</StateLabel>
         </li>
         <li>
-          <StateLabel>2 · hover</StateLabel>
+          <StateLabel>Row 2 · hover</StateLabel>
         </li>
         <li>
-          <StateLabel>3 · price updated</StateLabel>
+          <StateLabel>Row 3 · price updated</StateLabel>
         </li>
         <li>
-          <StateLabel>4 · focus within</StateLabel>
+          <StateLabel>Row 4 · focus within</StateLabel>
         </li>
         <li>
-          <StateLabel>5 · sold out</StateLabel>
+          <StateLabel>Row 5 · sold out</StateLabel>
         </li>
       </ul>
     </Plate>
@@ -252,9 +271,9 @@ function ToastPlate() {
       id="plate-toast"
       title="הודעה"
       en="Toast · status, polite"
-      note="סימן מרובע במקום וי מצויר, שורת פרטים במונו, פעולה אחת. הקו התחתון הוא הטיימר, והוא נעצר כשמרחפים או מתמקדים."
+      note="סימן מרובע במקום וי מצויר, שורת פרטים במונו, פעולה אחת. הודעה עם פעולה נשארת עד שסוגרים אותה; הודעה בלי פעולה נמסה – הקו התחתון הוא הטיימר, והוא נעצר כשמרחפים או מתמקדים."
     >
-      <div className="grid grid-cols-1 gap-x-8 gap-y-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2" inert>
         <Toast
           tone="success"
           title="נוסף להזמנה של מחר"
@@ -263,35 +282,49 @@ function ToastPlate() {
               פיקנייה · כ־<Num>20</Num> {KG} · כ־<Money value={1780} round />
             </>
           }
-          action={<Button variant="quiet" size="sm">ביטול</Button>}
+          action={
+            <Button variant="quiet" size="sm">
+              ביטול
+            </Button>
+          }
         />
         <Toast
           tone="urgent"
-          title="נותרו 28 דקות לסגירה"
+          title={
+            <>
+              נותרו <Num>28</Num> דקות לסגירה
+            </>
+          }
           detail={
             <>
               ההזמנה למחר נסגרת ב־<Num>14:00</Num>. העגלה מוכנה.
             </>
           }
-          action={<Button variant="quiet" size="sm">לעגלה</Button>}
-          timer={false}
+          action={
+            <Button variant="quiet" size="sm">
+              מעבר לעגלה
+            </Button>
+          }
         />
         <Toast
           tone="info"
           title="נחת: סלמון נורבגי טרי"
           detail={
-            <>
-              <Num>OSL–TLV</Num> · <Num>05:40</Num> · <Num>312</Num> {KG} · <Num>1.8°</Num>
-            </>
+            <span className="inline-flex flex-wrap items-center gap-x-2">
+              <Route from="OSL" to="TLV" mode="air" />· <Num>05:40</Num> · <Num>312</Num> {KG} ·{" "}
+              <Num className="text-ice">1.8°</Num>
+            </span>
           }
-          timer={false}
         />
         <Toast
           tone="error"
           title="השליחה לא הצליחה"
-          detail="החיבור נקטע. ההזמנה שמורה – אפשר לנסות שוב."
-          action={<Button variant="quiet" size="sm">לנסות שוב</Button>}
-          timer={false}
+          detail="החיבור נקטע. ההזמנה נשמרה."
+          action={
+            <Button variant="quiet" size="sm">
+              שליחה חוזרת
+            </Button>
+          }
         />
       </div>
       <div className="border-t border-hairline pt-6">
@@ -308,7 +341,7 @@ export function ComponentsSection() {
       index="06"
       en="Components"
       he="שישה רכיבים, כל המצבים"
-      lede="כל רכיב מוצג במצביו: ברירת מחדל, ריחוף, מיקוד, לחיצה, טעינה, שגיאה ונטרול. המצבים כאן ״נעוצים״ לתצוגה – אלה אותם רכיבים שייבנו בהם המסכים."
+      lede="כל רכיב מוצג במצביו: ברירת מחדל, ריחוף, מיקוד, לחיצה, טעינה, שגיאה ונטרול. המצבים כאן מקובעים לתצוגה – ואלה אותם רכיבים שייבנו מהם המסכים."
     >
       <div className="flex flex-col gap-6">
         <ButtonPlate />

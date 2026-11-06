@@ -35,7 +35,7 @@ export const colors: readonly ColorToken[] = [
   { id: "frost", en: "Frost", he: "כפור", hex: "#E8F3F7", group: "base", role: "טקסט ראשי, פעולה ראשית וטבעת המיקוד.", text: true },
   { id: "hairline", en: "Hairline", he: "קו שיער", hex: "#23394A", group: "base", role: "קווי הפרדה ורשת. דקורטיבי בלבד.", text: false },
   // Brief palette — category accents (semantic, never decorative)
-  { id: "salmon", en: "Salmon", he: "סלמון", hex: "#FF7A59", group: "accent", role: "דגים. ודחיפות: פחות מ-30 דקות לסגירה.", text: true },
+  { id: "salmon", en: "Salmon", he: "סלמון", hex: "#FF7A59", group: "accent", role: "דגים. ודחיפות: פחות מ־30 דקות לסגירה.", text: true },
   { id: "bordeaux", en: "Bordeaux", he: "בורדו", hex: "#8C1C2B", group: "accent", role: "בשר. מילוי בלבד, לעולם לא טקסט על רקע כהה.", text: false },
   { id: "ice", en: "Ice Blue", he: "כחול קרח", hex: "#7FD1FF", group: "accent", role: "טמפרטורה ושרשרת הקירור – ורק הן.", text: true },
   { id: "fresh", en: "Fresh Green", he: "ירוק טרי", hex: "#2BD48A", group: "accent", role: "במלאי. ירידת מחיר לטובת הלקוח.", text: true },
@@ -77,7 +77,7 @@ export interface TypeStep {
 
 export const typeScale: readonly TypeStep[] = [
   { step: -2, id: "micro", minPx: 12, maxPx: 12, lineHeight: 1.4, trackingEm: 0.08, family: "mono", weight: 500, usage: "תוויות מונו לטיניות: קודי שדה תעופה, HACCP, מק״ט", sample: "OSL–TLV · 05:40 · HACCP" },
-  { step: -1, id: "small", minPx: 13, maxPx: 14, lineHeight: 1.5, trackingEm: 0, family: "ui", weight: 400, usage: "מטא-דאטה, הערות שוליים, תגיות", sample: "מוצרים במשקל משתנה יחויבו לפי שקילה בפועל" },
+  { step: -1, id: "small", minPx: 14, maxPx: 15, lineHeight: 1.5, trackingEm: 0, family: "ui", weight: 400, usage: "מטא־דאטה, הערות שוליים, תגיות", sample: "מוצרים במשקל משתנה יחויבו לפי שקילה בפועל" },
   { step: 0, id: "body", minPx: 16, maxPx: 17, lineHeight: 1.6, trackingEm: 0, family: "ui", weight: 400, usage: "גוף טקסט, שדות, כפתורים", sample: "המחירים של היום, מה שנחת הבוקר, וההזמנה למחר – בדקה." },
   { step: 1, id: "lead", minPx: 18, maxPx: 21, lineHeight: 1.5, trackingEm: 0, family: "ui", weight: 400, usage: "פתיח, שורת לוח, מחיר בכרטיס", sample: "סלמון נורבגי טרי · נחת 05:40" },
   { step: 2, id: "title", minPx: 24, maxPx: 28, lineHeight: 1.25, trackingEm: 0, family: "display", weight: 500, usage: "שם מוצר בכרטיס, כותרת טבלה", sample: "פיקנייה" },
@@ -171,11 +171,11 @@ export interface ShadowToken {
 }
 
 export const shadows: readonly ShadowToken[] = [
-  { id: "rim", css: "inset 0 1px 0 0 rgb(232 243 247 / 0.06), inset 0 0 0 1px rgb(35 57 74 / 1)", usage: "אור קצה על משטח פלדה" },
+  { id: "rim", css: "inset 0 1px 0 0 rgb(232 243 247 / 0.07)", usage: "אור קצה על משטח פלדה (הקו עצמו: inset-ring)" },
   { id: "raise", css: "inset 0 1px 0 0 rgb(232 243 247 / 0.08), 0 1px 0 0 rgb(0 0 0 / 0.4), 0 16px 32px -20px rgb(0 0 0 / 0.8)", usage: "כרטיס במעבר עכבר" },
   { id: "float", css: "inset 0 1px 0 0 rgb(232 243 247 / 0.08), 0 24px 48px -16px rgb(2 8 12 / 0.9)", usage: "טוסט, תפריט צף" },
   { id: "frost", css: "0 0 0 1px rgb(232 243 247 / 0.34), 0 0 32px -6px rgb(232 243 247 / 0.16)", usage: "הילה קרה: נבחר, בהזמנה" },
-  { id: "ember", css: "0 0 0 1px rgb(255 122 89 / 0.35), 0 0 40px -6px rgb(255 122 89 / 0.35)", usage: "דחיפות: פחות מ-30 דקות" },
+  { id: "ember", css: "0 0 0 1px rgb(255 122 89 / 0.35), 0 0 40px -6px rgb(255 122 89 / 0.35)", usage: "דחיפות: פחות מ־30 דקות" },
 ];
 
 /* ───────────────────────────── Motion ───────────────────────────── */

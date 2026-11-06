@@ -1,61 +1,42 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
-const KEY = "mf-motion";
+import { setMotionStopped, useMotionStopped } from "@/lib/use-motion";
 
 /**
- * "עצירת אנימציה" — IS 5568 asks for a way to stop moving content. Sets
- * html[data-motion="off"], which globals.css treats exactly like
- * prefers-reduced-motion: reduce. Remembered per viewer when storage allows.
+ * "עצירת אנימציה" — IS 5568 asks for a way to stop moving content. A real toggle
+ * button with a constant name; aria-pressed carries the state. Every instance
+ * reads one shared store (html[data-motion]), so two toggles can never disagree.
+ * The choice is restored before first paint by the script in the root layout.
  */
 export function MotionToggle({ className = "" }: { className?: string }) {
-  const [off, setOff] = useState(false);
-
-  useEffect(() => {
-    try {
-      if (localStorage.getItem(KEY) === "off") setOff(true);
-    } catch {
-      /* storage blocked: default on */
-    }
-  }, []);
-
-  useEffect(() => {
-    const html = document.documentElement;
-    if (off) html.dataset.motion = "off";
-    else delete html.dataset.motion;
-    try {
-      localStorage.setItem(KEY, off ? "off" : "on");
-    } catch {
-      /* ignore */
-    }
-  }, [off]);
+  const off = useMotionStopped();
 
   return (
     <button
       type="button"
       aria-pressed={off}
-      onClick={() => setOff((v) => !v)}
+      onClick={() => setMotionStopped(!off)}
       className={
-        "inline-flex h-10 items-center gap-2 rounded-pill px-4 text-small font-medium text-frost " +
-        "shadow-[inset_0_0_0_1px_var(--color-boundary)] transition-[background-color,box-shadow] duration-fast ease-glide " +
-        "hover:bg-steel hover:shadow-[inset_0_0_0_1px_var(--color-mist)] aria-pressed:bg-frost aria-pressed:text-deep-ice " +
+        "relative inline-flex h-10 items-center gap-2 rounded-pill px-4 text-small font-medium text-frost inset-ring inset-ring-boundary " +
+        "transition-[background-color,color,scale] duration-fast ease-glide active:scale-press " +
+        "after:absolute after:inset-x-0 after:-inset-y-0.5 after:content-[''] " + // 44px hit area
+        "hover:bg-steel hover:inset-ring-mist aria-pressed:bg-frost aria-pressed:text-deep-ice " +
         className
       }
     >
-      <span aria-hidden="true" className="flex h-3 items-center gap-[3px]">
+      <span aria-hidden="true" className="flex h-3 w-[9px] items-center gap-[3px]">
         {off ? (
-          /* stopped → offer play (media glyphs are not mirrored in RTL) */
+          /* stopped → the glyph offers play (media glyphs are not mirrored in RTL) */
           <span className="size-0 border-y-[6px] border-l-[9px] border-y-transparent border-l-current" />
         ) : (
-          /* running → offer pause */
+          /* running → the glyph offers pause */
           <>
-            <span className="h-3 w-[3px] rounded-[1px] bg-current" />
-            <span className="h-3 w-[3px] rounded-[1px] bg-current" />
+            <span className="h-3 w-[3px] rounded-hair bg-current" />
+            <span className="h-3 w-[3px] rounded-hair bg-current" />
           </>
         )}
       </span>
-      {off ? "הפעלת אנימציה" : "עצירת אנימציה"}
+      עצירת אנימציה
     </button>
   );
 }

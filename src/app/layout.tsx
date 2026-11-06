@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Frank_Ruhl_Libre, Heebo, IBM_Plex_Mono } from "next/font/google";
 import { DemoBadge } from "@/components/demo-badge";
 import { SkipLink } from "@/components/skip-link";
+import { restoreMotionScript } from "@/lib/motion-script";
 import "./globals.css";
 
 /* Display serif: variable wght 300–900, Hebrew + Latin. Headlines, product names, the countdown. */
@@ -18,12 +19,14 @@ const ui = Heebo({
   display: "swap",
 });
 
-/* Data mono: prices, weights, temperatures, times. latin-ext carries the ₪ glyph (U+20AA). */
+/* Data mono: prices, weights, temperatures, times. No metric fallback: a glyph Plex Mono
+   lacks (Hebrew, ״, ־) must fall straight to Heebo, not to a scaled Arial. */
 const mono = IBM_Plex_Mono({
   subsets: ["latin", "latin-ext"],
   weight: ["400", "500", "600"],
   variable: "--font-plex-mono",
   display: "swap",
+  adjustFontFallback: false,
 });
 
 export const metadata: Metadata = {
@@ -53,7 +56,11 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="he" dir="rtl" className={`${display.variable} ${ui.variable} ${mono.variable}`}>
+    <html lang="he" dir="rtl" className={`${display.variable} ${ui.variable} ${mono.variable}`} suppressHydrationWarning>
+      <head>
+        {/* restore "עצירת אנימציה" before first paint, so nothing moves even for a frame */}
+        <script dangerouslySetInnerHTML={{ __html: restoreMotionScript }} />
+      </head>
       <body>
         <SkipLink />
         <DemoBadge />

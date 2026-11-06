@@ -34,9 +34,8 @@ export function MotionLab() {
       <div className="flex flex-wrap items-center gap-4">
         <button
           type="button"
-          aria-pressed={play}
           onClick={() => setPlay((p) => !p)}
-          className="inline-flex h-12 items-center gap-3 rounded-sm bg-frost px-5 text-body font-medium text-deep-ice transition-shadow duration-fast ease-glide hover:shadow-frost active:scale-[0.98]"
+          className="inline-flex h-12 items-center gap-3 rounded-sm bg-frost px-5 text-body font-medium text-deep-ice transition-[box-shadow,scale] duration-fast ease-glide hover:shadow-frost active:scale-press"
         >
           <span aria-hidden="true" className="size-0 border-y-[6px] border-e-[9px] border-y-transparent border-e-current" />
           {play ? "איפוס" : "הפעלת ההדגמה"}
@@ -45,8 +44,8 @@ export function MotionLab() {
       </div>
 
       <div className="grid grid-cols-1 gap-x-12 gap-y-10 lg:grid-cols-2">
-        <section aria-labelledby="durations-title" className="flex flex-col gap-4">
-          <h3 id="durations-title" className="label-latin text-fog">
+        <div className="flex flex-col gap-4">
+          <h3 lang="en" className="label-latin text-fog">
             Durations
           </h3>
           <ul className="flex flex-col">
@@ -80,10 +79,10 @@ export function MotionLab() {
               </li>
             ))}
           </ul>
-        </section>
+        </div>
 
-        <section aria-labelledby="easings-title" className="flex flex-col gap-4">
-          <h3 id="easings-title" className="label-latin text-fog">
+        <div className="flex flex-col gap-4">
+          <h3 lang="en" className="label-latin text-fog">
             Easings
           </h3>
           <ul className="flex flex-col">
@@ -119,7 +118,7 @@ export function MotionLab() {
               </li>
             ))}
           </ul>
-        </section>
+        </div>
       </div>
     </div>
   );

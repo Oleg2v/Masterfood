@@ -10,7 +10,7 @@
   --font-*: initial;
   --font-display: var(--font-frank), "Frank Ruhl Libre", "Times New Roman", serif;
   --font-sans: var(--font-heebo), "Heebo", system-ui, "Segoe UI", Arial, sans-serif;
-  --font-mono: var(--font-plex-mono), "IBM Plex Mono", var(--font-heebo), ui-monospace, monospace;
+  --font-mono: var(--font-plex-mono), var(--font-heebo), ui-monospace, monospace;
 }
 
 /* Motion vocabulary. No bounce, no spin, no ping: calm and cold. */
@@ -20,6 +20,7 @@
   --animate-beacon: beacon 2.4s var(--ease-breath) infinite;
   --animate-toast-timer: toast-timer 6s linear forwards;
   --animate-breath: breath 2s var(--ease-breath) infinite;
+  --animate-sheen: sheen var(--dur-calm) var(--ease-glide) both;
 
   @keyframes hairline {
     from {
@@ -46,6 +47,17 @@
     }
     to {
       scale: 0 1;
+    }
+  }
+  /* light crossing a block of ice, once per hover, start → end (right → left) */
+  @keyframes sheen {
+    from {
+      translate: 110% 0;
+      opacity: 1;
+    }
+    to {
+      translate: -110% 0;
+      opacity: 1;
     }
   }
   @keyframes breath {
@@ -82,6 +94,8 @@
 @custom-variant focus-visible (&:focus-visible, &[data-force~="focus"]);
 @custom-variant focus-within (&:focus-within, &[data-force~="within"]);
 @custom-variant active (&:active, &[data-force~="active"]);
+/* A compound field (stepper + input) shows its ring only when the input itself has keyboard focus. */
+@custom-variant field-focus (&:has(input:focus-visible), &[data-force~="within"]);
 
 @layer base {
   html {
@@ -239,15 +253,40 @@ html[data-motion="off"] ::after {
   }
 }
 
+/* Plex Mono's zero is dotted and its subset has no slashed-zero feature: tabular only. */
 @utility num {
   font-family: var(--font-mono);
-  font-variant-numeric: tabular-nums slashed-zero;
+  font-variant-numeric: tabular-nums;
 }
 
+/* Latin micro-labels. Tracking applies only to runs marked lang="en", so a Hebrew
+   word that lands in a label is never letter-spaced. */
 @utility label-latin {
   font-family: var(--font-mono);
   font-size: var(--text-micro);
   line-height: var(--text-micro--line-height);
-  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
+  &:lang(en) {
+    letter-spacing: var(--tracking-label);
+  }
+}
+
+/* Forced colours: box-shadow boundaries are dropped by the UA, so every inset-ring
+   surface (inputs, outlined buttons, chips, tags, plates) gets a real 1px outline. */
+@media (forced-colors: active) {
+  .inset-ring {
+    outline: 1px solid CanvasText;
+    outline-offset: -1px;
+  }
+  :focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+}
+
+/* The sheen pinned mid-sweep, for the style tile's "hover" specimen. */
+[data-force~="hover"] .sheen {
+  translate: 0 0;
+  opacity: 0.55;
+  animation: none;
 }

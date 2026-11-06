@@ -27,7 +27,7 @@
   --text-*: initial;
   --text-micro: 0.75rem; /* step -2: 12→12px */
   --text-micro--line-height: round(up, 1.4em, 4px);
-  --text-small: clamp(0.8125rem, 0.7917rem + 0.0926vw, 0.875rem); /* step -1: 13→14px */
+  --text-small: clamp(0.875rem, 0.8542rem + 0.0926vw, 0.9375rem); /* step -1: 14→15px */
   --text-small--line-height: round(up, 1.5em, 4px);
   --text-body: clamp(1rem, 0.9792rem + 0.0926vw, 1.0625rem); /* step 0: 16→17px */
   --text-body--line-height: round(up, 1.6em, 4px);
@@ -71,7 +71,7 @@
   --container-toast: 26rem;
 
   --shadow-*: initial;
-  --shadow-rim: inset 0 1px 0 0 rgb(232 243 247 / 0.06), inset 0 0 0 1px rgb(35 57 74 / 1);
+  --shadow-rim: inset 0 1px 0 0 rgb(232 243 247 / 0.07);
   --shadow-raise: inset 0 1px 0 0 rgb(232 243 247 / 0.08), 0 1px 0 0 rgb(0 0 0 / 0.4), 0 16px 32px -20px rgb(0 0 0 / 0.8);
   --shadow-float: inset 0 1px 0 0 rgb(232 243 247 / 0.08), 0 24px 48px -16px rgb(2 8 12 / 0.9);
   --shadow-frost: 0 0 0 1px rgb(232 243 247 / 0.34), 0 0 32px -6px rgb(232 243 247 / 0.16);

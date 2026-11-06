@@ -5,6 +5,26 @@ export function Container({ children, className = "" }: { children: ReactNode; c
   return <div className={`mx-auto w-full max-w-[90rem] px-4 sm:px-8 xl:px-12 ${className}`}>{children}</div>;
 }
 
+/**
+ * A bilingual label: the Latin half in tracked mono (lang="en"), the Hebrew half
+ * in Heebo, never letter-spaced. Use instead of label-latin on mixed text.
+ */
+export function BiLabel({ en, he, as: Tag = "p", className = "" }: { en: string; he?: string; as?: "p" | "h2" | "h3" | "span"; className?: string }) {
+  return (
+    <Tag className={`flex flex-wrap items-baseline gap-x-2 gap-y-1 text-fog ${className}`}>
+      <bdi dir="ltr" lang="en" className="label-latin">
+        {en}
+      </bdi>
+      {he ? (
+        <>
+          <span aria-hidden="true">·</span>
+          <span className="text-small">{he}</span>
+        </>
+      ) : null}
+    </Tag>
+  );
+}
+
 export function Section({
   id,
   index,
@@ -25,14 +45,14 @@ export function Section({
       <Container className="flex flex-col gap-12 sm:gap-16">
         <header className="grid grid-cols-1 gap-4 border-t border-hairline pt-6 lg:grid-cols-12 lg:gap-6">
           <p className="label-latin text-fog lg:col-span-3">
-            <bdi dir="ltr">
+            <bdi dir="ltr" lang="en">
               {index} — {en}
             </bdi>
           </p>
           <h2 id={`${id}-title`} className="type-headline text-balance text-frost lg:col-span-5">
             {he}
           </h2>
-          <p className="max-w-[46ch] text-body text-mist lg:col-span-4">{lede}</p>
+          <p className="max-w-[46ch] text-body text-pretty text-mist lg:col-span-4">{lede}</p>
         </header>
         {children}
       </Container>
@@ -57,20 +77,26 @@ export function Plate({
   className?: string;
 }) {
   return (
-    <article id={id} className={`flex scroll-mt-20 flex-col gap-6 rounded-md bg-steel/60 p-4 shadow-rim sm:p-8 ${className}`}>
+    <article id={id} className={`flex scroll-mt-20 flex-col gap-6 rounded-md bg-steel/60 p-4 shadow-rim inset-ring inset-ring-hairline sm:p-8 ${className}`}>
       <header className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-b border-hairline pb-4">
         <h3 className="type-heading text-frost">{title}</h3>
         <p className="label-latin text-fog">
-          <bdi dir="ltr">{en}</bdi>
+          <bdi dir="ltr" lang="en">
+            {en}
+          </bdi>
         </p>
-        {note ? <p className="w-full text-small text-mist">{note}</p> : null}
+        {note ? <p className="w-full max-w-[72ch] text-small text-pretty text-mist">{note}</p> : null}
       </header>
       {children}
     </article>
   );
 }
 
-/** Caption under a pinned state. */
+/** Caption of a pinned state: Latin, isolated LTR so "2 · hover" never reorders. */
 export function StateLabel({ children }: { children: ReactNode }) {
-  return <span className="label-latin text-fog">{children}</span>;
+  return (
+    <bdi dir="ltr" lang="en" className="label-latin text-fog">
+      {children}
+    </bdi>
+  );
 }

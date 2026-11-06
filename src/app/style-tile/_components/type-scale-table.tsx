@@ -31,7 +31,7 @@ export function TypeScaleTable() {
     <div className="flex flex-col">
       <div className="flex items-baseline justify-between gap-4 border-b border-boundary pb-3">
         <h3 className="label-latin text-fog">
-          <bdi dir="ltr">Type scale · 9 steps · clamp() {VIEWPORT.minPx}→{VIEWPORT.maxPx}</bdi>
+          <bdi dir="ltr" lang="en">Type scale · 9 steps · clamp() {VIEWPORT.minPx}–{VIEWPORT.maxPx}</bdi>
         </h3>
         <p className="text-small text-mist">
           עכשיו ברוחב{" "}
@@ -56,12 +56,12 @@ export function TypeScaleTable() {
                   }}
                   className={`type-${t.id} min-w-0 shrink truncate text-frost ${t.family === "mono" ? "label-latin" : ""} ${t.id === "monument" ? "tracking-numerals [font-variant-numeric:tabular-nums_lining-nums]" : ""}`}
                 >
-                  {isLatin ? <bdi dir="ltr">{t.sample}</bdi> : t.sample}
+                  {isLatin ? <bdi dir="ltr" lang={t.family === "mono" ? "en" : undefined}>{t.sample}</bdi> : t.sample}
                 </p>
                 <span aria-hidden="true" className="leader hidden min-w-8 flex-1 sm:block" />
                 <span className="hidden shrink-0 items-baseline gap-3 sm:flex">
                   <bdi dir="ltr" className="num text-small text-mist">
-                    {t.minPx}→{t.maxPx}
+                    {t.minPx}–{t.maxPx}
                   </bdi>
                   <bdi dir="ltr" className="num w-16 text-end text-small text-frost">
                     {now ? `${now.px[i]?.toFixed(1)}px` : "—"}
@@ -77,7 +77,7 @@ export function TypeScaleTable() {
                   {familyName[t.family]} · <bdi dir="ltr" className="num">{t.weight}</bdi> · {t.usage}
                 </span>
                 <bdi dir="ltr" className="num text-small text-mist sm:hidden">
-                  {t.minPx}→{t.maxPx}px
+                  {t.minPx}–{t.maxPx}px
                 </bdi>
                 <code dir="ltr" className="num w-full truncate text-start text-micro text-fog lg:w-auto lg:ms-auto">
                   {fluidClamp(t.minPx, t.maxPx)} · lh {t.lineHeight}

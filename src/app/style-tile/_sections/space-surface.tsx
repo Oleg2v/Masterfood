@@ -44,7 +44,7 @@ export function SpaceSection() {
 
         {/* A live specimen on a visible 4px grid. */}
         <figure className="flex flex-col gap-3 lg:col-span-4">
-          <div className="grid-4 relative rounded-md bg-steel/60 p-6 shadow-rim">
+          <div className="grid-4 relative rounded-md bg-steel/60 p-6 shadow-rim inset-ring inset-ring-hairline">
             <div className="flex flex-col gap-4 rounded-sm bg-deep-ice p-4 shadow-[inset_0_0_0_1px_var(--color-hairline)]">
               <div className="flex items-center justify-between">
                 <span className="font-display text-title font-medium text-frost">סינטה</span>
@@ -61,7 +61,7 @@ export function SpaceSection() {
           </div>
           <figcaption className="text-small text-mist">
             ריפוד <bdi dir="ltr" className="num">16</bdi> · מרווח <bdi dir="ltr" className="num">16</bdi> · כפתור{" "}
-            <bdi dir="ltr" className="num">40</bdi> · קו שיער <bdi dir="ltr" className="num">1</bdi>. כל קצה נוגע ברשת.
+            <bdi dir="ltr" className="num">40</bdi> (יעד מגע <bdi dir="ltr" className="num">44</bdi>) · קו שיער <bdi dir="ltr" className="num">1</bdi>. כל קצה נוגע ברשת.
           </figcaption>
         </figure>
       </div>
@@ -80,7 +80,7 @@ export function SurfaceSection() {
     >
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-6">
         <div className="flex flex-col gap-4 lg:col-span-5">
-          <h3 className="label-latin text-fog">Radii</h3>
+          <h3 lang="en" className="label-latin text-fog">Radii</h3>
           <ul className="grid grid-cols-3 gap-4 sm:grid-cols-5 lg:grid-cols-3">
             {radii.map((r) => (
               <li key={r.id} className="flex flex-col gap-2">
@@ -97,7 +97,7 @@ export function SurfaceSection() {
           </ul>
         </div>
         <div className="flex flex-col gap-4 lg:col-span-7">
-          <h3 className="label-latin text-fog">Elevation · light, not shadow</h3>
+          <h3 lang="en" className="label-latin text-fog">Elevation · light, not shadow</h3>
           <ul className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:gap-6">
             {shadows.map((s) => (
               <li key={s.id} className="flex flex-col gap-3">

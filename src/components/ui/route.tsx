@@ -6,6 +6,7 @@ import { Num } from "./num";
  * (right), destination at the inline end (left), with the plane or ship
  * mirrored to face the direction of travel. One component, so the board, the
  * toasts and the arrivals strip can never disagree about which way OSL–TLV runs.
+ * The vehicle is named for assistive tech ("בטיסה" / "בהפלגה").
  */
 export function Route({
   from,
@@ -22,9 +23,13 @@ export function Route({
 }) {
   return (
     <span className={`inline-flex items-center gap-1.5 ${className}`}>
-      <Num className="label-latin" >{from}</Num>
+      <Num className="label-latin" lang="en">
+        {from}
+      </Num>
       <Icon name={mode === "air" ? "plane" : "ship"} size={size} title={mode === "air" ? "בטיסה" : "בהפלגה"} />
-      <Num className="label-latin">{to}</Num>
+      <Num className="label-latin" lang="en">
+        {to}
+      </Num>
     </span>
   );
 }

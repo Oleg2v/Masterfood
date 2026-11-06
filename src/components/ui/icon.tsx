@@ -101,10 +101,22 @@ export function Icon({
   );
 }
 
-/** Solid trend triangles as SVG: ▲ ▼ glyphs are missing from all three typefaces. */
+/**
+ * Solid trend triangles as SVG (▲ ▼ are missing from all three typefaces).
+ * Up and down are named for assistive tech; flat stays silent because "0.0%" says it.
+ */
 export function TrendGlyph({ dir, className = "" }: { dir: "up" | "down" | "flat"; className?: string }) {
+  const label = dir === "up" ? "עלייה" : dir === "down" ? "ירידה" : undefined;
   return (
-    <svg viewBox="0 0 10 10" width="0.62em" height="0.62em" aria-hidden="true" className={`inline-block shrink-0 ${className}`}>
+    <svg
+      viewBox="0 0 10 10"
+      width="0.62em"
+      height="0.62em"
+      role={label ? "img" : undefined}
+      aria-label={label}
+      aria-hidden={label ? undefined : true}
+      className={`inline-block shrink-0 ${className}`}
+    >
       {dir === "up" ? <path d="M5 1.2 9.4 8.8H.6Z" fill="currentColor" /> : null}
       {dir === "down" ? <path d="M5 8.8.6 1.2h8.8Z" fill="currentColor" /> : null}
       {dir === "flat" ? <path d="M1 3.4h8M1 6.6h8" stroke="currentColor" strokeWidth="1.4" /> : null}

@@ -1,6 +1,6 @@
 import { colors, type ColorToken } from "@/design/tokens";
 import { contrastRatio, formatRatio, grade } from "@/design/contrast";
-import { Section } from "../_components/frame";
+import { BiLabel, Section } from "../_components/frame";
 import { PaletteBoard } from "../_components/palette-board";
 
 const hex = (id: string) => colors.find((c) => c.id === id)!.hex;
@@ -20,7 +20,8 @@ function Ratio({ fg, bg, label, kind = "text" }: { fg: string; bg: string; label
           {formatRatio(r)}
         </bdi>
         <span
-          className={`label-latin rounded-xs px-1.5 py-0.5 ${pass ? "text-fresh shadow-[inset_0_0_0_1px_rgb(43_212_138/0.4)]" : "text-fog shadow-[inset_0_0_0_1px_var(--color-hairline)]"}`}
+          lang={/[A-Z]/.test(verdict) ? "en" : undefined}
+          className={`rounded-xs px-1.5 py-0.5 ${/[A-Z]/.test(verdict) ? "label-latin" : "text-micro"} ${pass ? "text-fresh inset-ring inset-ring-fresh/40" : "text-fog inset-ring inset-ring-hairline"}`}
         >
           {verdict}
         </span>
@@ -46,7 +47,7 @@ function Slab({ c, tall = false }: { c: ColorToken; tall?: boolean }) {
           {c.he}
         </span>
         <span className="flex items-baseline justify-between gap-2">
-          <bdi dir="ltr" className="label-latin">
+          <bdi dir="ltr" lang="en" className="label-latin">
             {c.en}
           </bdi>
           <bdi dir="ltr" className="num text-small">
@@ -98,7 +99,7 @@ export function PaletteSection() {
       <PaletteBoard />
 
       <div className="flex flex-col gap-4">
-        <h3 className="label-latin text-fog">Neutrals · בסיס</h3>
+        <BiLabel as="h3" en="Neutrals" he="בסיס" />
         <ul className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4 lg:gap-6">
           {base.map((c) => (
             <Slab key={c.id} c={c} tall />
@@ -107,7 +108,7 @@ export function PaletteSection() {
       </div>
 
       <div className="flex flex-col gap-4">
-        <h3 className="label-latin text-fog">Category accents · ארבע מילים</h3>
+        <BiLabel as="h3" en="Category accents" he="ארבע מילים" />
         <ul className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4 lg:gap-6">
           {accent.map((c) => (
             <Slab key={c.id} c={c} tall />
@@ -116,7 +117,7 @@ export function PaletteSection() {
       </div>
 
       <div className="flex flex-col gap-4">
-        <h3 className="label-latin text-fog">Derived · נגזרות שמחזיקות את AA</h3>
+        <BiLabel as="h3" en="Derived" he="הנגזרות שמחזיקות את AA" />
         <ul className="grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 lg:grid-cols-5 lg:gap-6">
           {derived.map((c) => (
             <Slab key={c.id} c={c} />

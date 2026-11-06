@@ -46,6 +46,15 @@ const reduced = flag("reduced");
 
 mkdirSync(out, { recursive: true });
 
+// Lazy images never load in a single capture: make them eager and wait until every one has decoded.
+async function loadAllImages(page) {
+  await page.evaluate(async () => {
+    const imgs = [...document.images];
+    imgs.forEach((i) => { i.loading = "eager"; i.decoding = "sync"; });
+    await Promise.all(imgs.map((i) => (i.complete && i.naturalWidth ? null : new Promise((r) => { i.addEventListener("load", r, { once: true }); i.addEventListener("error", r, { once: true }); setTimeout(r, 8000); }))));
+  });
+}
+
 const browser = await chromium.launch();
 const files = [];
 try {
@@ -67,6 +76,7 @@ try {
       const slug = route.replace(/^\//, "").replace(/[^\w-]+/g, "_") || "home";
       await page.goto(base + route, { waitUntil: "networkidle" });
       await page.evaluate(() => document.fonts.ready);
+      await loadAllImages(page);
       await page.waitForTimeout(wait);
 
       if (full) {

@@ -47,7 +47,7 @@ export function PaletteBoard() {
           לוח הצבעים
         </p>
         <p className="label-latin hidden text-fog sm:block">
-          <bdi dir="ltr">Departures · Palette · 8 lines</bdi>
+          <bdi dir="ltr" lang="en">Departures · Palette · 8 lines</bdi>
         </p>
       </div>
       <table className="w-full border-separate border-spacing-y-1.5 text-start">
@@ -77,7 +77,7 @@ export function PaletteBoard() {
                   <span className="sr-only">{c.en}</span>
                 </td>
                 <th scope="row" className="pe-3 text-start font-normal">
-                  <FlapWord className="min-w-[5.5em] justify-start! font-display font-medium">{c.he}</FlapWord>
+                  <FlapWord className="min-w-[5.5em] justify-start! font-sans font-medium lg:font-display">{c.he}</FlapWord>
                 </th>
                 <td className="hidden pe-3 xl:table-cell">
                   <span className="sr-only">{c.en}</span>

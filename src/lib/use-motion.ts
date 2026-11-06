@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { MOTION_KEY } from "./motion-script";
 
 /**
  * One source of truth for "is motion allowed right now": the OS setting
@@ -8,8 +9,6 @@ import { useSyncExternalStore } from "react";
  * <html data-motion="off">. Every toggle and every JS-driven animation reads
  * this, so two toggles can never disagree and the countdown can slow down too.
  */
-
-const KEY = "mf-motion";
 
 function subscribe(cb: () => void) {
   const mo = new MutationObserver(cb);
@@ -40,11 +39,9 @@ export function setMotionStopped(stopped: boolean) {
   if (stopped) html.dataset.motion = "off";
   else delete html.dataset.motion;
   try {
-    localStorage.setItem(KEY, stopped ? "off" : "on");
+    localStorage.setItem(MOTION_KEY, stopped ? "off" : "on");
   } catch {
     /* storage blocked: the choice lasts for this page view */
   }
 }
 
-/** Inline script for <head>: restores the choice before first paint (no flash of motion). */
-export const restoreMotionScript = `try{if(localStorage.getItem("${KEY}")==="off")document.documentElement.dataset.motion="off"}catch(e){}`;

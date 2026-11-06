@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Num } from "@/components/ui/num";
+import { useStill } from "@/lib/use-motion";
 
 const START = 4 * 3600 + 12 * 60 + 33; // 04:12:33, from the brief
 const URGENT_START = 27 * 60 + 48; // 00:27:48 — under 30 minutes
@@ -14,24 +16,36 @@ function parts(total: number) {
 /**
  * The monument step in its natural habitat: the cutoff countdown. Frank Ruhl
  * Libre with tabular figures (its Latin subset has `tnum`), so the seconds never
- * jitter. Under 30 minutes it turns Salmon and breathes, slowly.
+ * jitter. Under 30 minutes it turns Salmon, breathes slowly and SAYS so in words.
+ * With reduced motion or "עצירת אנימציה" it updates once a minute and drops the
+ * seconds (WCAG 2.2.2): HH:MM, still and quiet.
  */
 export function CountdownSpecimen() {
+  const still = useStill();
   const [urgent, setUrgent] = useState(false);
   const [left, setLeft] = useState(START);
 
   useEffect(() => {
+    if (still) {
+      const t = window.setInterval(() => setLeft((v) => Math.max(0, v - 60)), 60_000);
+      return () => window.clearInterval(t);
+    }
     const t = window.setInterval(() => setLeft((v) => (v > 0 ? v - 1 : 0)), 1000);
     return () => window.clearInterval(t);
-  }, []);
+  }, [still]);
 
   const { h, m, s } = parts(left);
   const spoken = h > 0 ? `${h} שעות ו־${m} דקות` : `${m} דקות`;
 
   return (
     <div className="flex flex-col gap-4">
-      <p className="type-lead text-mist" id="cutoff-label">
+      <p className="flex flex-wrap items-baseline gap-x-3 type-lead text-mist" id="cutoff-label">
         ההזמנה למחר נסגרת בעוד
+        {urgent ? (
+          <span className="text-small font-medium text-salmon">
+            נסגרת בקרוב · פחות מ־<Num>30</Num> דקות
+          </span>
+        ) : null}
       </p>
       <p
         role="timer"
@@ -46,8 +60,12 @@ export function CountdownSpecimen() {
           {pad(h)}
           <span className="text-fog">:</span>
           {pad(m)}
-          <span className="text-fog">:</span>
-          {pad(s)}
+          {still ? null : (
+            <>
+              <span className="text-fog">:</span>
+              {pad(s)}
+            </>
+          )}
         </bdi>
       </p>
       <p id="cutoff-spoken" className="sr-only">
@@ -62,16 +80,19 @@ export function CountdownSpecimen() {
             setLeft(urgent ? START : URGENT_START);
           }}
           className={
-            "group inline-flex h-10 items-center gap-2 rounded-pill px-4 text-small font-medium " +
-            "shadow-[inset_0_0_0_1px_var(--color-boundary)] transition-[background-color,box-shadow,color] duration-fast ease-glide " +
-            "hover:bg-steel hover:shadow-[inset_0_0_0_1px_var(--color-mist)] " +
-            "aria-pressed:bg-salmon aria-pressed:text-deep-ice aria-pressed:shadow-ember"
+            "group relative inline-flex h-10 items-center gap-2 rounded-pill px-4 text-small font-medium inset-ring inset-ring-boundary " +
+            "transition-[background-color,color,scale] duration-fast ease-glide active:scale-press " +
+            "after:absolute after:inset-x-0 after:-inset-y-0.5 after:content-[''] " + // 44px hit area
+            "hover:bg-steel hover:inset-ring-mist " +
+            "aria-pressed:bg-salmon aria-pressed:text-deep-ice aria-pressed:shadow-ember aria-pressed:inset-ring-0"
           }
         >
           <span aria-hidden="true" className="size-2 rounded-full bg-salmon group-aria-pressed:bg-deep-ice" />
-          מצב דחיפות: פחות מ־30 דקות
+          מצב דחיפות: פחות מ־<Num>30</Num> דקות
         </button>
-        <span className="text-small text-mist">סלמון ופעימה איטית, 2 שניות למחזור</span>
+        <span className="text-small text-mist">
+          סלמון ופעימה איטית, <Num>2</Num> שניות למחזור
+        </span>
       </div>
     </div>
   );

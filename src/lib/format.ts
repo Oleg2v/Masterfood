@@ -12,11 +12,10 @@ export const formatILS = (n: number, { round = false } = {}) => `₪${(round ? i
 
 export const formatKg = (n: number) => kg.format(n);
 
-export function formatChange(pct: number): { glyph: "▲" | "▼" | "="; text: string; dir: "up" | "down" | "flat" } {
-  if (Math.abs(pct) < 0.05) return { glyph: "=", text: "0.0%", dir: "flat" };
-  return pct > 0
-    ? { glyph: "▲", text: `${pct.toFixed(1)}%`, dir: "up" }
-    : { glyph: "▼", text: `${Math.abs(pct).toFixed(1)}%`, dir: "down" };
+/** Signed, one decimal, true minus (U+2212): "+1.2%", "−0.8%", "0.0%". The glyph is drawn by <TrendGlyph>. */
+export function formatChange(pct: number): { text: string; dir: "up" | "down" | "flat" } {
+  if (Math.abs(pct) < 0.05) return { text: "0.0%", dir: "flat" };
+  return pct > 0 ? { text: `+${pct.toFixed(1)}%`, dir: "up" } : { text: `−${Math.abs(pct).toFixed(1)}%`, dir: "down" };
 }
 
 /** Kilogram unit with a real gershayim (U+05F4), never a double quote. */

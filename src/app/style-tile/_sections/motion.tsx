@@ -14,11 +14,11 @@ function FlapTiming() {
   ];
   const total = steps.reduce((a, s) => a + s.ms, 0);
   return (
-    <figure className="flex flex-col gap-4 rounded-md bg-steel/60 p-6 shadow-rim sm:p-8">
+    <figure className="flex flex-col gap-4 rounded-md bg-steel/60 p-6 shadow-rim inset-ring inset-ring-hairline sm:p-8">
       <figcaption className="flex flex-wrap items-baseline justify-between gap-3">
         <span className="type-title text-frost">מחזור של אריח בלוח</span>
-        <bdi dir="ltr" className="num text-small text-mist">
-          {total}ms / flip · ≤ 8 flips / char
+        <bdi dir="ltr" lang="en" className="num text-small text-mist">
+          {total}ms / flip · max 8 flips / char
         </bdi>
       </figcaption>
       <div className="flex h-10 overflow-hidden rounded-xs shadow-[inset_0_0_0_1px_var(--color-hairline)]">
@@ -70,7 +70,7 @@ export function MotionSection() {
         <aside className="flex flex-col gap-4 rounded-md p-6 shadow-[inset_0_0_0_1px_var(--color-hairline)] sm:p-8 lg:col-span-5">
           <h3 className="type-title text-frost">כשמבקשים לעצור</h3>
           <p className="text-body text-mist">
-            <bdi dir="ltr" className="num text-small">prefers-reduced-motion</bdi> או הכפתור ״עצירת אנימציה״ – שניהם
+            <bdi dir="ltr" className="num text-small">prefers-reduced-motion</bdi> או הכפתור "עצירת אנימציה" – שניהם
             אותו כלל: הלוח הופך לטבלה סטטית, הכפור והערפל קופאים כתמונה, המעברים נעלמים והמספרים פשוט מתחלפים.
             שום מידע לא תלוי בתנועה.
           </p>

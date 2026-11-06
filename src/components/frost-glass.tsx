@@ -18,12 +18,15 @@ export function FrostGlass({
   alt,
   className = "",
   hint = "נגבו את הכפור",
+  fill = false,
 }: {
   /** A same-origin URL (e.g. /_next/image?...) so the canvas is not tainted. */
   src: string;
   alt: string;
   className?: string;
   hint?: string;
+  /** Fill a positioned parent (absolute inset-0) instead of sizing itself. */
+  fill?: boolean;
 }) {
   const wrap = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -49,8 +52,11 @@ export function FrostGlass({
     let prev: { x: number; y: number } | null = null;
     let dpr = 1;
 
-    const cover = (c: CanvasRenderingContext2D, w: number, h: number) => {
-      const s = Math.max(w / img.naturalWidth, h / img.naturalHeight);
+    // object-fit: cover, overscanned by `pad` px so a blur never pulls transparent edges in
+    const cover = (c: CanvasRenderingContext2D, w: number, h: number, pad = 0) => {
+      const W = w + pad * 2;
+      const H = h + pad * 2;
+      const s = Math.max(W / img.naturalWidth, H / img.naturalHeight);
       const dw = img.naturalWidth * s;
       const dh = img.naturalHeight * s;
       c.drawImage(img, (w - dw) / 2, (h - dh) / 2, dw, dh);
@@ -102,13 +108,14 @@ export function FrostGlass({
       frost.height = cv.height;
       const f = frost.getContext("2d");
       if (!f) return;
-      f.filter = `blur(${Math.round(16 * dpr)}px) saturate(0.55) brightness(1.08)`;
-      cover(f, cv.width, cv.height);
+      const blur = Math.round(18 * dpr);
+      f.filter = `blur(${blur}px) saturate(0.38) brightness(1.04)`;
+      cover(f, cv.width, cv.height, blur * 2);
       f.filter = "none";
       // a pale condensation veil, brighter toward the top like cold air settling
       const g = f.createLinearGradient(0, 0, 0, cv.height);
-      g.addColorStop(0, "rgba(232,243,247,0.34)");
-      g.addColorStop(1, "rgba(232,243,247,0.18)");
+      g.addColorStop(0, "rgba(232,243,247,0.5)");
+      g.addColorStop(1, "rgba(200,220,230,0.32)");
       f.fillStyle = g;
       f.fillRect(0, 0, cv.width, cv.height);
       // crystal speckle
@@ -174,7 +181,7 @@ export function FrostGlass({
   }, [src]);
 
   return (
-    <div ref={wrap} className={`relative isolate touch-pan-y select-none overflow-hidden ${className}`}>
+    <div ref={wrap} className={`${fill ? "absolute inset-0" : "relative"} isolate touch-pan-y select-none overflow-hidden ${className}`}>
       {/* The sharp photo underneath: the accessible image. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={src} alt={alt} className="absolute inset-0 size-full object-cover [filter:saturate(0.92)_contrast(1.06)_brightness(0.9)]" />

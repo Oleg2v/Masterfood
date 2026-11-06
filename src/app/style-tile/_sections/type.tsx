@@ -1,13 +1,13 @@
 import { Money } from "@/components/ui/money";
-import { Section } from "../_components/frame";
+import { BiLabel, Section } from "../_components/frame";
 import { TypeScaleTable } from "../_components/type-scale-table";
 
 const rules = [
   ["בלי ריווח אותיות בעברית", "ריווח רק לתוויות מונו לטיניות (OSL, HACCP). עברית נשארת בצפיפות שלה."],
   ["גרשיים אמיתיים", "ק״ג עם ״ (U+05F4), לא מירכאות. ומקף עברי בצירוף מספר: כ־20."],
   ["כל מספר ב־bdi", "מחיר, משקל, שעה וטמפרטורה – ריצת LTR מבודדת, כך ש־₪62.90 לעולם לא מתהפך."],
-  ["ספרות טבלאיות", "tabular-nums ואפס חתוך בכל עמודה, כדי שהמספרים יעמדו בשורה כמו בלוח מסחר."],
-  ["שורה של 1.6 לגוף", "Heebo בגוף טקסט: 16 פיקסל לפחות, שורה 1.6, עד 68 תווים."],
+  ["ספרות טבלאיות", "tabular-nums בכל עמודה, ואפס מנוקד של Plex Mono, כדי שהמספרים יעמדו בשורה כמו בלוח מסחר."],
+  ["שורה של 1.6 לגוף", "Heebo בגוף טקסט: 16 פיקסל לפחות, שורה 1.6 שנצמדת לרשת של 4, עד 68 תווים. עברית לעולם לא קטנה מ־14."],
   ["קו מפריד, לא מינוס", "רווח–קו מפריד–רווח (–) במשפט, מינוס אמיתי (−) במספרים שליליים."],
 ] as const;
 
@@ -18,19 +18,19 @@ export function TypeSection() {
       index="02"
       en="Typography"
       he="סריף לשם הנתח, מונו לאמת"
-      lede="שלושה קולות בלבד. Frank Ruhl Libre בגדלים מונומנטליים לרגש, Heebo לממשק השקט, IBM Plex Mono לכל מספר. סולם של תשעה צעדים, נוזלי בין 360 ל־1440 פיקסל."
+      lede="שלושה גופנים, שני קולות. Frank Ruhl Libre בגדלים מונומנטליים לרגש, IBM Plex Mono לכל מספר – ו־Heebo לממשק השקט שביניהם. סולם של תשעה צעדים, נוזלי בין 360 ל־1440 פיקסל."
     >
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-        <article className="flex flex-col justify-between gap-8 rounded-md bg-steel/60 p-6 shadow-rim sm:p-8 lg:col-span-6">
+        <article className="flex flex-col justify-between gap-8 rounded-md bg-steel/60 p-6 shadow-rim inset-ring inset-ring-hairline sm:p-8 lg:col-span-6">
           <header className="flex items-baseline justify-between gap-4">
             <h3 className="label-latin text-fog">
-              <bdi dir="ltr">Display · Frank Ruhl Libre · 300–900</bdi>
+              <bdi dir="ltr" lang="en">Display · Frank Ruhl Libre · 300–900</bdi>
             </h3>
             <span className="text-small text-mist">כותרות, שמות נתחים, השעון</span>
           </header>
           <p className="type-monument text-frost">פיקנייה</p>
           <div className="flex flex-col gap-2">
-            <p className="font-display text-heading font-normal text-frost">אבגדהוזחטיכלמנסעפצקרשת</p>
+            <p className="font-display text-heading font-normal text-frost [overflow-wrap:anywhere]">אבגדהוזחטיכךלמםנןסעפףצץקרשת</p>
             <p className="font-display text-title font-medium text-mist">
               אנטריקוט · סינטה · שייטל · <bdi dir="ltr">0123456789</bdi>
             </p>
@@ -38,10 +38,10 @@ export function TypeSection() {
         </article>
 
         <div className="grid gap-6 lg:col-span-6">
-          <article className="flex flex-col gap-6 rounded-md bg-steel/60 p-6 shadow-rim sm:p-8">
+          <article className="flex flex-col gap-6 rounded-md bg-steel/60 p-6 shadow-rim inset-ring inset-ring-hairline sm:p-8">
             <header className="flex items-baseline justify-between gap-4">
               <h3 className="label-latin text-fog">
-                <bdi dir="ltr">UI · Heebo · 400 / 500 / 700</bdi>
+                <bdi dir="ltr" lang="en">UI · Heebo · 400 / 500 / 700</bdi>
               </h3>
               <span className="text-small text-mist">ממשק, גוף, פקדים</span>
             </header>
@@ -57,10 +57,10 @@ export function TypeSection() {
             </div>
           </article>
 
-          <article className="flex flex-col gap-6 rounded-md bg-steel/60 p-6 shadow-rim sm:p-8">
+          <article className="flex flex-col gap-6 rounded-md bg-steel/60 p-6 shadow-rim inset-ring inset-ring-hairline sm:p-8">
             <header className="flex items-baseline justify-between gap-4">
               <h3 className="label-latin text-fog">
-                <bdi dir="ltr">Data · IBM Plex Mono · 400 / 500 / 600</bdi>
+                <bdi dir="ltr" lang="en">Data · IBM Plex Mono · 400 / 500 / 600</bdi>
               </h3>
               <span className="text-small text-mist">מחיר, משקל, שעה, טמפרטורה</span>
             </header>
@@ -77,7 +77,7 @@ export function TypeSection() {
               </bdi>
             </div>
             <p className="label-latin text-mist">
-              <bdi dir="ltr">OSL–TLV · RTM–ASH · HACCP · ISO 9001 · 0123456789</bdi>
+              <bdi dir="ltr" lang="en">OSL–TLV · RTM–ASH · HACCP · ISO 9001 · 0123456789</bdi>
             </p>
           </article>
         </div>
@@ -86,7 +86,7 @@ export function TypeSection() {
       <TypeScaleTable />
 
       <div className="flex flex-col gap-4">
-        <h3 className="label-latin text-fog">Hebrew typesetting rules · כללי סדר</h3>
+        <BiLabel as="h3" en="Hebrew typesetting rules" he="כללי סדר" />
         <ul className="grid grid-cols-1 gap-x-6 gap-y-0 sm:grid-cols-2 lg:grid-cols-3">
           {rules.map(([title, body]) => (
             <li key={title} className="flex flex-col gap-1 border-t border-hairline py-4">
