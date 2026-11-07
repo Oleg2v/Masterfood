@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // A static-assets Worker, like Kikkey's other pitch demos: no server code, just /out.
+  "name": "masterfood",
+  "compatibility_date": "2026-10-28",
+  "assets": {
+    "directory": "./out",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  // Unlisted: only the Kikkey subdomain, no *.workers.dev or preview URLs.
+  "routes": [{ "pattern": "masterfood.kikkey.com", "custom_domain": true }],
+  "workers_dev": false,
+  "preview_urls": false
+}

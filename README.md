@@ -31,7 +31,7 @@ npm run dev          # http://localhost:3000/style-tile
 | `npm run check:contrast` | Fails if any text pair drops below 4.5:1, or any control boundary below 3:1. |
 | `npm run check:copy` | Proofs every string and JSX text in `src/` against the Hebrew house rules. It fails on retail words (סל, עגלה), masculine imperatives (הוסף, שלח), keyboard quotes or hyphens where Hebrew takes ״ ׳ ־ – −, a figure split from its unit, a spaced dash without a no-break space before it, נורווגיה, טייל, and Hebrew in a Latin-only size class (it reads class names; rendered sizes are measured separately). The clichés' deliberate wrong forms are allow-listed at the top of the script. |
 | `npm run typecheck` | `tsc --noEmit` |
-| `node scripts/axe.mjs` | axe-core audit (WCAG 2.0/2.1 A and AA) at 1440 and 390, with and without reduced motion, against a running server (`--base`, default `http://localhost:3100`). |
+| `node scripts/axe.mjs` | axe-core audit (WCAG 2.0/2.1 A and AA) at 1440 and 390, with and without reduced motion, against a running server (`--base`, default `http://localhost:3100`; for the static build, `npx wrangler dev --port 3100`). |
 | `node scripts/screenshots.mjs` | Playwright screenshots (`--routes`, `--viewports`, `--scroll 0,25,50,75,100`, `--full`, `--reduced`). |
 
 Send reviewers the plain `/style-tile` URL. There the clock runs, the glass wipes and refreezes, and
@@ -40,6 +40,27 @@ everything follows the visitor's motion setting.
 `/style-tile?still=1` is for screenshots only. It pins the demo morning: the countdown stops at
 04:12:33 with its seconds, and the frost glass starts from its composed, pre-wiped arc. A real hand
 can still wipe it, and it refreezes back to the arc.
+
+## Deploy
+
+The site is a static export (`output: "export"`): `npm run build` writes plain files to `out/`.
+They are served by a Cloudflare Worker with static assets on Kikkey's account, at
+**https://masterfood.kikkey.com**, a Workers custom domain like the other Kikkey pitch demos.
+Configuration lives in [`wrangler.jsonc`](wrangler.jsonc). There is no `*.workers.dev` or preview
+URL, and [`public/_headers`](public/_headers) sends `X-Robots-Tag: noindex` on every response.
+Photos are resized by Unsplash's CDN through a custom `next/image` loader, so no image server is
+needed.
+
+```bash
+npm run build && npm run preview   # serve out/ locally the way Cloudflare will, on :8787
+```
+
+```bash
+CLOUDFLARE_ACCOUNT_ID=<kikkey account id> npm run deploy   # needs CLOUDFLARE_API_TOKEN in the environment
+```
+
+The build runs the token generator, `check:copy` and `check:contrast` first, so a copy or contrast
+regression never ships.
 
 ## Design system in one paragraph
 
@@ -56,7 +77,7 @@ clichés and the open questions for Masterfood are in [`docs/art-direction.md`](
 Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS v4. Fonts are self-hosted through
 `next/font`: Frank Ruhl Libre, Heebo and IBM Plex Mono, all under the SIL Open Font License.
 Framer Motion and GSAP arrive in Stage 1 with the split-flap board. Photography is from Unsplash
-as credited placeholders.
+as credited placeholders. It is deployed as a static export to a Cloudflare Worker (Wrangler).
 
 ## Credits
 

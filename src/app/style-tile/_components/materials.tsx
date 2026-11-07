@@ -1,9 +1,10 @@
 import type { ReactNode } from "react";
 import type { Photo } from "@/components/ui/graded-photo";
 import { Money } from "@/components/ui/money";
+import { unsplash } from "@/lib/unsplash";
 
-/** A same-origin, resized image URL. */
-const local = (src: string, w = 640) => `/_next/image?url=${encodeURIComponent(src)}&w=${w}&q=75`;
+/** Resized by Unsplash's CDN. */
+const local = (src: string, w = 640) => unsplash(src, w);
 
 function Swatch({
   title,

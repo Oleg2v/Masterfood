@@ -1,9 +1,10 @@
 import { FrostGlass } from "@/components/frost-glass";
 import { Num } from "@/components/ui/num";
+import { unsplash } from "@/lib/unsplash";
 import { photoSet } from "../_photos";
 
-/** Same-origin, resized URLs from the image optimiser, so the frost canvas is never tainted. */
-const local = (src: string, w: number) => `/_next/image?url=${encodeURIComponent(src)}&w=${w}&q=75`;
+/** Resized by Unsplash's CDN, which sends CORS headers, so the frost canvas is never tainted. */
+const local = (src: string, w: number) => unsplash(src, w);
 const widths = [828, 1200, 1920] as const;
 
 /**

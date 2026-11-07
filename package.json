@@ -13,7 +13,9 @@
     "typecheck": "tsc --noEmit",
     "check:contrast": "node --experimental-strip-types --no-warnings scripts/check-contrast.ts",
     "check:copy": "node --experimental-strip-types --no-warnings scripts/check-copy.ts",
-    "shots": "node scripts/screenshots.mjs"
+    "shots": "node scripts/screenshots.mjs",
+    "preview": "wrangler dev --port 8787",
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "next": "15.5.29",
@@ -27,7 +29,8 @@
     "@types/react-dom": "19.2.7",
     "axe-core": "4.14.0",
     "tailwindcss": "4.3.5",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "wrangler": "4.155.0"
   },
   "engines": {
     "node": ">=22.18"

@@ -282,7 +282,7 @@ export function FrostGlass({
   className = "",
   fill = false,
 }: {
-  /** Same-origin URLs (e.g. /_next/image?...) so the canvas is not tainted. */
+  /** URLs served with CORS (Unsplash's CDN) or same-origin, so the canvas is never tainted. */
   src: string;
   srcSet?: string;
   sizes?: string;
@@ -527,6 +527,7 @@ export function FrostGlass({
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         ref={photo}
+        crossOrigin="anonymous"
         src={src}
         srcSet={srcSet}
         sizes={sizes}
