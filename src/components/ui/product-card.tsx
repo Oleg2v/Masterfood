@@ -161,7 +161,7 @@ export function ProductCard({
             </p>
           )}
           {soldOut ? (
-            <Button variant="quiet" size="sm" aria-label={`עדכון כשיחזור – ${product.name}`} aria-describedby={`${id}-out`}>
+            <Button variant="quiet" size="sm" aria-label={`עדכון כשיחזור – ${product.name}`} aria-describedby={`${id}-out`}>
               עדכון כשיחזור
             </Button>
           ) : (

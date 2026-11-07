@@ -91,7 +91,7 @@ export function FilterChip({
     ? "cursor-not-allowed text-frost-3 outline-1 outline-dashed outline-edge -outline-offset-1 " +
       "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-frost focus-visible:outline-offset-2 "
     : (pressed
-        ? "bg-frost text-deep-ice hover:bg-frost-hover "
+        ? "bg-frost text-deep-ice inset-ring inset-ring-transparent hover:bg-frost-hover "
         : "text-frost inset-ring inset-ring-edge hover:bg-steel hover:inset-ring-frost-2 ") +
       // the press: one pixel down into the pressed shadow, within the 80ms tap
       "active:translate-y-px active:shadow-pressed active:duration-tap ";

@@ -68,11 +68,14 @@ export function CountdownSpecimen() {
     <div className="flex flex-col gap-4">
       <p className="type-section hang-section flex flex-wrap items-baseline gap-x-3 text-frost-2">
         <span id="cutoff-label">ההזמנה למחר נסגרת בעוד</span>
-        {urgent ? (
-          <span className="whitespace-nowrap text-caption font-medium text-salmon">
-            נסגרת בקרוב · פחות מ־<Num joined>30</Num> דקות
-          </span>
-        ) : null}
+        {/* always rendered: at rest it is invisible and only reserves its width where the clock's
+            column is sized by its content (xl), so switching urgency never moves the giant */}
+        <span
+          aria-hidden={urgent ? undefined : true}
+          className={`whitespace-nowrap text-caption font-medium text-salmon ${urgent ? "" : "invisible max-xl:hidden"}`}
+        >
+          נסגרת בקרוב · פחות מ־<Num joined>30</Num> דקות
+        </span>
       </p>
       {/* role="timer" is aria-live="off" by default: the time is there to be read, never announced */}
       <p

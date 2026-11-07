@@ -17,7 +17,6 @@ import {
   fluidClamp,
   radii,
   shadows,
-  shapes,
   SPACING_BASE_PX,
   typeScale,
   zLadder,
@@ -66,7 +65,6 @@ push(`  --spacing: ${SPACING_BASE_PX / 16}rem;`);
 push();
 push("  --radius-*: initial;");
 for (const r of radii) push(`  --radius-${r.id}: ${r.px >= 999 ? "9999px" : `${r.px}px`};`);
-for (const s of shapes) push(`  --radius-${s.id}: ${s.css};`);
 push();
 push("  --z-index-*: initial;");
 for (const z of zLadder) push(`  --z-index-${z.id}: ${z.z};`);

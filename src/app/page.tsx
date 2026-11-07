@@ -21,7 +21,7 @@ export default function Home() {
         <p className="text-data font-sans text-frost-2">המחירים של היום, מה שנחת הבוקר, וההזמנה למחר{NB}– בדקה.</p>
         <Link
           href="/style-tile"
-          className="inline-flex h-12 w-fit items-center rounded-edge bg-frost px-5 text-body font-medium text-deep-ice shadow-rim transition-[background-color,box-shadow,translate] duration-hover ease-glide hover:bg-frost-hover active:translate-y-px active:bg-frost-press active:shadow-pressed active:duration-tap"
+          className="inline-flex h-12 w-fit items-center rounded-edge bg-frost px-5 inset-ring inset-ring-transparent text-body font-medium text-deep-ice shadow-rim transition-[background-color,box-shadow,translate] duration-hover ease-glide hover:bg-frost-hover active:translate-y-px active:bg-frost-press active:shadow-pressed active:duration-tap"
         >
           ללוח הסגנון
         </Link>

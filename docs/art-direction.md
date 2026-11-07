@@ -224,10 +224,13 @@ to 355° (Bordeaux is 352°). Stage 2 bakes the same stack at build time for the
 ## Accessibility (WCAG 2.0 AA / IS 5568), verified on the tile
 
 - axe-core reports 0 violations at 1440 and 390, with and without reduced motion.
-- `npm run check:contrast` passes all 29 text, boundary and fill pairs. These include the frost
-  tile's brightest texel.
+- `npm run check:contrast` passes every text, boundary and fill pair it checks, including the
+  frost tile's brightest texel.
 - `npm run check:copy` passes on every Hebrew string: gershayim and maqaf, a true minus, no-break
-  spaces between figures and units, wholesale wording, and nothing below the 14px floor.
+  spaces between figures and units and before a spaced dash, wholesale wording, and no Hebrew in a
+  Latin-only size class. Rendered sizes were measured separately: no Hebrew sets below 14px from
+  320 to 1440.
+- Both checks run before every build (`prebuild`), so a regression fails the build.
 - A skip link and labelled landmarks.
 - A real `<table>` behind every visual board.
 - A Frost focus ring that appears in 0ms and survives forced colours.

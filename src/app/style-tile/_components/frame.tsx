@@ -73,7 +73,7 @@ export function Section({
        reads under it; from lg the code moves into the first three columns and the title hangs
        beside it. Anchors land clear of the sticky rail through html's scroll-padding-top alone
        (globals.css), so a section adds no margin of its own. */
-    <section id={id} aria-labelledby={`${id}-title`} className="border-t border-hairline pb-16 sm:pb-24">
+    <section id={id} aria-labelledby={`${id}-title`} className="scroll-mt-6 border-t border-hairline pb-16 sm:pb-24">
       <Container className="flex flex-col gap-12 sm:gap-16">
         <header className="grid grid-cols-1 gap-x-6 gap-y-4 lg:grid-cols-12">
           <h2 id={`${id}-title`} className="type-section hang-section text-balance text-frost lg:col-span-5">

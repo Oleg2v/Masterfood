@@ -44,8 +44,17 @@ export function InvoiceSpecimen() {
   return (
     <div className="flex flex-col gap-4">
       <ScrollRegion label="חשבונית לדוגמה" className="relative -mx-4 overflow-x-auto sm:mx-0">
-        <table className="w-full min-w-[42rem] border-collapse text-start">
+        {/* fixed layout: each column reserves its widest state, so weighing changes only the frost */}
+        <table className="w-full min-w-[42rem] table-fixed border-collapse text-start">
           <caption className="sr-only">חשבונית לדוגמה: משקל משוער מול משקל בפועל. מחירי דמו, לפני מע״מ.</caption>
+          <colgroup>
+            <col className="w-[24%]" />
+            <col className="w-[16%]" />
+            <col className="w-[16%]" />
+            <col className="w-[13%]" />
+            <col className="w-[13%]" />
+            <col className="w-[18%]" />
+          </colgroup>
           <thead>
             <tr className="border-b border-edge">
               <th scope="col" className={`${th} ps-4`}>

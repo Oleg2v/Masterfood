@@ -35,7 +35,7 @@ const CUTS: {
     id: "sirloin",
     name: "סינטה",
     d: "M48 92C120 90 230 88 300 86L306 140C230 144 120 146 48 148Z",
-    leader: { from: [178, 118], to: [178, 40], label: [178, 28] },
+    leader: { from: [178, 118], to: [178, 46], label: [178, 34] },
     products: [
       { name: "סינטה טרייה", origin: "ארגנטינה", kg: 75, price: 139 },
       { name: "סינטה קפואה", origin: "ברזיל", kg: 320, price: 109.9 },
@@ -52,14 +52,14 @@ const CUTS: {
     id: "rump",
     name: "שייטל",
     d: "M306 140L300 86C350 85 400 68 452 70C462 92 478 104 492 106C490 134 476 160 452 176C434 186 414 174 398 158C380 150 344 144 306 140Z",
-    leader: { from: [404, 118], to: [404, 40], label: [404, 28] },
+    leader: { from: [404, 118], to: [404, 46], label: [404, 34] },
     products: [{ name: "שייטל טרי", origin: "אורוגוואי", kg: 90, price: 98.5 }],
   },
   {
     id: "picanha",
     name: "פיקנייה",
     d: "M452 70C480 71 520 73 548 76C540 98 512 108 492 106C478 104 462 92 452 70Z",
-    leader: { from: [504, 90], to: [522, 40], label: [530, 28] },
+    leader: { from: [504, 90], to: [522, 46], label: [530, 34] },
     products: [
       { name: "פיקנייה טרייה", origin: "דרום אמריקה", kg: 140, price: 89 },
       { name: "פיקנייה קפואה", origin: "ארגנטינה", kg: 600, price: 72.9 },
@@ -178,8 +178,9 @@ export function CutMapSpecimen() {
               x={cut.leader.label[0]}
               y={cut.leader.label[1]}
               textAnchor="middle"
-              className="fill-frost font-display font-medium forced-colors:fill-[CanvasText]"
-              style={{ fontSize: 22 }}
+              // user units, which scale with the drawing: 36 on phones (≥ 14.4px at 320) and 22 from sm up,
+              // so the name never sets under 14px
+              className="fill-frost font-display font-medium text-[36px] sm:text-[22px] forced-colors:fill-[CanvasText]"
             >
               {cut.name}
             </text>

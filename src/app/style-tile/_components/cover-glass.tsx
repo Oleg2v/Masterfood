@@ -59,10 +59,12 @@ export function CoverGlass() {
           className="shrink-0 text-caption text-frost-2 underline decoration-hairline underline-offset-4 transition-colors duration-hover ease-glide hover:text-frost hover:decoration-frost-2"
         >
           צילום:{" "}
-          <bdi dir="ltr" lang="en">
-            {p.photographer}
-          </bdi>{" "}
-          / <span lang="en">Unsplash</span>
+          <span className="whitespace-nowrap">
+            <bdi dir="ltr" lang="en">
+              {p.photographer}
+            </bdi>{" "}
+            / <span lang="en">Unsplash</span>
+          </span>
         </a>
       </figcaption>
     </figure>

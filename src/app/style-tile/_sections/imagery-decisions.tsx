@@ -5,6 +5,7 @@ import { Typeset } from "@/components/ui/typeset";
 import { cliches, decisions } from "../_content";
 import { photoSet } from "../_photos";
 import { BiLabel, Container, Plate, Section } from "../_components/frame";
+import { Credit } from "../_components/credit";
 import { CutMapSpecimen } from "../_components/cut-map-specimen";
 import { Materials } from "../_components/materials";
 
@@ -14,16 +15,6 @@ const trio = [
   { photo: photoSet.mackerelIce, caption: "דג שלם על קרח כתוש: העור מתקרר לכסף" },
 ] as const;
 
-function Credit({ name, page }: { name: string; page?: string }) {
-  return (
-    <a
-      href={page}
-      className="text-caption text-frost-2 underline decoration-hairline underline-offset-4 transition-colors duration-hover ease-glide hover:text-frost hover:decoration-frost-2"
-    >
-      צילום: <bdi dir="ltr" lang="en">{name}</bdi> / <span lang="en">Unsplash</span>
-    </a>
-  );
-}
 
 export function ImagerySection() {
   return (
@@ -32,7 +23,7 @@ export function ImagerySection() {
       index="07"
       en="Imagery · materials · map"
       he="רק החלבון חם"
-      lede="צילומי מאקרו כהים של מוצר נא: שיש של שומן, בשר סלמון, דג על קרח כתוש. בלי ידיים, בלי קרש עץ, בלי קישוט. דירוג אחד מאחד צילומים מעדשות שונות: השחורים נוחתים על קרח עמוק, והחלבון לבדו שומר על החום. ובמקום פרה מצוירת – תחריט."
+      lede="צילומי מאקרו כהים של מוצר נא: שיש של שומן, בשר סלמון, דג על קרח כתוש. בלי ידיים, בלי קרש עץ, בלי קישוט. דירוג אחד מאחד צילומים מעדשות שונות: השחורים נוחתים על קרח עמוק, והחלבון לבדו שומר על החום. ובמקום פרה מצוירת – תחריט."
     >
       <ul className="grid grid-cols-1 gap-6 md:grid-cols-3">
         {trio.map((s, i) => (
@@ -63,6 +54,9 @@ export function ImagerySection() {
           />
           <BiLabel en="Graded · flesh" he="שחורים בקרח עמוק, שטיפת פלדה, הבשר נשאר חם" />
         </div>
+        <figcaption className="md:col-span-2">
+          <Credit name={photoSet.marbling.photographer} page={photoSet.marbling.page} />
+        </figcaption>
       </figure>
 
       <div className="mt-12 flex flex-col gap-6">
@@ -131,7 +125,7 @@ export function DecisionsSection() {
                       href={d.href}
                       className="whitespace-nowrap text-frost-2 underline decoration-hairline underline-offset-4 transition-colors duration-hover ease-glide hover:text-frost hover:decoration-frost-2"
                     >
-                      מעבר לדוגמה
+                      מעבר לדוגמה<span className="sr-only">: {d.title}</span>
                     </a>
                   </p>
                 </div>
@@ -197,7 +191,7 @@ export function TileFooter() {
     <footer className="border-t border-hairline py-12 pb-28">
       <Container className="grid grid-cols-1 gap-6 text-caption text-frost-2 lg:grid-cols-12">
         <p className="text-pretty lg:col-span-5">
-          קונספט של <span lang="en">Kikkey</span> – לא האתר הרשמי של מאסטרפוד. כל המחירים, הכמויות והזמנים בעמוד הם נתוני
+          קונספט של <span lang="en">Kikkey</span> – לא האתר הרשמי של מאסטרפוד. כל המחירים, הכמויות והזמנים בעמוד הם נתוני
           דמו; המחירים לפני מע״מ.
         </p>
         <p className="text-pretty lg:col-span-4">

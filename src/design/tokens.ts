@@ -159,7 +159,6 @@ export const radii: readonly RadiusToken[] = [
 ];
 
 /** Shapes that are not a px radius. */
-export const shapes = [{ id: "oval", css: "50%", usage: "חותמת מקור (קוד ארץ ונמל)" }] as const;
 
 /** Stacking order: one ladder, no magic numbers. */
 export const zLadder = [

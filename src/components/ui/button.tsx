@@ -29,7 +29,8 @@ interface Look {
 const looks: Record<Variant, Look> = {
   // Ice-white is the only primary colour: category accents stay semantic.
   primary: {
-    idle: "bg-frost text-deep-ice shadow-[inset_0_-1px_0_0_rgb(7_20_28/0.18)]",
+    // inset-ring-transparent: invisible here, but it gives forced colours a solid edge
+    idle: "bg-frost text-deep-ice inset-ring inset-ring-transparent shadow-[inset_0_-1px_0_0_rgb(7_20_28/0.18)]",
     live: "hover:bg-frost-hover active:bg-frost-press",
     off: `bg-steel-2 text-frost-3 ${dashed}`,
   },

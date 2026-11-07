@@ -93,6 +93,7 @@ const RULES: readonly Rule[] = [
   { id: "quote", re: new RegExp(`(?<=[${HE}])["']|["'](?=[${HE}])`, "gu"), fix: "gershayim ״ (ק״ג), a geresh ׳ (צ׳), and ״…״ around a quoted label" },
   { id: "maqaf", re: new RegExp(`(?<=[${HE}])-(?=\\S)`, "gu"), fix: "a maqaf ־ after a prefix or in a compound (כ־20), an en dash – in a range" },
   { id: "dash", re: /(?<=\S)[ \u00a0]-[ \u00a0](?=\S)/gu, fix: "an en dash –, with a no-break space before it" },
+  { id: "dash-nbsp", re: /(?<=\S) –(?=\s)/gu, fix: "a no-break space before a spaced en dash, so no line starts with –" },
   { id: "minus", re: /(?<![\p{L}\p{N}\p{Pd}.,:/])-(?=\d)/gu, fix: "a true minus − (U+2212) inside the figure's LTR isolate" },
   { id: "unit", re: new RegExp(`(?<=\\d) (?=ה?(?:${UNITS})(?![${W}]))`, "gu"), fix: "a no-break space between a figure and its unit (or a whitespace-nowrap span)" },
   { id: "norway", re: /נורווג/gu, fix: "נורבגיה, and סלמון נורבגי (the brief's spelling)" },

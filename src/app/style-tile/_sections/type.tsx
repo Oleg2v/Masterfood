@@ -100,8 +100,9 @@ const trends = [
 
 /**
  * The glyph sheet, where the typesetting choices get locked: the Hebrew marks, the true minus,
- * the dash and the shekel, each in every face that sets it, then what no loaded face contains
- * (▲ ▼ = and the status lamps), which is therefore drawn.
+ * the dash and the shekel, each in every face that sets it, then the marks that are drawn: ▲ and ▼
+ * are in no loaded face, so the three trend marks (with =, to match their weight) and the status
+ * lamps are SVG and CSS.
  *
  * Three marks to a row until xl, so two faces and their names always fit side by side in a cell
  * (down to a 360px phone); six to a row from xl.
@@ -154,8 +155,8 @@ function GlyphSheet() {
             ))}
           </ul>
           <p className="max-w-[60ch] text-caption text-pretty text-frost-2">
-            אף אחד משלושת הגופנים לא מכיל אותם, ולכן הם מצוירים. תמיד בכפור 2 ותמיד לפני המספר: שינוי מחיר הוא מידע, לא
-            חדשות טובות או רעות.
+            המשולשים ▲ ו־▼ חסרים בשלושת הגופנים, ולכן שלושת הסימנים מצוירים יחד, באותו משקל. תמיד בכפור 2 ותמיד לפני
+            המספר: שינוי מחיר הוא מידע, לא חדשות טובות או רעות.
           </p>
         </li>
         <li className={`${cell} col-span-2 sm:col-span-3`}>
@@ -219,7 +220,7 @@ export function TypeSection() {
               <span className="whitespace-nowrap">למםנןסעפףצץקרשת</span>
             </p>
             <p className="font-display text-dish font-medium text-frost-2">
-              אנטריקוט · סינטה · שייטל · <bdi dir="ltr">0123456789</bdi>
+              אנטריקוט · סינטה · שייטל · <bdi dir="ltr">0123456789</bdi>
             </p>
           </div>
         </article>

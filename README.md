@@ -29,7 +29,7 @@ npm run dev          # http://localhost:3000/style-tile
 | --- | --- |
 | `npm run tokens` | Regenerates `src/app/tokens.css` (Tailwind v4 `@theme`) from `src/design/tokens.ts`. Runs before `dev` and `build`. |
 | `npm run check:contrast` | Fails if any text pair drops below 4.5:1, or any control boundary below 3:1. |
-| `npm run check:copy` | Proofs every string and JSX text in `src/` against the Hebrew house rules. It fails on retail words (סל, עגלה), masculine imperatives (הוסף, שלח), keyboard quotes or hyphens where Hebrew takes ״ ׳ ־ – −, a figure split from its unit, נורווגיה, טייל, and Hebrew set below 14px. The clichés' deliberate wrong forms are allow-listed at the top of the script. |
+| `npm run check:copy` | Proofs every string and JSX text in `src/` against the Hebrew house rules. It fails on retail words (סל, עגלה), masculine imperatives (הוסף, שלח), keyboard quotes or hyphens where Hebrew takes ״ ׳ ־ – −, a figure split from its unit, a spaced dash without a no-break space before it, נורווגיה, טייל, and Hebrew in a Latin-only size class (it reads class names; rendered sizes are measured separately). The clichés' deliberate wrong forms are allow-listed at the top of the script. |
 | `npm run typecheck` | `tsc --noEmit` |
 | `node scripts/axe.mjs` | axe-core audit (WCAG 2.0/2.1 A and AA) at 1440 and 390, with and without reduced motion, against a running server (`--base`, default `http://localhost:3100`). |
 | `node scripts/screenshots.mjs` | Playwright screenshots (`--routes`, `--viewports`, `--scroll 0,25,50,75,100`, `--full`, `--reduced`). |

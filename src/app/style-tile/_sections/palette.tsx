@@ -74,7 +74,7 @@ function Ratio({ fg, bg, label, kind }: Pair) {
   return (
     <li className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 py-2">
       <span className="text-caption text-frost-2">{label}</span>
-      <span className="flex items-center gap-2">
+      <span className="flex flex-wrap items-center gap-2">
         <bdi dir="ltr" className="num text-caption text-frost">
           {formatRatio(r)}
         </bdi>
@@ -91,7 +91,9 @@ function Slab({ c }: { c: ColorToken }) {
   const plate = Math.max(frostR, deepR) < 4.5;
   const onSlab = plate ? FROST : frostR >= deepR ? FROST : DEEP;
   return (
-    <li className="flex flex-col gap-3">
+    // three subgrid rows (slab, role, ledger) shared by every slab in the row, so the role texts
+    // and the ratio rules line up across the row whatever each text's length
+    <li className="row-span-3 grid grid-cols-[minmax(0,1fr)] grid-rows-subgrid gap-y-3">
       <div
         className={`relative flex h-48 flex-col justify-end rounded-edge shadow-[inset_0_0_0_1px_rgb(232_243_247/0.08)] sm:h-64 ${plate ? "p-2" : "p-4"}`}
         style={{ backgroundColor: c.hex }}
@@ -100,7 +102,7 @@ function Slab({ c }: { c: ColorToken }) {
           <span className="type-dish" lang="he">
             {c.he}
           </span>
-          <span className="flex items-baseline justify-between gap-2">
+          <span className="flex flex-wrap items-baseline justify-between gap-x-2">
             <bdi dir="ltr" lang="en" className="label-latin">
               {c.en}
             </bdi>
@@ -110,7 +112,7 @@ function Slab({ c }: { c: ColorToken }) {
           </span>
         </div>
       </div>
-      <p className="min-h-[3em] text-caption text-frost-2">
+      <p className="text-caption text-frost-2">
         <Typeset text={c.role} />
       </p>
       <ul className="divide-y divide-hairline border-y border-hairline">
@@ -201,7 +203,7 @@ export function PaletteSection() {
 
       <div className="flex flex-col gap-4">
         <BiLabel as="h3" en="Neutrals" he="בסיס" />
-        <ul className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4 lg:gap-6">
+        <ul className="grid grid-cols-2 gap-x-4 gap-y-10 xl:grid-cols-4 xl:gap-x-6">
           {base.map((c) => (
             <Slab key={c.id} c={c} />
           ))}
@@ -210,7 +212,7 @@ export function PaletteSection() {
 
       <div className="flex flex-col gap-4">
         <BiLabel as="h3" en="Category accents" he="ארבע מילים" />
-        <ul className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4 lg:gap-6">
+        <ul className="grid grid-cols-2 gap-x-4 gap-y-10 xl:grid-cols-4 xl:gap-x-6">
           {accent.map((c) => (
             <Slab key={c.id} c={c} />
           ))}

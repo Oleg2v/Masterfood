@@ -128,7 +128,7 @@ export function TrendGlyph({ dir, className = "" }: { dir: "up" | "down" | "flat
       role={label ? "img" : undefined}
       aria-label={label}
       aria-hidden={label ? undefined : true}
-      className={`inline-block shrink-0 text-frost-2 ${className}`}
+      className={`inline-block shrink-0 text-frost-2 forced-colors:text-[CanvasText] ${className}`}
     >
       {dir === "up" ? <path d="M5 1.2 9.4 8.8H.6Z" fill="currentColor" /> : null}
       {dir === "down" ? <path d="M5 8.8.6 1.2h8.8Z" fill="currentColor" /> : null}

@@ -13,6 +13,7 @@ import { KG } from "@/lib/format";
 import { cards, lines } from "../_content";
 import { Plate, Section, StateLabel } from "../_components/frame";
 import { InvoiceSpecimen } from "../_components/invoice-specimen";
+import { Credit } from "../_components/credit";
 import { ScrollRegion } from "../_components/scroll-region";
 import { ToastDemo } from "../_components/toast-demo";
 
@@ -53,7 +54,7 @@ function ButtonPlate() {
       id="plate-button"
       title="כפתור"
       en="Button · 48px · rounded-edge"
-      note="הפעולה הראשית לבנה כמו קרח – הצבעים שמורים למשמעות. הנתון שהכפתור מתחייב אליו (סכום, משקל) יושב אחרי קו שיער, במונו."
+      note="הפעולה הראשית לבנה כמו קרח – הצבעים שמורים למשמעות. הנתון שהכפתור מתחייב אליו (סכום, משקל) יושב אחרי קו שיער, במונו."
     >
       <div className="flex flex-col gap-8">
         <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -159,7 +160,7 @@ function CardPlate() {
       id="plate-card"
       title="כרטיס מוצר"
       en="Card · product"
-      note="פס קטגוריה בקצה ההתחלה – בורדו לבשר, סלמון לדג – והמילה עצמה ברובריקה. על הצילום לא מודפס דבר: כשרות, טמפרטורה, נחיתה וקוד המקור יושבים בשורה שמתחת לשם. המחיר בשורת תפריט עם נקודות מובילות, והמלאי בנקודה ירוקה."
+      note="פס קטגוריה בקצה ההתחלה – בורדו לבשר, סלמון לדג – והמילה עצמה ברובריקה. על הצילום לא מודפס דבר: כשרות, טמפרטורה, נחיתה וקוד המקור יושבים בשורה שמתחת לשם. המחיר בשורת תפריט עם נקודות מובילות, והמלאי בנקודה ירוקה."
     >
       {/* each card fills its cell, so the price lines and footers of a row line up */}
       <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 xl:grid-cols-4">
@@ -176,6 +177,11 @@ function CardPlate() {
           <ProductCard product={fillet!} state="loading" />
         </Pinned>
       </div>
+      <p className="flex flex-wrap gap-x-6 gap-y-2">
+        {[fillet!, salmon!, bass!].map((c) =>
+          c.photo ? <Credit key={c.name} name={c.photo.photographer} page={c.photo.page} /> : null,
+        )}
+      </p>
     </Plate>
   );
 }
@@ -186,7 +192,7 @@ function ChipPlate() {
       id="plate-chip"
       title="תגיות"
       en="Chip · status, tag, filter"
-      note="תגיות סטטוס הן נוריות של לוח טיסות. הנורית מתמלאת ככל שהסחורה מתקרבת אליכם: ״בדרך״ – טבעת, ״נחת״ – חצי, ״בשחרור״ – שלושה רבעים, ״במלאי״ – מלאה וירוקה. כשרות היא טקסט, לעולם לא חותמת."
+      note="תגיות סטטוס הן נוריות של לוח טיסות. הנורית מתמלאת ככל שהסחורה מתקרבת אליכם: ״בדרך״ – טבעת, ״נחת״ – חצי, ״בשחרור״ – שלושה רבעים, ״במלאי״ – מלאה וירוקה. כשרות היא טקסט, לעולם לא חותמת."
     >
       {/* items-start: each Latin caption sits at the start (right), above the chips it names */}
       <div className="flex flex-col gap-8">
@@ -301,7 +307,7 @@ function ToastPlate() {
       id="plate-toast"
       title="הודעה"
       en="Toast · status, polite"
-      note="סימן מרובע במקום וי מצויר, שורת פרטים במונו, פעולה אחת. הודעה עם פעולה נשארת עד שסוגרים אותה; הודעה בלי פעולה נמסה – הקו התחתון הוא הטיימר, והוא נעצר כשהסמן עליה או כשהמיקוד בתוכה."
+      note="פס סטטוס דק בקצה ההתחלה וסימן בקו של תחריט, לא אמוג׳י; שורת פרטים במונו; פעולה אחת. הודעה עם פעולה נשארת עד שסוגרים אותה; הודעה בלי פעולה נמסה – הקו התחתון הוא הטיימר, והוא נעצר כשהסמן עליה או כשהמיקוד בתוכה."
     >
       <div className="flex flex-wrap gap-6" inert>
         <Toast
@@ -394,7 +400,7 @@ export function ComponentsSection() {
       index="06"
       en="Components"
       he="שישה רכיבים, כל המצבים"
-      lede="כל רכיב מוצג במצביו: ברירת מחדל, ריחוף, מיקוד, לחיצה, טעינה, שגיאה ונטרול. המצבים כאן מקובעים לתצוגה – ואלה אותם רכיבים שייבנו מהם המסכים."
+      lede="כל רכיב מוצג במצביו: ברירת מחדל, ריחוף, מיקוד, לחיצה, טעינה, שגיאה ונטרול. המצבים כאן מקובעים לתצוגה – ואלה אותם רכיבים שייבנו מהם המסכים."
     >
       <div className="flex flex-col gap-6">
         <ButtonPlate />

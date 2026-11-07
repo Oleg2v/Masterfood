@@ -36,10 +36,12 @@ function Swatch({
             className="self-start text-caption text-frost-2 underline decoration-hairline underline-offset-4 transition-colors duration-hover ease-glide hover:text-frost hover:decoration-frost-2"
           >
             צילום:{" "}
-            <bdi dir="ltr" lang="en">
-              {credit.photographer}
-            </bdi>{" "}
-            / <span lang="en">Unsplash</span>
+            <span className="whitespace-nowrap">
+              <bdi dir="ltr" lang="en">
+                {credit.photographer}
+              </bdi>{" "}
+              / <span lang="en">Unsplash</span>
+            </span>
           </a>
         ) : null}
       </figcaption>
@@ -78,7 +80,7 @@ export function Materials({ icePhoto }: { icePhoto?: Photo }) {
           <div className="absolute inset-x-0 bottom-0 h-2/5 bg-[radial-gradient(60%_55%_at_30%_70%,rgb(232_243_247/0.14),transparent_70%),radial-gradient(50%_45%_at_74%_82%,rgb(232_243_247/0.1),transparent_70%)]" />
         </div>
       </Swatch>
-      <Swatch title="קרח" en="Ice · light" note="קרח אמיתי הוא האור של הצילום – לא קישוט, ולא פתיתי שלג מצוירים." credit={icePhoto}>
+      <Swatch title="קרח" en="Ice · light" note="קרח אמיתי הוא האור של הצילום – לא קישוט, ולא פתיתי שלג מצוירים." credit={icePhoto}>
         {icePhoto ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img

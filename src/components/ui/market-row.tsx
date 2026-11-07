@@ -89,7 +89,7 @@ export function MarketRow({ line, state = "default" }: { line: MarketLine; state
             size="sm"
             force={state === "focus" ? "focus" : undefined}
             tabIndex={pinned ? -1 : undefined}
-            aria-label={`הוספה – ${line.name}`}
+            aria-label={`הוספה – ${line.name}`}
           >
             הוספה
           </Button>

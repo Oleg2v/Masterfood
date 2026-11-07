@@ -74,7 +74,8 @@ export function ToastDemo() {
       // hand focus back before the toast goes inert, so it never drops to <body>
       const from = origin.current.get(id);
       const own = from?.kind === "landed" ? landButton.current : addButton.current;
-      (from?.opener.isConnected ? from.opener : own)?.focus();
+      const fromKeys = document.activeElement?.matches(":focus-visible") ?? false;
+      (from?.opener.isConnected ? from.opener : own)?.focus({ preventScroll: !fromKeys });
     }
     setQueue((q) => q.map((t) => (t.id === id ? { ...t, leaving: true } : t)));
     const t = window.setTimeout(
@@ -152,10 +153,14 @@ export function ToastDemo() {
         <span className="whitespace-nowrap">
           <Num>6</Num> שניות
         </span>
-        , ונעצרת כשהסמן עליה או כשהמיקוד בתוכה; כשהתנועה עצורה היא לא נמסה בכלל. ההודעות מופיעות אחת־אחת, ו־
-        <kbd lang="en" className="num rounded-hair px-1 text-[0.9em] text-frost inset-ring inset-ring-edge">
-          Esc
-        </kbd>{" "}
+        , ונעצרת כשהסמן עליה או כשהמיקוד בתוכה; כשהתנועה עצורה היא לא נמסה בכלל. ההודעות מופיעות{" "}
+        <span className="whitespace-nowrap">אחת־אחת</span>,{" "}
+        <span className="whitespace-nowrap">
+          ו־
+          <kbd lang="en" className="num rounded-hair px-1 text-[0.9em] text-frost inset-ring inset-ring-edge">
+            Esc
+          </kbd>
+        </span>{" "}
         סוגר את זו שעל המסך.
       </p>
 

@@ -70,7 +70,7 @@ export function Toast({
     >
       {/* status never rests on hue: a 2px rule at the inline start plus a glyph */}
       <span aria-hidden="true" className={`absolute inset-y-3 start-0 w-0.5 rounded-hair ${toneMark[tone]}`} />
-      <Icon name={toneGlyph[tone]} size={20} className={`mt-0.5 ${toneText[tone]}`} />
+      <Icon name={toneGlyph[tone]} size={20} className={`mt-0.5 ${toneText[tone]} forced-colors:text-[CanvasText]`} />
       <div className="flex min-w-0 flex-1 flex-col gap-1">
         <p className="text-body font-medium text-frost">{title}</p>
         {detail ? <p className="@container text-caption text-frost-2">{detail}</p> : null}

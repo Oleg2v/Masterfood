@@ -305,6 +305,11 @@
     top: 0;
     z-index: var(--z-index-bar);
   }
+  /* html's scroll padding keeps content clear of the rail; the rail's own controls are always in
+     view, so for them it is cancelled, and focusing them never scrolls the page. */
+  .rail * {
+    scroll-margin-top: calc(-12px - var(--rail-h, 92px));
+  }
   @media (max-height: 36rem) {
     .rail {
       top: calc(var(--rail-bar) - var(--rail-h, 92px));

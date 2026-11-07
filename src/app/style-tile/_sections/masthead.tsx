@@ -101,7 +101,7 @@ export function Masthead() {
                 השוק של מחר
               </h1>
               <p className="max-w-[30ch] text-data font-sans text-pretty text-frost-2">
-                המחירים של היום, מה שנחת הבוקר, וההזמנה למחר – בדקה.
+                המחירים של היום, מה שנחת הבוקר, וההזמנה למחר – בדקה.
               </p>
             </div>
             <div className="[grid-area:clock] xl:max-w-[calc(var(--text-display)*4.8)] xl:justify-self-end">
@@ -132,8 +132,16 @@ export function Masthead() {
           <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
             <BiLabel as="h2" en="The board · the brief's three lines" he="שלוש השורות מהבריף, בעמודות" />
             <p className="max-w-[60ch] text-caption text-pretty text-frost-2">
-              כל שורה בנויה משדות נפרדים, ולכל שדה סוג וכיוון משלו: המילים העבריות אות־אות, המספרים ספרה־ספרה,
-              והיחידות בראש העמודה. בשלב <Num>0</Num> הלוח סטטי; בשלב <Num>1</Num> התאים מדפדפים, מימין לשמאל.
+              כל שורה בנויה משדות נפרדים, ולכל שדה סוג וכיוון משלו: המילים העבריות <span className="whitespace-nowrap">אות־אות</span>, המספרים{" "}
+              <span className="whitespace-nowrap">ספרה־ספרה</span>,
+              והיחידות בראש העמודה. <span className="whitespace-nowrap">
+                בשלב <Num>0</Num>
+              </span>{" "}
+              הלוח סטטי;{" "}
+              <span className="whitespace-nowrap">
+                בשלב <Num>1</Num>
+              </span>{" "}
+              התאים מדפדפים, מימין לשמאל.
             </p>
           </div>
           <BriefBoard />
